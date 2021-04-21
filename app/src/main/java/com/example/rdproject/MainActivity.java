@@ -10,7 +10,7 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Boolean mark_is_cool = true;
+    private Boolean mark_is_cool = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
