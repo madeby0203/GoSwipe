@@ -1,37 +1,50 @@
 package com.example.rdproject;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextClock;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import maes.tech.intentanim.CustomIntent;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Boolean mark_is_cool = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+        setContentView(R.layout.activity_menu);
+        Button jButton = findViewById(R.id.main_joinButton);
+        Button csButton = findViewById(R.id.main_createButton);
 
-    @SuppressLint("SetTextI18n")
-    public void testclick(View view){
-        TextView testtxt = findViewById(R.id.testtxt);
-        Button testbutton = findViewById(R.id.testbutton);
 
-        if (mark_is_cool) {
-            testtxt.setText("Mark is cool");
-            testbutton.setText("Niet cool!");
-            mark_is_cool = false;
-        } else {
-            testtxt.setText("Mark is niet cool");
-            testbutton.setText("Wel cool!");
-            mark_is_cool = true;
-        }
+
+
+
+        csButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, create.class);
+
+                startActivity(intent);
+            }
+        });
+
+        jButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, join.class);
+                startActivity(intent);
+                CustomIntent.customType(MainActivity.this, "left-to-right");
+
+            }
+        });
+
     }
 
 }
