@@ -1,16 +1,18 @@
 package rd.project.events;
 
+import java.net.URI;
+
 /**
  * Fired when the user clicks on an item in the list of hosts
  */
 public class JoinListClickEvent {
-    private final String ip;
+    private final URI uri;
     
-    public JoinListClickEvent(String ip) {
-        this.ip = ip;
+    public JoinListClickEvent(URI uri) {
+        this.uri = uri;
     }
     
-    public String getIp() {
-        return this.ip;
+    public URI getURI() {
+        return this.uri;
     }
 }

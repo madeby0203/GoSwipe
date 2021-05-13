@@ -10,13 +10,14 @@ import org.greenrobot.eventbus.EventBus;
 import rd.project.R;
 import rd.project.events.JoinListClickEvent;
 
+import java.net.URI;
 import java.util.List;
 
 public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
     
-    private final List<String> dataSet;
+    private final List<ServerItem> dataSet;
     
-    public JoinAdapter(List<String> dataSet) {
+    public JoinAdapter(List<ServerItem> dataSet) {
         this.dataSet = dataSet;
     }
     
@@ -29,7 +30,8 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
     
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-        viewHolder.getTextView().setText(dataSet.get(position));
+        viewHolder.setURI(dataSet.get(position).getHost());
+        viewHolder.getTextView().setText(dataSet.get(position).getName() + ", " + dataSet.get(position).getHost().toString());
     }
     
     @Override
@@ -39,6 +41,7 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
     
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final TextView textView;
+        private URI uri;
         
         public ViewHolder(View view) {
             super(view);
@@ -50,9 +53,31 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
             return textView;
         }
         
+        public void setURI(URI uri) {
+            this.uri = uri;
+        }
+        
         @Override
         public void onClick(View v) {
-            EventBus.getDefault().post(new JoinListClickEvent(getTextView().getText().toString()));
+            EventBus.getDefault().post(new JoinListClickEvent(this.uri));
+        }
+    }
+    
+    public static class ServerItem {
+        private URI host;
+        private String name;
+        
+        public ServerItem(URI host, String name) {
+            this.host = host;
+            this.name = name;
+        }
+        
+        public URI getHost() {
+            return this.host;
+        }
+        
+        public String getName() {
+            return this.name;
         }
     }
 }

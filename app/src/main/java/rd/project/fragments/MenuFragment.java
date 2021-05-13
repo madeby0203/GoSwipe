@@ -3,9 +3,11 @@ package rd.project.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import rd.project.MainActivity;
 import rd.project.R;
 
 public class MenuFragment extends Fragment {
@@ -15,7 +17,19 @@ public class MenuFragment extends Fragment {
     
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        // Load username
+        MainActivity mainActivity = (MainActivity) getActivity();
+        String username = mainActivity.getUsername();
+        Button usernameButton = view.findViewById(R.id.usernameButton);
+        usernameButton.setText(String.format(getString(R.string.welcome_message), username));
+        
         // Initialize onClickListeners; each button should switch to the corresponding fragment
+        usernameButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container_view, NameFragment.class, null)
+                .commit());
+        
         Button hostButton = view.findViewById(R.id.hostButton);
         hostButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

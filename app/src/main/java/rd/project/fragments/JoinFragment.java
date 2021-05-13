@@ -19,12 +19,14 @@ import rd.project.events.JoinListClickEvent;
 import rd.project.events.NetworkServiceDiscoveryEvent;
 import rd.project.network.NetworkServiceDiscovery;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JoinFragment extends Fragment {
     // List of found servers
-    private final List<String> servers = new ArrayList<>();
+    private final List<JoinAdapter.ServerItem> servers = new ArrayList<>();
     // Keeps track and updates the host list in the user interface
     JoinAdapter adapter;
     private NetworkServiceDiscovery nsd;
@@ -80,7 +82,7 @@ public class JoinFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onJoinListClick(JoinListClickEvent event) {
         Bundle bundle = new Bundle();
-        bundle.putString("ip", event.getIp());
+        bundle.putString("ip", event.getURI().toString());
         getParentFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .setReorderingAllowed(true)
@@ -91,17 +93,28 @@ public class JoinFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNsdEvent(NetworkServiceDiscoveryEvent event) {
         String host = "ws:/" + event.getServiceInfo().getHost() + ":" + event.getServiceInfo().getPort();
-        
-        // Was the service found or lost?
-        if (event.isOnline()) { // found; add to the list
-            servers.add(host);
-        } else { // lost; remove from the list
-            while (servers.contains(host)) {
-                servers.remove(host);
+        try {
+            URI uri = new URI(host);
+            String name = new String(event.getServiceInfo().getAttributes().get("name"));
+            JoinAdapter.ServerItem serverItem = new JoinAdapter.ServerItem(uri, name);
+    
+            // Was the service found or lost?
+            if (event.isOnline()) { // found; add to the list
+                servers.add(serverItem);
+            } else { // lost; remove from the list
+                List<JoinAdapter.ServerItem> remove = new ArrayList<>();
+                for (JoinAdapter.ServerItem item : servers) {
+                    if (item.getHost().equals(uri)) {
+                        remove.add(item);
+                    }
+                }
+                servers.removeAll(remove);
             }
+    
+            updateServerList();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        updateServerList();
     }
     
     /**

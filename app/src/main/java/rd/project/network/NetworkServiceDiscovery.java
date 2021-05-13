@@ -52,7 +52,7 @@ public class NetworkServiceDiscovery {
         };
     }
     
-    public void registerService(int port) {
+    public void registerService(int port, String name) {
         unregisterService();
         
         initializeRegistrationListener();
@@ -61,6 +61,7 @@ public class NetworkServiceDiscovery {
         serviceInfo.setServiceName(SERVICE_NAME);
         serviceInfo.setServiceType(SERVICE_TYPE);
         serviceInfo.setPort(port);
+        serviceInfo.setAttribute("name", name);
         
         nsdManager.registerService(serviceInfo, NsdManager.PROTOCOL_DNS_SD, registrationListener);
     }
