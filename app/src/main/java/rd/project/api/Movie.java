@@ -8,6 +8,15 @@ public class Movie {
     private Number vote;
     private int id;
 
+    /**
+     * Movie and its corresponding information and features
+     * @param overview
+     * @param title
+     * @param poster
+     * @param vote
+     * @param id
+     */
+
     public Movie (String overview, String title, String poster, Number vote, int id) {
         this.overview = overview;
         this.title = title;

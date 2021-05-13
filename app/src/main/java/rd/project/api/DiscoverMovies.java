@@ -7,6 +7,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Implementation of RequestType, in this case requesting a list of movies based on certain criteria:
+ * - Region
+ * - Watch providers (see Providers)
+ * - Releasedate (year)
+ * - Minimum vote (IMDB rating)
+ */
+
 public class DiscoverMovies implements RequestType{
 
     private String region;
@@ -39,6 +47,12 @@ public class DiscoverMovies implements RequestType{
     public ArrayList GetData() {
         return movies;
     }
+
+    /**
+     * Process the data which was returned by the API
+     * @param data
+     * @return
+     */
 
     @Override
     public boolean UpdateData(JSONObject data) {

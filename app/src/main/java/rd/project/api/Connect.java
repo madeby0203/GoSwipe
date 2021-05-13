@@ -18,6 +18,10 @@ public class Connect {
     private boolean connected;
     private RequestType request;
 
+    /**
+     * Responsible for creating httpURLconnection for any set-up request type
+     * @param requestType
+     */
     public Connect(RequestType requestType) {
         this.request = requestType;
         String[] response = new String[20];
@@ -25,6 +29,11 @@ public class Connect {
         this.conn = null;
         this.connected = false;
     }
+
+    /**
+     * Send request to API and return response in JSON
+     * @return
+     */
 
     public JSONObject Send() {
         String[] response = new String[10];

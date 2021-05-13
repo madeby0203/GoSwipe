@@ -1,5 +1,10 @@
 package rd.project.api;
 
+/**
+ * Providers and their corresponding IDs for the API.
+ * In this case only some popular international and Dutch providers are implemented
+ */
+
 public enum Providers {
     Netflix(8),
     Amazon(9),
@@ -8,7 +13,7 @@ public enum Providers {
     Videoland(72),
     NPOstart(360);
 
-    public int id;
+    private int id;
 
     Providers(int id) {
         this.id = id;
