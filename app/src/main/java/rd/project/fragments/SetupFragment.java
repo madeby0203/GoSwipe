@@ -48,7 +48,7 @@ public class SetupFragment extends Fragment { //fragment for settings: genre, di
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .setReorderingAllowed(true)
                 .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
-                .replace(R.id.fragment_container_view, ChatFragment.class, bundle)
+                .replace(R.id.fragment_container_view, LobbyFragment.class, bundle)
                 .commit());
     }
 
