@@ -41,4 +41,9 @@
             android:textColor="@android:color/primary_text_light" app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/textView2" app:layout_constraintBottom_toTopOf="@+id/hostButton"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
+    <Button
+            android:text="temp to results"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/toResults" tools:layout_editor_absoluteY="27dp"
+            tools:layout_editor_absoluteX="34dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

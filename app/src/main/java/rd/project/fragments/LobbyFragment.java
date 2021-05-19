@@ -3,6 +3,7 @@ package rd.project.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -32,8 +33,8 @@ public class LobbyFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
 
-        Button disconnectButton = view.findViewById(R.id.startButton);
-        disconnectButton.setOnClickListener(v -> {
+        Button startButton = view.findViewById(R.id.startButton);
+        startButton.setOnClickListener(v -> {
             getParentFragmentManager().popBackStack(); // Removes the menu from the back button stack
             getParentFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -41,6 +42,15 @@ public class LobbyFragment extends Fragment {
                     .replace(R.id.fragment_container_view, placeholderFragment.class, null)
                     .commit();
         });
+
+        names.add("test");
+
+        Button settingsButton = view.findViewById(R.id.settingsButton);
+        settingsButton.setOnClickListener(v -> {
+
+        });
+
+
     }
 
 

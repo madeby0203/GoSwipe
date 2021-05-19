@@ -10,6 +10,8 @@ import rd.project.Application;
 import rd.project.R;
 
 public class MenuFragment extends Fragment {
+
+
     public MenuFragment() {
         super(R.layout.fragment_menu);
     }
@@ -44,5 +46,14 @@ public class MenuFragment extends Fragment {
                 .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
                 .replace(R.id.fragment_container_view, JoinFragment.class, null)
                 .commit());
+
+        Button tempButton = view.findViewById(R.id.toResults);
+        tempButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setReorderingAllowed(true)
+                .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
+                .replace(R.id.fragment_container_view, ResultsFragment.class, null)
+                .commit());
+
     }
 }
