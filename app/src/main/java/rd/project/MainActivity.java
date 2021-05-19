@@ -1,7 +1,5 @@
 package rd.project;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import rd.project.fragments.MenuFragment;
@@ -17,9 +15,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        new Swipe();
+        
         // Switch to the initial fragment: the menu fragment
         if (savedInstanceState == null) {
-            String username = getUsername();    // Retrieve username
+            String username = ((Application) getApplicationContext()).getUsername();    // Retrieve username
             if(username == null) {  // Username not set, ask user for one
                 getSupportFragmentManager().beginTransaction()
                         .setReorderingAllowed(true)
@@ -32,29 +31,5 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
             }
         }
-    }
-    
-    /**
-     * Retrieves username from SharedPreferences
-     * @return username
-     */
-    public String getUsername() {
-        SharedPreferences prefs = getApplicationContext()
-                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
-        
-        return prefs.getString(getString(R.string.username_preference), null);
-    }
-    
-    /**
-     * Sets username in SharedPreferences
-     * @param name username
-     */
-    public void setUsername(String name) {
-        SharedPreferences prefs = getApplicationContext()
-                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
-        
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(getString(R.string.username_preference), name)
-                .apply();
     }
 }

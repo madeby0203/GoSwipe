@@ -9,7 +9,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import rd.project.MainActivity;
+import rd.project.Application;
 import rd.project.R;
 
 public class NameFragment extends Fragment {
@@ -19,10 +19,10 @@ public class NameFragment extends Fragment {
     
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        MainActivity mainActivity = (MainActivity) getActivity();
+        Application application = (Application) getContext().getApplicationContext();
         
         EditText editTextName = view.findViewById(R.id.editTextName);
-        String name = mainActivity.getUsername();
+        String name = application.getUsername();
         if (name != null) {
             editTextName.setText(name);
         }
@@ -35,7 +35,7 @@ public class NameFragment extends Fragment {
             if(newName.equals("")) {
                 editTextName.setError(getString(R.string.name_empty_error));
             } else {
-                mainActivity.setUsername(newName);
+                application.setUsername(newName);
                 
                 getParentFragmentManager().beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

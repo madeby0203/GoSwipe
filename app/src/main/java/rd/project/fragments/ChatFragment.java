@@ -14,7 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.java_websocket.exceptions.WebsocketNotConnectedException;
-import rd.project.MainActivity;
+import rd.project.Application;
 import rd.project.R;
 import rd.project.adapters.MessagesAdapter;
 import rd.project.events.WSClientEvent;
@@ -171,7 +171,7 @@ public class ChatFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onServerStart(WSServerEvent.Start event) {
         System.out.println("Attempting to register service with port " + event.getPort());
-        nsd.registerService(event.getPort(), ((MainActivity) getActivity()).getUsername());
+        nsd.registerService(event.getPort(), ((Application) getContext().getApplicationContext()).getUsername());
         addMessage("System: Server started on port " + event.getPort() + ".");
     }
     

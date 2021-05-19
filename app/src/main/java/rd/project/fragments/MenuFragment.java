@@ -3,11 +3,10 @@ package rd.project.fragments;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import rd.project.MainActivity;
+import rd.project.Application;
 import rd.project.R;
 
 public class MenuFragment extends Fragment {
@@ -18,8 +17,8 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // Load username
-        MainActivity mainActivity = (MainActivity) getActivity();
-        String username = mainActivity.getUsername();
+        Application application = (Application) getContext().getApplicationContext();
+        String username = application.getUsername();
         Button usernameButton = view.findViewById(R.id.usernameButton);
         usernameButton.setText(String.format(getString(R.string.welcome_message), username));
         
