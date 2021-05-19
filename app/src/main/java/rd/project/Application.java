@@ -2,6 +2,11 @@ package rd.project;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import rd.project.fragments.ErrorFragment;
 import rd.project.network.Multiplayer;
 import rd.project.network.MultiplayerClient;
 import rd.project.network.MultiplayerServer;
@@ -61,4 +66,28 @@ public class Application extends android.app.Application {
                 .apply();
     }
     
+    /**
+     * Switch screen to error screen
+     * @param fragment current fragment
+     * @param icon icon drawable
+     * @param title title of error
+     * @param description description of error
+     */
+    public void showErrorScreen(Fragment fragment, int icon, String title, String description) {
+        // Put data in bundle
+        Bundle bundle = new Bundle();
+        bundle.putInt("icon", icon);
+        bundle.putString("title", title);
+        bundle.putString("description", description);
+    
+        // Clear back button history
+        fragment.getParentFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    
+        // Open error screen
+        fragment.getParentFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container_view, ErrorFragment.class, bundle)
+                .commit();
+    }
 }

@@ -54,6 +54,5 @@ public class MenuFragment extends Fragment {
                 .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
                 .replace(R.id.fragment_container_view, ResultsFragment.class, null)
                 .commit());
-
     }
 }

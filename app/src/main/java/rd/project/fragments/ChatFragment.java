@@ -38,8 +38,6 @@ public class ChatFragment extends Fragment {
     // Keeps track and updates the list of chat messages in the user interface
     MessagesAdapter adapter;
     
-//    private WSClient client;
-    
     public ChatFragment() {
         super(R.layout.fragment_chat);
     }
@@ -143,7 +141,10 @@ public class ChatFragment extends Fragment {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onServerError(WSServerEvent.Error event) {
-        addMessage("System: Error occurred: " + event.getException().getLocalizedMessage());
+        application.showErrorScreen(this,
+                R.drawable.ic_baseline_error_outline_24,
+                "Server error",
+                event.getException().getLocalizedMessage());
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -173,7 +174,10 @@ public class ChatFragment extends Fragment {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onClientError(WSClientEvent.Error event) {
-        addMessage("System: Error occurred: " + event.getException().getLocalizedMessage());
+        application.showErrorScreen(this,
+                R.drawable.ic_baseline_error_outline_24,
+                "Client error",
+                event.getException().getLocalizedMessage());
     }
     
     /**
