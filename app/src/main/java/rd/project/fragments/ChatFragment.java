@@ -19,6 +19,7 @@ import rd.project.R;
 import rd.project.adapters.MessagesAdapter;
 import rd.project.events.WSClientEvent;
 import rd.project.events.WSServerEvent;
+import rd.project.network.Multiplayer;
 import rd.project.network.NetworkServiceDiscovery;
 import rd.project.network.WSClient;
 import rd.project.network.WSServer;
@@ -30,18 +31,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChatFragment extends Fragment {
+    private Application application;
+    
     // List of messages
     private final List<String> messages = new ArrayList<>();
     // Keeps track and updates the list of chat messages in the user interface
     MessagesAdapter adapter;
     
-    // Are we the server? If false, we are the client.
-    private boolean isServer = false;
-    
-    private WSServer server;
-    private WSClient client;
-    
-    private NetworkServiceDiscovery nsd;
+//    private WSClient client;
     
     public ChatFragment() {
         super(R.layout.fragment_chat);
@@ -49,6 +46,8 @@ public class ChatFragment extends Fragment {
     
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        application = (Application) getContext().getApplicationContext();
+        
         // Initialize messages list
         adapter = new MessagesAdapter(messages);
         
@@ -56,10 +55,6 @@ public class ChatFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-        
-        // Initialize NetworkServiceDiscovery
-        // Service will be registered when WebSocket Server has started up
-        nsd = new NetworkServiceDiscovery(this.getContext());
         
         // Initialize either client or server
         // Get data from previous fragment
@@ -69,17 +64,13 @@ public class ChatFragment extends Fragment {
             String ip = bundle.getString("ip");
             try {
                 URI uri = new URI(ip);
-                client = new WSClient(uri);
-                client.connect();
+                application.becomeClient(uri);
                 addMessage("System: connecting to " + ip);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
         } else { // Bundle does not contain ip, we are a server
-            isServer = true;
-            
-            server = new WSServer();
-            server.start();
+            application.becomeHost();
         }
         
         // Register onClickListeners
@@ -97,15 +88,21 @@ public class ChatFragment extends Fragment {
         sendButton.setOnClickListener(v -> {
             EditText messageField = view.findViewById(R.id.messageField);
             String message = messageField.getText().toString();
-            if (isServer) {
-                server.broadcast("Host: " + messageField.getText().toString());
-                addMessage("Host: " + message);
-            } else {
+            if (application.getMultiplayerType() == Multiplayer.Type.HOST) {
                 try {
-                    client.send(messageField.getText().toString());
-                } catch (WebsocketNotConnectedException e) {
+                    application.getMultiplayer().sendMessage("Host: " + messageField.getText().toString());
+                } catch (Multiplayer.ClosedException e) {
+                    e.printStackTrace();
+                }
+                addMessage("Host: " + message);
+            } else if (application.getMultiplayerType() == Multiplayer.Type.CLIENT) {
+                try {
+                    application.getMultiplayer().sendMessage(messageField.getText().toString());
+                } catch (Multiplayer.ClosedException e) {
                     addMessage("System: Not connected to server");
                 }
+            } else {
+                addMessage("System: No server available.");
             }
             messageField.getText().clear();
         });
@@ -120,29 +117,10 @@ public class ChatFragment extends Fragment {
         
         // Unregister events
         EventBus.getDefault().unregister(this);
-        
-        // Unregister NetworkServiceDiscovery
-        // If we are a server: the server has stopped so there is no point in broadcasting that we are online anymore
-        System.out.println("Attempting to unregister NetworkServiceDiscovery service...");
-        nsd.unregisterService();
-        
-        if (isServer) {
-            try {
-                // Try to stop the server
-                System.out.println("Stopping server...");
-                server.stop();
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-        } else {
-            // Try to close the connection from the client to the server
-            System.out.println("Closing client connection...");
-            if (client != null) {
-                client.close();
-            } else {
-                System.out.println("Client was null, nothing to close");
-            }
-        }
+    
+        // Closing multiplayer
+        System.out.println("Closing multiplayer stuff...");
+        application.getMultiplayer().close();
     }
     
     /*
@@ -170,8 +148,8 @@ public class ChatFragment extends Fragment {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onServerStart(WSServerEvent.Start event) {
-        System.out.println("Attempting to register service with port " + event.getPort());
-        nsd.registerService(event.getPort(), ((Application) getContext().getApplicationContext()).getUsername());
+//        System.out.println("Attempting to register service with port " + event.getPort());
+//        nsd.registerService(event.getPort(), ((Application) getContext().getApplicationContext()).getUsername());
         addMessage("System: Server started on port " + event.getPort() + ".");
     }
     
