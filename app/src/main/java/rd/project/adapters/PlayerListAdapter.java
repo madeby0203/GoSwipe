@@ -1,5 +1,6 @@
 package rd.project.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,23 +12,36 @@ import rd.project.R;
 import java.util.List;
 
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.ViewHolder> {
-
-
     private final List<String> dataSet;
+    private Context context;
 
-    public PlayerListAdapter(List<String> dataSet) {
+    public PlayerListAdapter(List<String> dataSet, Context context) {
         this.dataSet = dataSet;
+        this.context = context;
     }
 
     @Override
     public PlayerListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_names, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_player, parent, false);
         return new PlayerListAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(PlayerListAdapter.ViewHolder viewHolder, final int position) {
         viewHolder.getTextView().setText(dataSet.get(position));
+        
+        // Add a star before the host's name
+        if (position == 0) { // Host, set icon to star
+            viewHolder.getTextView().setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(R.drawable.ic_baseline_star_24),
+                    null,
+                    null,
+                    null);
+        } else { // Not host, set icon to empty
+            viewHolder.getTextView().setCompoundDrawablesWithIntrinsicBounds(context.getDrawable(R.drawable.empty_24),
+                    null,
+                    null,
+                    null);
+        }
     }
 
     @Override
@@ -40,7 +54,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Vi
 
         public ViewHolder(View view) {
             super(view);
-            textView = view.findViewById(R.id.serverItemAddress);
+            textView = view.findViewById(R.id.playerItemName);
         }
 
         public TextView getTextView() {

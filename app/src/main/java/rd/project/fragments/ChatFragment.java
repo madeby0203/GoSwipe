@@ -141,10 +141,7 @@ public class ChatFragment extends Fragment {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onServerError(WSServerEvent.Error event) {
-        application.showErrorScreen(this,
-                R.drawable.ic_baseline_error_outline_24,
-                "Server error",
-                event.getException().getLocalizedMessage());
+    
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -174,7 +171,7 @@ public class ChatFragment extends Fragment {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onClientError(WSClientEvent.Error event) {
-        application.showErrorScreen(this,
+        application.showErrorScreen(getParentFragmentManager(),
                 R.drawable.ic_baseline_error_outline_24,
                 "Client error",
                 event.getException().getLocalizedMessage());

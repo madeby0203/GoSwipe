@@ -4,6 +4,7 @@ import android.content.Context;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import rd.project.Application;
 import rd.project.events.WSClientEvent;
 
 import java.net.URI;
@@ -20,6 +21,7 @@ public class MultiplayerClient implements Multiplayer {
         
         // Open client connection
         client = new WSClient(uri);
+        client.addHeader("username", ((Application) context.getApplicationContext()).getUsername());
         client.connect();
         
         // Register events

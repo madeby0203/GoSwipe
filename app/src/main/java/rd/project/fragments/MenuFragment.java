@@ -18,8 +18,14 @@ public class MenuFragment extends Fragment {
     
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        // Load username
         Application application = (Application) getContext().getApplicationContext();
+        
+        // Close multiplayer stuff for both client and host (if it exists)
+        if (application.getMultiplayer() != null) {
+            application.getMultiplayer().close();
+        }
+        
+        // Load username
         String username = application.getUsername();
         Button usernameButton = view.findViewById(R.id.usernameButton);
         usernameButton.setText(String.format(getString(R.string.welcome_message), username));
@@ -32,12 +38,16 @@ public class MenuFragment extends Fragment {
                 .commit());
         
         Button hostButton = view.findViewById(R.id.hostButton);
-        hostButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .setReorderingAllowed(true)
-                .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
-                .replace(R.id.fragment_container_view, SetupFragment.class, null)
-                .commit());
+        hostButton.setOnClickListener(v -> {
+            application.becomeHost();
+            
+            getParentFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .setReorderingAllowed(true)
+                    .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
+                    .replace(R.id.fragment_container_view, SetupFragment.class, null)
+                    .commit();
+        });
         
         Button joinButton = view.findViewById(R.id.joinButton);
         joinButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()

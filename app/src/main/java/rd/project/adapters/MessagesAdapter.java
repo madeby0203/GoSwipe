@@ -39,7 +39,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         
         public ViewHolder(View view) {
             super(view);
-            textView = view.findViewById(R.id.serverItemAddress);
+            textView = view.findViewById(R.id.messageItemText);
         }
         
         public TextView getTextView() {

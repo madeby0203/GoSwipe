@@ -68,12 +68,12 @@ public class Application extends android.app.Application {
     
     /**
      * Switch screen to error screen
-     * @param fragment current fragment
+     * @param fragmentManager fragment manager
      * @param icon icon drawable
      * @param title title of error
      * @param description description of error
      */
-    public void showErrorScreen(Fragment fragment, int icon, String title, String description) {
+    public void showErrorScreen(FragmentManager fragmentManager, int icon, String title, String description) {
         // Put data in bundle
         Bundle bundle = new Bundle();
         bundle.putInt("icon", icon);
@@ -81,10 +81,10 @@ public class Application extends android.app.Application {
         bundle.putString("description", description);
     
         // Clear back button history
-        fragment.getParentFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     
         // Open error screen
-        fragment.getParentFragmentManager().beginTransaction()
+        fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container_view, ErrorFragment.class, bundle)

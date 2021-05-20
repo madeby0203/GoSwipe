@@ -1,49 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
                                                    android:layout_height="match_parent">
 
 
     <TextView
-            android:text="Lobby"
+            android:text="Join with:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/lobby"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp" android:textSize="50sp"
-            app:layout_constraintHorizontal_bias="0.498"/>
-
+            android:layout_height="wrap_content" android:id="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="20dp"/>
     <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="410dp"
-            android:layout_height="455dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:id="@+id/playerList"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-/>
+            tools:listitem="@layout/item_player" android:layout_centerInParent="true"
+            android:background="@color/list_background"
+            app:layout_constraintBottom_toTopOf="@+id/startButton" android:layout_marginBottom="8dp"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lobbyJoinAddress" android:layout_marginTop="16dp"/>
     <Button
             android:text="Start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/startButton"
-            android:layout_below="@+id/playerList"
-            android:layout_centerHorizontal="true"
-/>
+            android:layout_width="0dp"
+            android:layout_height="64dp" android:id="@+id/startButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp" app:layout_constraintStart_toEndOf="@+id/backButton"
+            android:layout_marginStart="16dp" app:layout_constraintEnd_toStartOf="@+id/settingsButton"/>
     <Button
-            android:text="settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/settingsButton"
-            android:layout_below="@+id/playerList"
-            android:layout_toRightOf="@id/startButton"
-            android:layout_marginLeft="20dp"
-/>
+            android:layout_width="56dp"
+            android:layout_height="64dp" android:id="@+id/settingsButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+            android:drawableTint="?attr/colorPrimary"
+            android:gravity="center"
+            app:icon="@drawable/ic_baseline_settings_24"
+            app:iconGravity="textEnd" app:iconPadding="0dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"/>
     <Button
-            android:text="cancel"
+            android:text="Cancel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:id="@+id/backButton"
-            android:layout_below="@+id/playerList"
-            android:layout_toLeftOf="@id/startButton"
-            android:layout_marginRight="20dp"
-    />
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"/>
+    <TextView
+            android:text="ws://hostname:port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/lobbyJoinAddress"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            android:textColor="@android:color/black" android:textSize="18sp"/>
+    <TextView
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/playerCount"
+            app:layout_constraintBottom_toTopOf="@+id/playerList" app:layout_constraintTop_toTopOf="parent"
+            android:drawableLeft="@drawable/ic_baseline_person_24" android:gravity="center_vertical"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"/>
 
 
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

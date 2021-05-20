@@ -1,13 +1,18 @@
 package rd.project.network;
 
 import android.content.Context;
+import android.net.wifi.WifiManager;
+import android.text.format.Formatter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import rd.project.Application;
+import rd.project.R;
 import rd.project.events.WSServerEvent;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MultiplayerServer implements Multiplayer {
     
@@ -18,17 +23,19 @@ public class MultiplayerServer implements Multiplayer {
     private boolean closed = false;
     
     public MultiplayerServer(Context context) {
+        System.out.println("Starting multiplayer server...");
+        
         this.context = context;
+    
+        // Register events
+        EventBus.getDefault().register(this);
         
         // Start WebSocket server
         server = new WSServer();
         server.start();
-        
+
         // Initialize Network Service Discovery
         nsd = new NetworkServiceDiscovery(context);
-    
-        // Register events
-        EventBus.getDefault().register(this);
     }
     
     @Override
@@ -60,7 +67,7 @@ public class MultiplayerServer implements Multiplayer {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onServerStart(WSServerEvent.Start event) {
-        System.out.println("Attempting to register service with port " + event.getPort());
+        System.out.println("Server started on port " + event.getPort() + ".");
         try {
             startDiscoveryBroadcast(event.getPort());
         } catch (ClosedException e) {
@@ -100,5 +107,23 @@ public class MultiplayerServer implements Multiplayer {
         nsd = null;
     
         closed = true;
+    }
+    
+    public List<String> getUsernames() {
+        return new ArrayList<>(server.getConnected().values());
+    }
+    
+    public String getJoinAddress() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ws://");
+        
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        sb.append(Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress()));
+        
+        sb.append(":");
+        
+        sb.append(server.getPort());
+        
+        return sb.toString();
     }
 }

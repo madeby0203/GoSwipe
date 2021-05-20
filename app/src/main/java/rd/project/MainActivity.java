@@ -2,6 +2,10 @@ package rd.project;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import rd.project.events.WSServerEvent;
 import rd.project.fragments.MenuFragment;
 import rd.project.fragments.NameFragment;
 
@@ -31,5 +35,25 @@ public class MainActivity extends AppCompatActivity {
                         .commit();
             }
         }
+        
+        // Register events
+        EventBus.getDefault().register(this);
+    }
+    
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        
+        // Unregister events
+        EventBus.getDefault().unregister(this);
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onServerError(WSServerEvent.Error event) {
+        // Show error screen on server error
+        ((Application) getApplicationContext()).showErrorScreen(getSupportFragmentManager(),
+                R.drawable.ic_baseline_error_outline_24,
+                "Server error",
+                event.getException().getLocalizedMessage());
     }
 }
