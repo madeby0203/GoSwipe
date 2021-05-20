@@ -24,6 +24,7 @@ public class DiscoverMovies implements RequestType{
     private URL url;
     private String apiKey;
     private ArrayList movies;
+    private String genre; //TODO: API nog toevoegen
 
     public DiscoverMovies (String apiKey, String region, String providers, String releaseDate, int minVote) throws MalformedURLException {
         this.region = region;
@@ -65,7 +66,11 @@ public class DiscoverMovies implements RequestType{
                     (String) jsonMovie.get("title"),
                     (String) jsonMovie.get("poster_path"),
                     (Number) jsonMovie.get("vote_average"),
-                    Math.toIntExact((Long) jsonMovie.get("id"))
+                    Math.toIntExact((Long) jsonMovie.get("id")),
+                    (int) jsonMovie.get(5), //TODO: release date aanpassen naar int
+                    (String) jsonMovie.get(genre),
+                    (String) jsonMovie.get(providers)
+
             );
             movieList.add(movie);
         }

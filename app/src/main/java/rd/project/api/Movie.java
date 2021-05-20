@@ -2,11 +2,15 @@ package rd.project.api;
 
 public class Movie {
 
-    private String overview;
-    private String title;
-    private String poster;
-    private Number vote;
-    private int id;
+    private final String overview;
+    private final String title;
+    private final String poster;
+    private final Number vote;
+    private final int id;
+    private final int year;
+
+    private final String genre;
+    private final String platform;
 
     /**
      * Movie and its corresponding information and features
@@ -17,16 +21,19 @@ public class Movie {
      * @param id
      */
 
-    public Movie (String overview, String title, String poster, Number vote, int id) {
+    public Movie (String overview, String title, String poster, Number vote, int id, int year, String genre, String platform) {
         this.overview = overview;
         this.title = title;
         this.poster = "https://image.tmdb.org/t/p/original" + poster;
         this.vote = vote;
         this.id = id;
+        this.year = year;
+        this.genre = genre;
+        this.platform = platform;
     }
 
     public String toString() {
-        return "Title: " + title + "\nOverview: " + overview + "\nVote: " + vote + "\nPoster: " + poster + "\nID: " + id;
+        return "Title: " + title + "\nOverview: " + overview + "\nVote: " + vote + "\nPoster: " + poster + "\nID: " + id +"\nYear: " + year + "\nGenre: " + genre + "\nPlatform: " + platform;
     }
 
     public Number getVote() {
@@ -48,4 +55,17 @@ public class Movie {
     public String getPoster() {
         return poster;
     }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
 }
