@@ -15,5 +15,6 @@
         <!-- Navigation bar color. -->
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:navigationBarDividerColor">@color/gray</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>
