@@ -70,7 +70,7 @@ public class LobbyFragment extends Fragment {
             getParentFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container_view, placeholderFragment.class, null)
+                    .replace(R.id.fragment_container_view, SwipeFragment.class, null)
                     .commit();
         });
         

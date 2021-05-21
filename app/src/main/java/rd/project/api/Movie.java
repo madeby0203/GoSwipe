@@ -1,5 +1,14 @@
 package rd.project.api;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class Movie {
 
     private final String overview;
@@ -56,6 +65,21 @@ public class Movie {
         return poster;
     }
 
+    public Bitmap getPosterBM() {
+        try {
+            URL url = new URL(this.poster);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            Log.d("OOPS", "error");
+            return null;
+        }
+    }
     public String getYear() {
         return year;
     }
