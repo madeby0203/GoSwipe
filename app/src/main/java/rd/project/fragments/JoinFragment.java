@@ -1,6 +1,7 @@
 package rd.project.fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import rd.project.MainActivity;
 import rd.project.R;
 import rd.project.adapters.JoinAdapter;
 import rd.project.events.JoinListClickEvent;
@@ -53,6 +55,8 @@ public class JoinFragment extends Fragment {
         // Initialize onClickListener
         Button manualJoinButton = view.findViewById(R.id.manualJoinButton);
         manualJoinButton.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).showProgressDialog();
+            
             EditText ipField = view.findViewById(R.id.editTextIP);
             Bundle bundle = new Bundle();
             bundle.putString("ip", ipField.getText().toString());

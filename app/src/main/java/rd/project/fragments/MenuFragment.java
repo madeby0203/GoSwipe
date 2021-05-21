@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import rd.project.Application;
+import rd.project.MainActivity;
 import rd.project.R;
 
 public class MenuFragment extends Fragment {
@@ -39,6 +40,7 @@ public class MenuFragment extends Fragment {
         
         Button hostButton = view.findViewById(R.id.hostButton);
         hostButton.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).showProgressDialog();
             application.becomeHost();
             
             getParentFragmentManager().beginTransaction()
