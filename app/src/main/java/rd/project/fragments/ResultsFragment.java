@@ -17,6 +17,7 @@ import rd.project.api.Movie;
 import java.util.ArrayList;
 
 public class ResultsFragment extends Fragment { //source: https://github.com/Rohitohlyan66/InstagramSuggestion
+    private Object Movie;
 
     public ResultsFragment(){
         super(R.layout.fragment_results);
@@ -33,7 +34,7 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
         pager = view.findViewById(R.id.sliderMenu);
 
         //add elements to the list in order for the pager to show it
-        Movie temp = new Movie("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu eleifend odio, eget cursus neque. Proin ut massa ac tellus egestas placerat. Etiam condimentum pellentesque ligula ut tristique. Aliquam pretium convallis augue non interdum. Vestibulum tempus tellus ante, nec luctus ligula convallis quis. Ut placerat, turpis id varius iaculis, nisi sapien pulvinar metus, sed faucibus dui odio ac nisl. Nam a ultrices neque. Vestibulum scelerisque, turpis et bibendum dictum, quam mauris vehicula felis, in aliquam leo turpis suscipit nunc.","test","test",1,5,"5","test","test");
+        Movie temp = new Movie("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu eleifend odio, eget cursus neque. Proin ut massa ac tellus egestas placerat. Etiam condimentum pellentesque ligula ut tristique. Aliquam pretium convallis augue non interdum. Vestibulum tempus tellus ante, nec luctus ligula convallis quis. Ut placerat, turpis id varius iaculis, nisi sapien pulvinar metus, sed faucibus dui odio ac nisl. Nam a ultrices neque. Vestibulum scelerisque, turpis et bibendum dictum, quam mauris vehicula felis, in aliquam leo turpis suscipit nunc.","Lorem Ipsum","test",10,5,"1000 BC","greek roman","stoneTablet");
         Movie temp2 = new Movie("test2","test2","test2",2,52,"52","test2","test2");
         list.add(temp);
         list.add(temp2);
@@ -65,6 +66,12 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
             Bundle tempBundle = new Bundle();
             tempBundle.putString("overview", tempMovie.getOverview());
             tempBundle.putString("title", tempMovie.getTitle());
+            tempBundle.putString("year", tempMovie.getYear());
+            tempBundle.putString("score", tempMovie.getVote().toString());
+            tempBundle.putString("genre", tempMovie.getGenre());
+            tempBundle.putString("platform",tempMovie.getPlatform());
+
+
 
             getParentFragmentManager().popBackStack();
             getParentFragmentManager().beginTransaction()
