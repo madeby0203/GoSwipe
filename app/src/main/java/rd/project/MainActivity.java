@@ -59,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Shows dialog that prevents users from interacting with the app
      */
-    public void showProgressDialog() {
+    public void showProgressDialog(String message) {
         dismissProgressDialog();
-        progressDialog = ProgressDialog.show(this, "Please wait...", null, true);
+        progressDialog = ProgressDialog.show(this, "Please wait...", message, true);
     }
     
     /**
@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     
+    // SERVER EVENTS
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onServerError(WSServerEvent.Error event) {
         // Dismisses progress dialog if shown
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         dismissProgressDialog();
     }
     
+    // CLIENT EVENTS
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onClientJoin(WSClientEvent.Open event) {
         // Dismisses progress dialog if shown
@@ -98,8 +100,24 @@ public class MainActivity extends AppCompatActivity {
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onClientJoin(WSClientEvent.Close event) {
+    public void onClientClose(WSClientEvent.Close event) {
         // Dismisses progress dialog if shown
         dismissProgressDialog();
+    
+        // If close wasn't done by the client itself
+        if(!event.getReason().equals(getString(R.string.multiplayerClient_close))) {
+            ((Application) getApplicationContext()).showErrorScreen(getSupportFragmentManager(),
+                    R.drawable.ic_baseline_error_outline_24,
+                    "Client connection closed",
+                    event.getReason());
+        }
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onClientError(WSClientEvent.Error event) {
+        ((Application) getApplicationContext()).showErrorScreen(getSupportFragmentManager(),
+                R.drawable.ic_baseline_error_outline_24,
+                "Client error",
+                event.getException().getLocalizedMessage());
     }
 }

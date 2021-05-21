@@ -1,23 +1,24 @@
 package rd.project.network;
 
-import android.net.Uri;
 import org.greenrobot.eventbus.EventBus;
 import org.java_websocket.WebSocket;
 import org.java_websocket.framing.CloseFrame;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
+import org.json.JSONException;
+import org.json.JSONObject;
+import rd.project.events.MultiplayerEvent;
 import rd.project.events.WSServerEvent;
+import rd.project.network.Multiplayer.MessageType;
+import rd.project.network.Multiplayer.MessageParameter;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
-import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class WSServer extends WebSocketServer {
     
-    private final Map<WebSocket, String> connected = new HashMap<>();
+    private final Map<WebSocket, String> connected = new LinkedHashMap<>();
     
     public WSServer() {
         // Create a WebSocket server, port 0 means a port will be automatically assigned
@@ -35,13 +36,32 @@ public class WSServer extends WebSocketServer {
             conn.close(CloseFrame.NORMAL, "Username missing.");
             return;
         }
+        if (connected.containsValue(username)) {
+            System.out.println("Duplicate username (" + username + "), kicking client");
+            conn.close(CloseFrame.NORMAL, "A user with name " + username + " is already connected to this lobby. Please change your username.");
+            return;
+        }
         System.out.println("Adding client to list of connected clients: " + conn + ", " + username);
         connected.put(conn, username);
         
-        // Send this message to all clients
-        this.broadcast("System: " + username + " joined the chat.");
-    
+        // Send this message to all clients except the newly connected one
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(MessageParameter.TYPE.toString(), MessageType.PLAYER_JOIN.toString());
+            jsonObject.put(MessageParameter.USERNAME.toString(), username);
+            
+            for(WebSocket c : getConnections()) {
+                if (c != conn) {
+                    c.send(jsonObject.toString());
+                }
+            }
+            System.out.println("Broadcast message (except to new client): " + jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        
         // Send event so other parts of the app know a client has joined
+        EventBus.getDefault().post(new MultiplayerEvent.PlayerJoin(username));
         EventBus.getDefault().post(new WSServerEvent.Open(conn, handshake));
     }
     
@@ -55,9 +75,18 @@ public class WSServer extends WebSocketServer {
         connected.remove(conn);
     
         // Send this message to all clients
-        this.broadcast("System: " + username + " left the chat.");
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(MessageParameter.TYPE.toString(), MessageType.PLAYER_LEAVE.toString());
+            jsonObject.put(MessageParameter.USERNAME.toString(), username);
+            this.broadcast(jsonObject.toString());
+            System.out.println("Broadcast message: " + jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     
         // Send event so other parts of the app know a client has left
+        EventBus.getDefault().post(new MultiplayerEvent.PlayerLeave(username));
         EventBus.getDefault().post(new WSServerEvent.Close(conn, reason));
     }
     

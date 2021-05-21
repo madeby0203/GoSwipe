@@ -40,7 +40,7 @@ public class MenuFragment extends Fragment {
         
         Button hostButton = view.findViewById(R.id.hostButton);
         hostButton.setOnClickListener(v -> {
-            ((MainActivity) getActivity()).showProgressDialog();
+            ((MainActivity) getActivity()).showProgressDialog("Starting server...");
             application.becomeHost();
             
             getParentFragmentManager().beginTransaction()

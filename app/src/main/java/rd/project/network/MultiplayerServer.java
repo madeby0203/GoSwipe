@@ -6,13 +6,19 @@ import android.text.format.Formatter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.java_websocket.WebSocket;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import rd.project.Application;
 import rd.project.R;
 import rd.project.events.WSServerEvent;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MultiplayerServer implements Multiplayer {
     
@@ -44,6 +50,7 @@ public class MultiplayerServer implements Multiplayer {
             throw new ClosedException();
         }
         server.broadcast(message);
+        System.out.println("Broadcast message: " + message);
     }
     
     public void startDiscoveryBroadcast(int port) throws ClosedException {
@@ -58,6 +65,23 @@ public class MultiplayerServer implements Multiplayer {
             throw new ClosedException();
         }
         nsd.unregisterService();
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onServerOpen(WSServerEvent.Open event) {
+        // Send playerlist to newly connected client
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(MessageParameter.TYPE.toString(), MessageType.PLAYER_LIST.toString());
+            
+            JSONArray jsonArray = new JSONArray(getConnectedUsernames());
+            jsonObject.put(MessageParameter.USERLIST.toString(), jsonArray);
+        
+            event.getWebSocket().send(jsonObject.toString());
+            System.out.println("Sending message to new user: " + jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -109,8 +133,11 @@ public class MultiplayerServer implements Multiplayer {
         closed = true;
     }
     
-    public List<String> getUsernames() {
-        return new ArrayList<>(server.getConnected().values());
+    public List<String> getConnectedUsernames() {
+        List<String> usernames = new ArrayList<>();
+        usernames.add(((Application) context.getApplicationContext()).getUsername());
+        usernames.addAll(server.getConnected().values());
+        return usernames;
     }
     
     public String getJoinAddress() {

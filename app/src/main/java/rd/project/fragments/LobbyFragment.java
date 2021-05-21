@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,6 +16,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import rd.project.Application;
 import rd.project.R;
 import rd.project.adapters.PlayerListAdapter;
+import rd.project.events.MultiplayerEvent;
 import rd.project.events.WSServerEvent;
 import rd.project.network.Multiplayer;
 import rd.project.network.MultiplayerServer;
@@ -43,19 +43,37 @@ public class LobbyFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
+        
+        // Hide/change specific elements if not host
+        if (application.getMultiplayerType() != Multiplayer.Type.HOST) {
+            view.findViewById(R.id.startButton).setVisibility(View.GONE);
+            view.findViewById(R.id.settingsButton).setVisibility(View.GONE);
+            
+            ((TextView) view.findViewById(R.id.lobbyJoinWith)).setText("");
+            ((TextView) view.findViewById(R.id.lobbyJoinAddress)).setText("");
+            
+            ((Button) view.findViewById(R.id.lobbyCancelButton)).setText("Leave");
+        }
+        
+        //Cancel and Leave button
+        Button cancelButton = view.findViewById(R.id.lobbyCancelButton);
+        cancelButton.setOnClickListener(v -> {
+            getParentFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .setReorderingAllowed(true)
+                    .replace(R.id.fragment_container_view, MenuFragment.class, null)
+                    .commit();
+        });
 
         Button startButton = view.findViewById(R.id.startButton);
         startButton.setOnClickListener(v -> {
-            getParentFragmentManager().popBackStack(); // Removes the menu from the back button stack
             getParentFragmentManager().beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .setReorderingAllowed(true)
                     .replace(R.id.fragment_container_view, placeholderFragment.class, null)
                     .commit();
         });
-
-        names.add("test");
-
+        
         Button settingsButton = view.findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(v -> {
 
@@ -68,6 +86,8 @@ public class LobbyFragment extends Fragment {
         }
         
         // Update player list
+        names.clear();
+        names.addAll(application.getMultiplayer().getConnectedUsernames());
         updatePlayerList();
     
         // Register events
@@ -83,45 +103,42 @@ public class LobbyFragment extends Fragment {
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onServerOpen(WSServerEvent.Open event) {
+    public void onMultiplayerPlayerList(MultiplayerEvent.PlayerList event) {
+        names.clear();
+        names.addAll(event.getPlayerList());
         updatePlayerList();
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onServerClose(WSServerEvent.Close event) {
+    public void onMultiplayerPlayerJoin(MultiplayerEvent.PlayerJoin event) {
+        names.add(event.getUsername());
+        updatePlayerList();
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMultiplayerPlayerLeave(MultiplayerEvent.PlayerLeave event) {
+        names.remove(event.getUsername());
         updatePlayerList();
     }
     
     /**
      * Updates player count and refreshes player list with data from the WebSocket server
-     * TODO currently only works on server/host
      */
     private void updatePlayerList() {
-        System.out.println("Updating player list...");
-        
         if (getContext() != null) {
-            Application application = (Application) getContext().getApplicationContext();
-            
-            if (application.getMultiplayerType() == Multiplayer.Type.HOST) {
-                // Fetch names from server
-                names.clear();
-                names.add(application.getUsername());
-                names.addAll(((MultiplayerServer) application.getMultiplayer()).getUsernames());
-                
-                ((Activity) getContext()).runOnUiThread(() -> {
-                    // Update RecyclerView
-                    adapter.notifyDataSetChanged();
-        
-                    if (getView() != null) {
-                        RecyclerView recyclerView = getView().findViewById(R.id.playerList);
-                        recyclerView.scrollToPosition(names.size() - 1);
+            ((Activity) getContext()).runOnUiThread(() -> {
+                // Update RecyclerView
+                adapter.notifyDataSetChanged();
     
-                        // Update player count
-                        TextView playerCount = getView().findViewById(R.id.playerCount);
-                        playerCount.setText(String.valueOf(names.size()));
-                    }
-                });
-            }
+                if (getView() != null) {
+                    RecyclerView recyclerView = getView().findViewById(R.id.playerList);
+                    recyclerView.scrollToPosition(names.size() - 1);
+
+                    // Update player count
+                    TextView playerCount = getView().findViewById(R.id.playerCount);
+                    playerCount.setText(String.valueOf(names.size()));
+                }
+            });
         }
     }
 

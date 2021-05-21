@@ -1,5 +1,7 @@
 package rd.project.network;
 
+import java.util.List;
+
 public interface Multiplayer {
     
     default Type getType() {
@@ -16,9 +18,18 @@ public interface Multiplayer {
     void close();
     boolean isClosed();
     void sendMessage(String message) throws ClosedException;
+    List<String> getConnectedUsernames();
     
     enum Type {
-        HOST, CLIENT, NONE;
+        HOST, CLIENT, NONE
+    }
+    
+    enum MessageParameter {
+        TYPE, USERNAME, USERLIST
+    }
+    
+    enum MessageType {
+        PLAYER_LIST, PLAYER_JOIN, PLAYER_LEAVE
     }
     
     public class ClosedException extends Exception {

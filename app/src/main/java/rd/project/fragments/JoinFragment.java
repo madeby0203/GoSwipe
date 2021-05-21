@@ -2,8 +2,10 @@ package rd.project.fragments;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
@@ -14,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import rd.project.Application;
 import rd.project.MainActivity;
 import rd.project.R;
 import rd.project.adapters.JoinAdapter;
 import rd.project.events.JoinListClickEvent;
 import rd.project.events.NetworkServiceDiscoveryEvent;
+import rd.project.events.WSClientEvent;
 import rd.project.network.NetworkServiceDiscovery;
 
 import java.net.URI;
@@ -55,16 +59,23 @@ public class JoinFragment extends Fragment {
         // Initialize onClickListener
         Button manualJoinButton = view.findViewById(R.id.manualJoinButton);
         manualJoinButton.setOnClickListener(v -> {
-            ((MainActivity) getActivity()).showProgressDialog();
-            
             EditText ipField = view.findViewById(R.id.editTextIP);
-            Bundle bundle = new Bundle();
-            bundle.putString("ip", ipField.getText().toString());
-            getParentFragmentManager().beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container_view, ChatFragment.class, bundle)
-                    .commit();
+            try {
+                // Parse URI
+                URI uri = new URI(ipField.getText().toString());
+                
+                // Hide keyboard
+                ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(view.getWindowToken(), 0);
+                
+                // Lock user input
+                ((MainActivity) getActivity()).showProgressDialog("Connecting to " + ipField.getText().toString());
+                
+                // Connect to host
+                ((Application) getContext().getApplicationContext()).becomeClient(uri);
+            } catch (URISyntaxException e) {
+                ipField.setError("Please enter a valid address.");
+            }
         });
         
         // Register events
@@ -85,13 +96,11 @@ public class JoinFragment extends Fragment {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onJoinListClick(JoinListClickEvent event) {
-        Bundle bundle = new Bundle();
-        bundle.putString("ip", event.getURI().toString());
-        getParentFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container_view, ChatFragment.class, bundle)
-                .commit();
+        // Lock user input
+        ((MainActivity) getActivity()).showProgressDialog("Connecting to " + event.getURI().toString());
+    
+        // Connect to host
+        ((Application) getContext().getApplicationContext()).becomeClient(event.getURI());
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -119,6 +128,15 @@ public class JoinFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onClientOpen(WSClientEvent.Open event) {
+        getParentFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container_view, LobbyFragment.class, null)
+                .commit();
     }
     
     /**

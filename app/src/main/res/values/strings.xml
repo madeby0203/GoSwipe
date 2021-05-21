@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">R&amp;D Project</string>
+
+    <!-- Preferences -->
     <string name="preferences_name">rd.project.preferences</string>
     <string name="username_preference">username</string>
+
+    <!-- Used in code -->
+    <string name="multiplayerClient_close">Connection closed by client</string>
+
     <string name="welcome_message">Hello %s!</string>
     <string name="name_empty_error">Please enter a name.</string>
     <string name="what_genre">What genre?</string>

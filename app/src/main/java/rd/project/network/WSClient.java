@@ -2,6 +2,7 @@ package rd.project.network;
 
 import org.greenrobot.eventbus.EventBus;
 import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 import rd.project.events.WSClientEvent;
 
@@ -10,7 +11,7 @@ import java.net.URI;
 public class WSClient extends WebSocketClient {
     
     public WSClient(URI serverURI) {
-        super(serverURI);
+        super(serverURI, new Draft_6455(), null, 4000);
     }
     
     @Override

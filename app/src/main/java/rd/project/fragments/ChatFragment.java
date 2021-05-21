@@ -169,14 +169,6 @@ public class ChatFragment extends Fragment {
         addMessage("System: Connection closed, reason: " + event.getReason());
     }
     
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onClientError(WSClientEvent.Error event) {
-        application.showErrorScreen(getParentFragmentManager(),
-                R.drawable.ic_baseline_error_outline_24,
-                "Client error",
-                event.getException().getLocalizedMessage());
-    }
-    
     /**
      * Adds a message to the list of chat messages in the user interface.
      *
