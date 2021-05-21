@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                                   android:layout_height="match_parent">
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/dislikeButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="60dp" style="@android:style/Widget.DeviceDefault.Button"
+            app:icon="@android:drawable/ic_delete" app:iconPadding="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="80dp"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/refreshButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="128dp" style="@android:style/Widget.DeviceDefault.Button"
+            app:iconPadding="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="148dp" tools:text="refresh"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/likeButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="60dp" style="@android:style/Widget.DeviceDefault.Button"
+            app:icon="@android:drawable/ic_delete" app:iconPadding="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="80dp" app:layout_constraintStart_toEndOf="@+id/dislikeButton"
+            app:layout_constraintHorizontal_bias="1.0"/>
+    <ImageView
+            android:layout_width="285dp"
+            android:layout_height="560dp" tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:id="@+id/movieView"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="60dp" android:layout_marginStart="60dp"
+            app:layout_constraintBottom_toTopOf="@+id/likeButton"/>
+    <TextView
+            android:text="Name (Year)"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/titleText"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintBottom_toBottomOf="@+id/movieView"
+            app:layout_constraintStart_toStartOf="@+id/movieView" app:layout_constraintEnd_toEndOf="@+id/movieView"
+            android:layout_marginBottom="10dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
