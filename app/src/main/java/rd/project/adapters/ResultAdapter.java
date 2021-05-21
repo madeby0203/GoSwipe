@@ -33,8 +33,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
             holder.resultView.setImageResource(R.drawable.ic_launcher_foreground);
             holder.genreText.setText(a.get(position).getGenre());
             holder.titleText.setText(a.get(position).getTitle());
-//            holder.yearText.setText((a.get(position).getYear());
-//            holder.scoreText.setText((String)a.get(position).getVote());
+            holder.yearText.setText(a.get(position).getYear());
+            holder.scoreText.setText(a.get(position).getVote().toString());
             holder.platformText.setText(a.get(position).getPlatform());
     }
 
@@ -56,7 +56,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
             genreText = itemView.findViewById(R.id.genreText);
             titleText = itemView.findViewById(R.id.titleText);
             yearText = itemView.findViewById(R.id.yearText);
-//            scoreText = itemView.findViewById(R.id.scoreText);
+            scoreText = itemView.findViewById(R.id.scoreText);
             platformText = itemView.findViewById(R.id.platformText);
         }
     }

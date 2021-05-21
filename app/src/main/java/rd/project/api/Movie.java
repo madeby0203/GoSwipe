@@ -7,7 +7,7 @@ public class Movie {
     private final String poster;
     private final Number vote;
     private final int id;
-    private final int year;
+    private final String year;
 
     private final String genre;
     private final String platform;
@@ -21,7 +21,7 @@ public class Movie {
      * @param id
      */
 
-    public Movie (String overview, String title, String poster, Number vote, int id, int year, String genre, String platform) {
+    public Movie (String overview, String title, String poster, Number vote, int id, String year, String genre, String platform) {
         this.overview = overview;
         this.title = title;
         this.poster = "https://image.tmdb.org/t/p/original" + poster;
@@ -56,7 +56,7 @@ public class Movie {
         return poster;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 

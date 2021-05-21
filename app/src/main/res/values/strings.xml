@@ -11,4 +11,7 @@
     <string name="score">score</string>
     <string name="year">year</string>
     <string name="genre">genre</string>
+    <string name="Overview"/>
+    <string name="overview">Overview</string>
+    <string name="production_date">Production date:</string>
 </resources>

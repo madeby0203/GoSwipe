@@ -2,9 +2,12 @@ package rd.project.fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 import rd.project.R;
@@ -30,8 +33,8 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
         pager = view.findViewById(R.id.sliderMenu);
 
         //add elements to the list in order for the pager to show it
-        Movie temp = new Movie("test","test","test",1,5,5,"test","test");
-        Movie temp2 = new Movie("test2","test2","test2",2,52,52,"test2","test2");
+        Movie temp = new Movie("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu eleifend odio, eget cursus neque. Proin ut massa ac tellus egestas placerat. Etiam condimentum pellentesque ligula ut tristique. Aliquam pretium convallis augue non interdum. Vestibulum tempus tellus ante, nec luctus ligula convallis quis. Ut placerat, turpis id varius iaculis, nisi sapien pulvinar metus, sed faucibus dui odio ac nisl. Nam a ultrices neque. Vestibulum scelerisque, turpis et bibendum dictum, quam mauris vehicula felis, in aliquam leo turpis suscipit nunc.","test","test",1,5,"5","test","test");
+        Movie temp2 = new Movie("test2","test2","test2",2,52,"52","test2","test2");
         list.add(temp);
         list.add(temp2);
 
@@ -42,7 +45,7 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
         pager.setAdapter(resultAdapter);
 
         //set the amount of offscreen pages
-        pager.setOffscreenPageLimit(2);
+        pager.setOffscreenPageLimit(1);
 
         CompositePageTransformer transformer = new CompositePageTransformer();
         transformer.addTransformer(new ViewPager2.PageTransformer() {
@@ -53,6 +56,23 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
         });
 
         pager.setPageTransformer(transformer);
+
+
+        Button infoButton = view.findViewById(R.id.infoButton);
+
+        infoButton.setOnClickListener(v -> {
+            Movie tempMovie = list.get(pager.getCurrentItem());
+            Bundle tempBundle = new Bundle();
+            tempBundle.putString("overview", tempMovie.getOverview());
+            tempBundle.putString("title", tempMovie.getTitle());
+
+            getParentFragmentManager().popBackStack();
+            getParentFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .setReorderingAllowed(true)
+                    .replace(R.id.fragment_container_view, InfoResultFragment.class, tempBundle)
+                    .commit();
+        });
     }
 
 }
