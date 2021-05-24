@@ -49,4 +49,17 @@ public class MultiplayerEvent {
         }
     }
     
+    /**
+     * Fired when a session is about to start.
+     */
+    public static class StartPrepare {
+    
+    }
+    
+    /**
+     * Fired when the lobby countdown is started.
+     */
+    public static class StartCountdown {
+    
+    }
 }

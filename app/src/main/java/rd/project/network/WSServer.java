@@ -20,6 +20,8 @@ import java.util.*;
 public class WSServer extends WebSocketServer {
     private final String TAG = "WSServer";
     
+    public boolean allowJoining = true;
+    
     private final Map<WebSocket, String> connected = new LinkedHashMap<>();
     
     public WSServer() {
@@ -30,6 +32,12 @@ public class WSServer extends WebSocketServer {
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         Log.d(TAG, "Client connecting...");
+        
+        if (!allowJoining) {
+            Log.d(TAG, "Session already started, kicking client.");
+            conn.close(CloseFrame.NORMAL, "Session already started.");
+            return;
+        }
         
         // Add client to list of connected clients
         String username = handshake.getFieldValue("username");
@@ -57,7 +65,7 @@ public class WSServer extends WebSocketServer {
                     c.send(jsonObject.toString());
                 }
             }
-            Log.d(TAG, "Broadcast message (except to new client): " + jsonObject);
+            Log.d(TAG, "Broadcasting message (except to new client): " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -120,6 +128,14 @@ public class WSServer extends WebSocketServer {
         
         // Remove all connections from connection list
         connected.clear();
+    }
+    
+    // Overridden for debugging purposes
+    @Override
+    public void broadcast(String text) {
+        super.broadcast(text);
+        Log.d(TAG, "Broadcasting message: " + text);
+    
     }
     
     public Map<WebSocket, String> getConnected() {

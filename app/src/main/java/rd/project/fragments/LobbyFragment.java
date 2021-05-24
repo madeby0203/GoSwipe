@@ -17,12 +17,13 @@ import rd.project.Application;
 import rd.project.R;
 import rd.project.adapters.PlayerListAdapter;
 import rd.project.events.MultiplayerEvent;
-import rd.project.events.WSServerEvent;
 import rd.project.network.Multiplayer;
 import rd.project.network.MultiplayerServer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class LobbyFragment extends Fragment {
 
@@ -46,8 +47,8 @@ public class LobbyFragment extends Fragment {
         
         // Hide/change specific elements if not host
         if (application.getMultiplayerType() != Multiplayer.Type.HOST) {
-            view.findViewById(R.id.startButton).setVisibility(View.GONE);
-            view.findViewById(R.id.settingsButton).setVisibility(View.GONE);
+            view.findViewById(R.id.startButton).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.settingsButton).setVisibility(View.INVISIBLE);
             
             ((TextView) view.findViewById(R.id.lobbyJoinWith)).setText("");
             ((TextView) view.findViewById(R.id.lobbyJoinAddress)).setText("");
@@ -67,11 +68,8 @@ public class LobbyFragment extends Fragment {
 
         Button startButton = view.findViewById(R.id.startButton);
         startButton.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container_view, SwipeFragment.class, null)
-                    .commit();
+            ((MultiplayerServer) application.getMultiplayer()).startPrepare();
+            ((MultiplayerServer) application.getMultiplayer()).fetchMovies();
         });
         
         Button settingsButton = view.findViewById(R.id.settingsButton);
@@ -119,6 +117,63 @@ public class LobbyFragment extends Fragment {
     public void onMultiplayerPlayerLeave(MultiplayerEvent.PlayerLeave event) {
         names.remove(event.getUsername());
         updatePlayerList();
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPrepareStart(MultiplayerEvent.StartPrepare event) {
+        // Disable buttons
+        getView().findViewById(R.id.lobbyCancelButton).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.startButton).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.settingsButton).setVisibility(View.INVISIBLE);
+        
+        // Hide text on top
+        getView().findViewById(R.id.lobbyJoinWith).setVisibility(View.INVISIBLE);
+        getView().findViewById(R.id.lobbyJoinAddress).setVisibility(View.INVISIBLE);
+        
+        // Show loading spinner
+        getView().findViewById(R.id.lobbyLoading).setVisibility(View.VISIBLE);
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void startCountdown(MultiplayerEvent.StartCountdown event) {
+        // Hide loading spinner
+        getView().findViewById(R.id.lobbyLoading).setVisibility(View.INVISIBLE);
+        
+        // Prepare counter
+        AtomicInteger counter = new AtomicInteger(3);
+        
+        // Show countdown
+        TextView countdownText = getView().findViewById(R.id.lobbyCountdown);
+        countdownText.setVisibility(View.VISIBLE);
+        
+        Thread thread = new Thread(() -> {
+            try {
+                while (counter.intValue() >= 0) {
+                    if(getActivity() != null) {
+                        getActivity().runOnUiThread(() -> {
+                            if (counter.intValue() > 0) { // Counter is higher than 0, update counter text
+                                countdownText.setText(String.valueOf(counter.get()));
+                            } else { // Counter is 0, go to SwipeFragment
+                                getParentFragmentManager().beginTransaction()
+                                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                        .setReorderingAllowed(true)
+                                        .replace(R.id.fragment_container_view, SwipeFragment.class, null)
+                                        .commit();
+                            }
+                        });
+                    }
+                    
+                    // Wait 1 second
+                    TimeUnit.SECONDS.sleep(1);
+    
+                    // Decrement counter by 1
+                    counter.getAndDecrement();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        thread.start();
     }
     
     /**

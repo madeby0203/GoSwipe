@@ -1,6 +1,7 @@
 package rd.project.network;
 
 import android.content.Context;
+import android.util.Log;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -10,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import rd.project.Application;
 import rd.project.R;
+import rd.project.api.Movie;
 import rd.project.events.MultiplayerEvent;
 import rd.project.events.WSClientEvent;
 
@@ -18,13 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MultiplayerClient implements Multiplayer {
+    private final String TAG = "MultiplayerClient";
     
     private Context context;
     private WSClient client;
     
-    private boolean closed;
-    
     private final List<String> playerList = new ArrayList<>();
+    private List<Movie> movies;
+    
+    private boolean closed;
     
     public MultiplayerClient(Context context, URI uri) {
         this.context = context;
@@ -85,6 +89,40 @@ public class MultiplayerClient implements Multiplayer {
                         EventBus.getDefault().post(new MultiplayerEvent.PlayerLeave(username));
                         
                         break;
+                    case START_PREPARE:
+                        EventBus.getDefault().post(new MultiplayerEvent.StartPrepare());
+                        
+                        break;
+                    case START_COUNTDOWN:
+                        EventBus.getDefault().post(new MultiplayerEvent.StartCountdown());
+        
+                        break;
+                    case MOVIE_LIST:
+                        Log.v(TAG, "Received movie list.");
+                        
+                        JSONArray moviesJSONArray = jsonObject.getJSONArray(MessageParameter.MOVIELIST.toString());
+                        this.movies = new ArrayList<>();
+                        for(int i = 0; i < moviesJSONArray.length(); i++) {
+                            JSONObject movieJSON = moviesJSONArray.getJSONObject(i);
+                            String overview = movieJSON.getString("overview");
+                            String title = movieJSON.getString("title");
+                            String poster = movieJSON.getString("poster");
+                            Number vote = (Number) movieJSON.get("vote");
+                            int id = movieJSON.getInt("id");
+                            String year = movieJSON.getString("year");
+                            String genre = movieJSON.has("genre") ? movieJSON.getString("genre") : null;
+                            String platform = movieJSON.getString("platform");
+                            Movie movie = new Movie(overview, title, poster, vote, id, year, genre, platform);
+                            this.movies.add(movie);
+                        }
+                        
+                        Log.v(TAG, "Movie list size: " + movies.size());
+                        
+                        break;
+                    default:
+                        Log.w(TAG, "Unknown message type received.");
+                        
+                        break;
                 }
             }
         } catch (JSONException e) {
@@ -123,5 +161,10 @@ public class MultiplayerClient implements Multiplayer {
         client.close(CloseFrame.NORMAL, context.getString(R.string.multiplayerClient_close));
     
         closed = true;
+    }
+    
+    @Override
+    public List<Movie> getMovies() {
+        return movies; //TODO movie sending
     }
 }

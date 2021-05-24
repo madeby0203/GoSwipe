@@ -5,11 +5,27 @@
 
 
     <TextView
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/playerCount"
+            app:layout_constraintBottom_toTopOf="@+id/playerList" app:layout_constraintTop_toTopOf="parent"
+            android:drawableLeft="@drawable/ic_baseline_person_24" android:gravity="center_vertical"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
+    />
+    <TextView
             android:text="Join with:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/lobbyJoinWith"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="20dp"/>
+    <TextView
+            android:text="ws://hostname:port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/lobbyJoinAddress"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lobbyJoinWith"
+            android:textColor="@android:color/black" android:textSize="18sp"/>
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -21,13 +37,24 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintTop_toBottomOf="@+id/lobbyJoinAddress" android:layout_marginTop="16dp"/>
     <Button
+            android:text="Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:id="@+id/lobbyCancelButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"/>
+    <Button
             android:text="Start"
             android:layout_width="0dp"
             android:layout_height="64dp" android:id="@+id/startButton"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp" app:layout_constraintStart_toEndOf="@+id/lobbyCancelButton"
-            android:layout_marginStart="16dp" app:layout_constraintEnd_toStartOf="@+id/settingsButton"/>
+            android:layout_marginStart="16dp" app:layout_constraintEnd_toStartOf="@+id/settingsButton"
+    />
     <Button
             android:layout_width="56dp"
             android:layout_height="64dp" android:id="@+id/settingsButton"
@@ -38,32 +65,22 @@
             app:icon="@drawable/ic_baseline_settings_24"
             app:iconGravity="textEnd" app:iconPadding="0dp" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp"/>
-    <Button
-            android:text="Cancel"
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:id="@+id/lobbyCancelButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lobbyLoading" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/playerList" app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/lobbyCountdown"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="8dp"/>
-    <TextView
-            android:text="ws://hostname:port"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/lobbyJoinAddress"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lobbyJoinWith"
-            android:textColor="@android:color/black" android:textSize="18sp"/>
-    <TextView
-            android:text="0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/playerCount"
-            app:layout_constraintBottom_toTopOf="@+id/playerList" app:layout_constraintTop_toTopOf="parent"
-            android:drawableLeft="@drawable/ic_baseline_person_24" android:gravity="center_vertical"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
-    />
+            app:layout_constraintTop_toBottomOf="@+id/playerList" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="48sp" android:textColor="@android:color/black" android:gravity="center"
+            android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
