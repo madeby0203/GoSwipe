@@ -2,9 +2,7 @@ package rd.project.fragments;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,17 +23,25 @@ public class SetupFragment extends Fragment { //fragment for settings: genre, di
         super.onCreate(savedInstanceState);
 
         //links edit text and puts it in a string var.
-        EditText platformBox = view.findViewById(R.id.platformSetting);
-        platformSetting = platformBox.getText().toString();
+        Spinner platformDropdown = view.findViewById(R.id.s_platformSetting);
+        String[] platformItems = new String[]{"Netflix","DisneyPlus","Videoland","Amazon video"};
+        ArrayAdapter<String> platformAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, platformItems);
+        platformDropdown.setAdapter(platformAdapter);
+        platformSetting = platformDropdown.getTransitionName();
 
-        EditText genreBox = view.findViewById(R.id.genreSettings);
-        genreSetting = genreBox.getText().toString();
+        Spinner genreDropdown = view.findViewById(R.id.s_genreSetting);
+        String[] genreItems = new String[]{"Action","Comedy","Drama","Fantasy", "Horror", "Mystery","Romance","Thriller","Western"};
+        ArrayAdapter<String> genreAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genreItems);
+        genreDropdown.setAdapter(genreAdapter);
+        genreSetting = genreDropdown.getTransitionName();
 
-        EditText yearBox = view.findViewById(R.id.yearSetting);
+        EditText yearBox = view.findViewById(R.id.s_yearSetting);
         yearSetting = yearBox.getText().toString();
 
-        EditText scoreBox = view.findViewById(R.id.scoreSetting);
+        EditText scoreBox = view.findViewById(R.id.s_scoreSetting);
         scoreSetting = scoreBox.getText().toString();
+
+
 
         //collects all the settings and saves it to bundle in order to give it to the new fragment
         Button joinButton = view.findViewById(R.id.createButton);

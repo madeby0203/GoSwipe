@@ -1,65 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="match_parent" android:id="@+id/setup">
 
+
     <TextView
-            android:text="Settings:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/Settings"
-            android:textSize="30sp" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="28dp"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.054"/>
-    <EditText
+            android:text="@string/settings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Genre"
-            android:ems="10"
-            android:hint="What genre"
-            android:id="@+id/genreSettings"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="156dp"/>
-    <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/s_setting"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textSize="40sp"
+
+            />
+
+
+    <Spinner
+            android:id="@+id/s_genreSetting"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Minimal score"
-            android:ems="10"
-            android:hint="What score?"
-            android:id="@+id/scoreSetting"
-            android:layout_marginTop="28dp"
-            app:layout_constraintTop_toBottomOf="@+id/yearSetting" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-    <EditText
-            android:layout_width="wrap_content"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_below="@+id/s_setting"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            />
+
+    <Spinner
+            android:id="@+id/s_platformSetting"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Year"
-            android:ems="10"
-            android:hint="What year?"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/yearSetting" android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/genreSettings"/>
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_below="@+id/s_genreSetting"
+            android:layout_centerHorizontal="true"
+    />
+
     <EditText
-            android:layout_width="wrap_content"
+            android:id="@+id/s_scoreSetting"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Platform"
-            android:ems="10"
-            android:hint="What platform?"
-            android:id="@+id/platformSetting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="32dp"
-            app:layout_constraintTop_toBottomOf="@+id/scoreSetting"/>
+            android:layout_below="@+id/s_platformSetting"
+            android:layout_centerHorizontal="true"
+            android:text="@string/minimal_score_8_5"
+    />
+
+    <EditText
+            android:id="@+id/s_yearSetting"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/s_scoreSetting"
+            android:layout_centerHorizontal="true"
+            android:text="@string/year"
+    />
+
     <Button
-            android:text="create"
+            android:text="@string/create"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/createButton"
-            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintHorizontal_bias="0.498"
-            android:layout_marginBottom="124dp"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/createButton"
+            android:layout_below="@+id/s_yearSetting"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            />
+
+</RelativeLayout>
