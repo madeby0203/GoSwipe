@@ -53,7 +53,6 @@ public class MultiplayerClient implements Multiplayer {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onClientMessage(WSClientEvent.Message event) {
-        System.out.println("Client message: " + event.getMessage());
         try {
             JSONObject jsonObject = new JSONObject(event.getMessage());
             if (jsonObject.has(MessageParameter.TYPE.toString())) {

@@ -1,5 +1,6 @@
 package rd.project.network;
 
+import android.util.Log;
 import org.greenrobot.eventbus.EventBus;
 import org.java_websocket.WebSocket;
 import org.java_websocket.framing.CloseFrame;
@@ -17,6 +18,7 @@ import java.net.InetSocketAddress;
 import java.util.*;
 
 public class WSServer extends WebSocketServer {
+    private final String TAG = "WSServer";
     
     private final Map<WebSocket, String> connected = new LinkedHashMap<>();
     
@@ -27,21 +29,21 @@ public class WSServer extends WebSocketServer {
     
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        System.out.println("Client connecting...");
+        Log.d(TAG, "Client connecting...");
         
         // Add client to list of connected clients
-        String username = handshake.getFieldValue("username");;
+        String username = handshake.getFieldValue("username");
         if (username.equals("")) { // No username set; kick user
-            System.out.println("Username missing, kicking client.");
+            Log.d(TAG, "Username missing, kicking client.");
             conn.close(CloseFrame.NORMAL, "Username missing.");
             return;
         }
         if (connected.containsValue(username)) {
-            System.out.println("Duplicate username (" + username + "), kicking client");
+            Log.d(TAG, "Duplicate username (" + username + "), kicking client.");
             conn.close(CloseFrame.NORMAL, "A user with name " + username + " is already connected to this lobby. Please change your username.");
             return;
         }
-        System.out.println("Adding client to list of connected clients: " + conn + ", " + username);
+        Log.d(TAG, "Client connected with username " + username + ".");
         connected.put(conn, username);
         
         // Send this message to all clients except the newly connected one
@@ -55,7 +57,7 @@ public class WSServer extends WebSocketServer {
                     c.send(jsonObject.toString());
                 }
             }
-            System.out.println("Broadcast message (except to new client): " + jsonObject);
+            Log.d(TAG, "Broadcast message (except to new client): " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -67,11 +69,10 @@ public class WSServer extends WebSocketServer {
     
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        System.out.println("Client disconnecting..., conn: " + conn + ", code: " + code + ", reason: " + reason + ", remote: " + remote);
+        String username = connected.get(conn);
+        Log.d(TAG, "Client disconnecting. username: " + username + ", code: " + code + ", reason: " + reason + ", remote: " + remote);
         
         // Remove client from list of connected clients
-        String username = connected.get(conn);
-        System.out.println("Removing client to list of connected clients: " + conn + ", " + username);
         connected.remove(conn);
     
         // Send this message to all clients
@@ -80,7 +81,7 @@ public class WSServer extends WebSocketServer {
             jsonObject.put(MessageParameter.TYPE.toString(), MessageType.PLAYER_LEAVE.toString());
             jsonObject.put(MessageParameter.USERNAME.toString(), username);
             this.broadcast(jsonObject.toString());
-            System.out.println("Broadcast message: " + jsonObject);
+            Log.d(TAG, "Broadcast message: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -92,6 +93,8 @@ public class WSServer extends WebSocketServer {
     
     @Override
     public void onMessage(WebSocket conn, String incomingMessage) {
+        Log.d(TAG, "Received message from " + connected.get(conn) + ": " + incomingMessage);
+        
         // Send the incoming message to all clients
         this.broadcast(connected.get(conn) + ": " + incomingMessage);
     
