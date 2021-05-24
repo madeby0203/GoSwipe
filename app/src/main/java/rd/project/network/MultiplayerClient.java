@@ -66,7 +66,7 @@ public class MultiplayerClient implements Multiplayer {
                 
                 switch (type) {
                     case PLAYER_LIST:
-                        JSONArray jsonArray = jsonObject.getJSONArray(MessageParameter.USERLIST.toString());
+                        JSONArray jsonArray = jsonObject.getJSONArray(MessageParameter.USER_LIST.toString());
                         
                         List<String> playerList = new ArrayList<>();
                         for(int i = 0; i < jsonArray.length(); i++) {
@@ -100,7 +100,7 @@ public class MultiplayerClient implements Multiplayer {
                     case MOVIE_LIST:
                         Log.v(TAG, "Received movie list.");
                         
-                        JSONArray moviesJSONArray = jsonObject.getJSONArray(MessageParameter.MOVIELIST.toString());
+                        JSONArray moviesJSONArray = jsonObject.getJSONArray(MessageParameter.MOVIE_LIST.toString());
                         this.movies = new ArrayList<>();
                         for(int i = 0; i < moviesJSONArray.length(); i++) {
                             JSONObject movieJSON = moviesJSONArray.getJSONObject(i);
@@ -166,5 +166,23 @@ public class MultiplayerClient implements Multiplayer {
     @Override
     public List<Movie> getMovies() {
         return movies; //TODO movie sending
+    }
+    
+    @Override
+    public void saveLikes(List<Integer> movieIDs) {
+        try {
+            JSONArray jsonArray = new JSONArray();
+            for(int id : movieIDs) {
+                jsonArray.put(id);
+            }
+            
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(MessageParameter.TYPE.toString(), MessageType.LIKES_SAVE.toString());
+            jsonObject.put(MessageParameter.LIKES_LIST.toString(), jsonArray);
+            
+            client.send(jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

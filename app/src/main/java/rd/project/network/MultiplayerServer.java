@@ -78,7 +78,7 @@ public class MultiplayerServer implements Multiplayer {
             jsonObject.put(MessageParameter.TYPE.toString(), MessageType.PLAYER_LIST.toString());
             
             JSONArray jsonArray = new JSONArray(getConnectedUsernames());
-            jsonObject.put(MessageParameter.USERLIST.toString(), jsonArray);
+            jsonObject.put(MessageParameter.USER_LIST.toString(), jsonArray);
         
             event.getWebSocket().send(jsonObject.toString());
             System.out.println("Sending message to new user: " + jsonObject);
@@ -266,7 +266,7 @@ public class MultiplayerServer implements Multiplayer {
             JSONObject jsonObject = new JSONObject();
 
             jsonObject.put(MessageParameter.TYPE.toString(), MessageType.MOVIE_LIST.toString());
-            jsonObject.put(MessageParameter.MOVIELIST.toString(), moviesJSONArray);
+            jsonObject.put(MessageParameter.MOVIE_LIST.toString(), moviesJSONArray);
             
             server.broadcast(jsonObject.toString());
         } catch (JSONException e) {
@@ -278,5 +278,10 @@ public class MultiplayerServer implements Multiplayer {
     
     public List<Movie> getMovies() {
         return movies;
+    }
+    
+    @Override
+    public void saveLikes(List<Integer> movieIDs) {
+        // TODO implement
     }
 }

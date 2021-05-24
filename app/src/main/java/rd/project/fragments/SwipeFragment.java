@@ -36,7 +36,7 @@ public class SwipeFragment extends Fragment {
     private final String TAG = "SwipeFragment";
     
     private List<Movie> movies;
-    private List<Movie> liked = new ArrayList<Movie>();
+    private List<Integer> liked = new ArrayList<>();
     private Movie currentMovie;
     private View view;
 
@@ -63,15 +63,18 @@ public class SwipeFragment extends Fragment {
     private void nextMovieView(Button button,int[] index) {
         button.setOnClickListener(s -> {
             try {
-                if(index[0] < movies.size()-1) {
+                if(index[0] < movies.size() - 1) {
                     if(button.getId() == R.id.likeButton) {
                         updateView(index[0],true);
-                        liked.add(movies.get(index[0]));
+                        liked.add(movies.get(index[0]).getId());
+                        Log.v(TAG, "Movie liked: " + movies.get(index[0]));
                     }
                     else {
                         updateView(index[0],false);
                     }
                     index[0]++;
+                } else { // No movies left, send results to host
+                    ((Application) getContext().getApplicationContext()).getMultiplayer().saveLikes(liked);
                 }
             } catch (URISyntaxException e) {
                 e.printStackTrace();

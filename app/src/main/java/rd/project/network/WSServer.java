@@ -135,7 +135,6 @@ public class WSServer extends WebSocketServer {
     public void broadcast(String text) {
         super.broadcast(text);
         Log.d(TAG, "Broadcasting message: " + text);
-    
     }
     
     public Map<WebSocket, String> getConnected() {

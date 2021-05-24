@@ -22,17 +22,18 @@ public interface Multiplayer {
     void sendMessage(String message) throws ClosedException;
     List<String> getConnectedUsernames();
     List<Movie> getMovies();
+    void saveLikes(List<Integer> movieIDs);
     
     enum Type {
         HOST, CLIENT, NONE
     }
     
     enum MessageParameter {
-        TYPE, USERNAME, USERLIST, MOVIELIST
+        TYPE, USERNAME, USER_LIST, MOVIE_LIST, LIKES_LIST
     }
     
     enum MessageType {
-        PLAYER_LIST, PLAYER_JOIN, PLAYER_LEAVE, START_PREPARE, START_COUNTDOWN, MOVIE_LIST
+        PLAYER_LIST, PLAYER_JOIN, PLAYER_LEAVE, START_PREPARE, START_COUNTDOWN, MOVIE_LIST, LIKES_SAVE
     }
     
     public class ClosedException extends Exception {

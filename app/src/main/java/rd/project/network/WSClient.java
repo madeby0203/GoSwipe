@@ -40,4 +40,10 @@ public class WSClient extends WebSocketClient {
         ex.printStackTrace();
         EventBus.getDefault().post(new WSClientEvent.Error(ex));
     }
+    
+    @Override
+    public void send(String text) {
+        super.send(text);
+        Log.d(TAG, "Message sent: " + text);
+    }
 }
