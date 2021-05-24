@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.*;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class SwipeFragment extends Fragment {
     private final String TAG = "SwipeFragment";
@@ -54,8 +55,19 @@ public class SwipeFragment extends Fragment {
         this.movies = ((Application) getContext().getApplicationContext()).getMultiplayer().getMovies();
         
         int[] index = {0};
+        Stream<Movie> stream = movies.stream();
         Log.d(TAG, "Movies size: " + this.movies.size());
-        
+
+        try {
+            updateView(index[0],false);
+            index[0]++;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        index[0] = 1;
+
         nextMovieView(likeButton,index);
         nextMovieView(dislikeButton,index);
     }
@@ -63,17 +75,22 @@ public class SwipeFragment extends Fragment {
     private void nextMovieView(Button button,int[] index) {
         button.setOnClickListener(s -> {
             try {
-                if(index[0] < movies.size() - 1) {
+                if(index[0] < movies.size()) {
+                    Log.v(TAG,"Index" + index[0]);
                     if(button.getId() == R.id.likeButton) {
                         updateView(index[0],true);
-                        liked.add(movies.get(index[0]).getId());
-                        Log.v(TAG, "Movie liked: " + movies.get(index[0]));
+                        liked.add(movies.get(index[0]-1).getId());
+                        Log.v(TAG, "Movie liked: " + movies.get(index[0]-1));
                     }
                     else {
                         updateView(index[0],false);
                     }
                     index[0]++;
                 } else { // No movies left, send results to host
+                    if(button.getId() == R.id.likeButton){
+                        liked.add(movies.get(index[0]-1).getId());
+                        Log.v(TAG, "Movie liked: " + movies.get(index[0]-1)); //TODO naar wachtscherm/resultaten sturen
+                    }
                     ((Application) getContext().getApplicationContext()).getMultiplayer().saveLikes(liked);
                 }
             } catch (URISyntaxException e) {

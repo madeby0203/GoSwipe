@@ -206,18 +206,18 @@ public class MultiplayerServer implements Multiplayer {
         Thread t = new Thread(() -> {
             String api = "a443e45153a06c5830898cf8889fa27e";
             String region = "NL";
-            String providers = Providers.Videoland.getId();
+            String providers = Providers.Netflix.getId();
             Date release = new Date();
             //release.setTime();
             String releaseDate = "2020-01-01T00:00:00.000Z";
-            int minVote = 8;
+            int minVote = 6;
 //            StringBuilder genres = new StringBuilder();
 //            genres.append(Genres.Action.getId());
-            String genres = "";
+            String genres = Integer.toString(Genres.Action.getId());
         
             RequestType request = null;
             try {
-                request = new DiscoverMovies(api, region, providers, "", releaseDate, minVote);
+                request = new DiscoverMovies(api, region, providers, genres, releaseDate, minVote);
             } catch (MalformedURLException e) {
                 Log.e(TAG, "Error fetching movies.");
                 e.printStackTrace();

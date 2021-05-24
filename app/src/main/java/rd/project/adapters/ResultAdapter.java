@@ -1,13 +1,9 @@
 package rd.project.adapters;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,17 +14,13 @@ import rd.project.api.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.net.*;
-import java.util.*;
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHolder> { //source: https://github.com/Rohitohlyan66/InstagramSuggestion
-    public ResultAdapter(ArrayList<Movie> a, Context context) {
+    public ResultAdapter(ArrayList<Movie> a) {
         this.a = a;
-        this.context = context;
     }
 
     ArrayList<Movie> a;
-    Context context;
 
     @NonNull
     @Override
@@ -38,12 +30,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
 
     @Override
     public void onBindViewHolder(@NonNull resultHolder holder, int position) {
-
-            new Thread(() -> {
-                Bitmap bmp = a.get(position).getPosterBM();
-                ((Activity) context).runOnUiThread(() -> holder.resultView.setImageBitmap(bmp));
-            }).start();
-
+            holder.resultView.setImageResource(R.drawable.ic_launcher_foreground);
             holder.genreText.setText(a.get(position).getGenre());
             holder.titleText.setText(a.get(position).getTitle());
             holder.yearText.setText(a.get(position).getYear());
@@ -57,7 +44,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
     }
 
     public class resultHolder extends RecyclerView.ViewHolder{
-        ImageView resultView;
+        CircleImageView resultView;
         TextView genreText;
         TextView titleText;
         TextView yearText;
