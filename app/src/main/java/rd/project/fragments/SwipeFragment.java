@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.palette.graphics.Palette;
 import org.json.simple.JSONObject;
 import rd.project.Application;
@@ -72,7 +73,7 @@ public class SwipeFragment extends Fragment {
         nextMovieView(dislikeButton,index);
     }
 
-    private void nextMovieView(Button button,int[] index) {
+    private void nextMovieView(Button button, int[] index) {
         button.setOnClickListener(s -> {
             try {
                 if(index[0] < movies.size()) {
@@ -89,9 +90,16 @@ public class SwipeFragment extends Fragment {
                 } else { // No movies left, send results to host
                     if(button.getId() == R.id.likeButton){
                         liked.add(movies.get(index[0]-1).getId());
-                        Log.v(TAG, "Movie liked: " + movies.get(index[0]-1)); //TODO naar wachtscherm/resultaten sturen
+                        Log.v(TAG, "Movie liked: " + movies.get(index[0]-1));
                     }
+                    
                     ((Application) getContext().getApplicationContext()).getMultiplayer().saveLikes(liked);
+    
+                    getParentFragmentManager().beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .setReorderingAllowed(true)
+                            .replace(R.id.fragment_container_view, ResultsWaitingFragment.class, null)
+                            .commit();
                 }
             } catch (URISyntaxException e) {
                 e.printStackTrace();

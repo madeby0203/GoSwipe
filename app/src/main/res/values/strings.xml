@@ -8,8 +8,15 @@
     <!-- Used in code -->
     <string name="multiplayerClient_close">Connection closed by client</string>
 
+    <!-- MenuFragment -->
     <string name="welcome_message">Hello %s!</string>
+
+    <!-- NameFragment -->
     <string name="name_empty_error">Please enter a name.</string>
+
+    <!-- ResultsWaitingFragment -->
+    <string name="results_waiting_progress">%d/%d finished</string>
+
     <string name="what_genre">What genre?</string>
     <string name="title">Title</string>
     <string name="show_more">Show more</string>

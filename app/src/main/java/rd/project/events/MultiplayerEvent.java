@@ -62,4 +62,19 @@ public class MultiplayerEvent {
     public static class StartCountdown {
     
     }
+    
+    /**
+     * Fired when the swipe section completion amount is updated.
+     */
+    public static class ResultsCompletedCountUpdate {
+        int completed = 0;
+        
+        public ResultsCompletedCountUpdate(int completed) {
+            this.completed = completed;
+        }
+        
+        public int getCompleted() {
+            return completed;
+        }
+    }
 }

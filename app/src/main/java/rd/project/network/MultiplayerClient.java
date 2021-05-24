@@ -2,6 +2,7 @@ package rd.project.network;
 
 import android.content.Context;
 import android.util.Log;
+import androidx.annotation.Nullable;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -27,6 +28,7 @@ public class MultiplayerClient implements Multiplayer {
     
     private final List<String> playerList = new ArrayList<>();
     private List<Movie> movies;
+    private int resultsCompletedAmount = 0;
     
     private boolean closed;
     
@@ -119,6 +121,13 @@ public class MultiplayerClient implements Multiplayer {
                         Log.v(TAG, "Movie list size: " + movies.size());
                         
                         break;
+                    case RESULTS_COMPLETED_AMOUNT:
+                        int amount = jsonObject.getInt(MessageParameter.AMOUNT.toString());
+                        this.resultsCompletedAmount = amount;
+                        
+                        EventBus.getDefault().post(new MultiplayerEvent.ResultsCompletedCountUpdate(amount));
+                        
+                        break;
                     default:
                         Log.w(TAG, "Unknown message type received.");
                         
@@ -170,6 +179,11 @@ public class MultiplayerClient implements Multiplayer {
     
     @Override
     public void saveLikes(List<Integer> movieIDs) {
+        saveLikes(null, movieIDs);
+    }
+    
+    @Override
+    public void saveLikes(String username, List<Integer> movieIDs) {
         try {
             JSONArray jsonArray = new JSONArray();
             for(int id : movieIDs) {
@@ -184,5 +198,10 @@ public class MultiplayerClient implements Multiplayer {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    
+    @Override
+    public int getResultsCompletedAmount() {
+        return resultsCompletedAmount;
     }
 }

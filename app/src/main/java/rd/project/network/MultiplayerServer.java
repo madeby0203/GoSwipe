@@ -28,6 +28,7 @@ public class MultiplayerServer implements Multiplayer {
     private NetworkServiceDiscovery nsd;
     
     private List<Movie> movies;
+    private final Map<String, List<Integer>> likes = new HashMap<>();
     
     private boolean closed = false;
     
@@ -82,6 +83,64 @@ public class MultiplayerServer implements Multiplayer {
         
             event.getWebSocket().send(jsonObject.toString());
             System.out.println("Sending message to new user: " + jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPlayerLeave(MultiplayerEvent.PlayerLeave event) {
+        // Remove player from results
+        likes.remove(event.getUsername());
+    
+        try {
+            JSONObject json = new JSONObject();
+            json.put(MessageParameter.TYPE.toString(), MessageType.RESULTS_COMPLETED_AMOUNT.toString());
+            json.put(MessageParameter.AMOUNT.toString(), getResultsCompletedAmount());
+            server.broadcast(json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        
+        EventBus.getDefault().post(new MultiplayerEvent.ResultsCompletedCountUpdate(getResultsCompletedAmount()));
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onServerMessage(WSServerEvent.Message event) {
+        try {
+            JSONObject jsonObject = new JSONObject(event.getMessage());
+            if (jsonObject.has(MessageParameter.TYPE.toString())) {
+                String typeString = jsonObject.getString(MessageParameter.TYPE.toString());
+            
+                MessageType type = MessageType.valueOf(typeString);
+                String username = server.getConnected().get(event.getWebSocket());
+            
+                switch (type) {
+                    case LIKES_SAVE:
+                        JSONArray jsonArray = jsonObject.getJSONArray(MessageParameter.LIKES_LIST.toString());
+                    
+                        List<Integer> liked = new ArrayList<>();
+                        for(int i = 0; i < jsonArray.length(); i++) {
+                            liked.add(jsonArray.getInt(i));
+                        }
+                    
+                        saveLikes(username, liked);
+                    
+                        EventBus.getDefault().post(new MultiplayerEvent.ResultsCompletedCountUpdate(getResultsCompletedAmount()));
+                        
+                        // Broadcast updated amount to clients
+                        JSONObject json = new JSONObject();
+                        json.put(MessageParameter.TYPE.toString(), MessageType.RESULTS_COMPLETED_AMOUNT.toString());
+                        json.put(MessageParameter.AMOUNT.toString(), getResultsCompletedAmount());
+                        server.broadcast(json.toString());
+                    
+                        break;
+                    default:
+                        Log.w(TAG, "Unknown message type received.");
+                    
+                        break;
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -282,6 +341,16 @@ public class MultiplayerServer implements Multiplayer {
     
     @Override
     public void saveLikes(List<Integer> movieIDs) {
-        // TODO implement
+        saveLikes(((Application) context.getApplicationContext()).getUsername(), movieIDs);
+    }
+    
+    @Override
+    public void saveLikes(String username, List<Integer> movieIDs) {
+        likes.put(username, movieIDs);
+    }
+    
+    @Override
+    public int getResultsCompletedAmount() {
+        return likes.size();
     }
 }
