@@ -26,8 +26,9 @@ public class DiscoverMovies implements RequestType{
     private ArrayList movies;
     private String genre; //TODO: API nog toevoegen
 
-    public DiscoverMovies (String apiKey, String region, String providers, String releaseDate, int minVote) throws MalformedURLException {
+    public DiscoverMovies (String apiKey, String region, String providers, String genres, String releaseDate, int minVote) throws MalformedURLException {
         this.region = region;
+        this.genre = genres;
         this.providers = providers;
         this.releaseDate = releaseDate;
         this.minVote = minVote;
@@ -35,6 +36,7 @@ public class DiscoverMovies implements RequestType{
         this.url = new URL(" https://api.themoviedb.org/3/discover/movie?api_key="+ apiKey +
                 "&language=en-US&watch_region="+ region +
                 "&sort_by=popularity.desc&include_adult=false&include_video=true&page=1&vote_average.gte=" + minVote +
+                "&with_genres=" + genres +
                 "&with_watch_providers=" + providers +
                 "&release_date.lte=" + releaseDate);
     }
@@ -59,7 +61,7 @@ public class DiscoverMovies implements RequestType{
     public boolean UpdateData(JSONObject data) {
         JSONArray jsonresults = (JSONArray) data.get("results");
         ArrayList movieList = new ArrayList();
-        for(int i=0; i<20; i++) {
+        for(int i=0; i<jsonresults.size(); i++) {
             JSONObject jsonMovie = (JSONObject) jsonresults.get(i);
             Movie movie = new Movie(
                     (String) jsonMovie.get("overview"),

@@ -41,10 +41,10 @@
             app:layout_constraintBottom_toTopOf="@+id/likeButton"/>
     <TextView
             android:text="Name (Year)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/titleText"
+            android:layout_width="312dp"
+            android:layout_height="128dp" android:id="@+id/titleText"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintBottom_toBottomOf="@+id/movieView"
+            app:layout_constraintBottom_toBottomOf="@+id/movieViewNext"
             app:layout_constraintStart_toStartOf="@+id/movieView" app:layout_constraintEnd_toEndOf="@+id/movieView"
-            android:layout_marginBottom="10dp"/>
+            app:layout_constraintHorizontal_bias="1.0" android:layout_marginBottom="8dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

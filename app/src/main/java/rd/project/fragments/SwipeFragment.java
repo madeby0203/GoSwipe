@@ -3,6 +3,9 @@ package rd.project.fragments;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -45,38 +48,34 @@ public class SwipeFragment extends Fragment {
 
         Button likeButton = view.findViewById(R.id.likeButton);
         Button dislikeButton = view.findViewById(R.id.dislikeButton);
+
         Thread t = new Thread(() -> {
             String api = "a443e45153a06c5830898cf8889fa27e";
             String region = "NL";
-            String providers = Providers.Videoland.getId();
+            String providers = Providers.Netflix.getId();
             Date release = new Date();
-            //release.setTime();
             String releaseDate = "2020-01-01T00:00:00.000Z";
-            int minVote = 8;
+            int minVote = 6;
+            StringBuilder genres = new StringBuilder();
+            genres.append(Genres.Action.getId());
 
 
             RequestType request = null;
             try {
-                request = new DiscoverMovies(api,region,providers,releaseDate,minVote);
+                request = new DiscoverMovies(api, region, providers, genres.toString(), releaseDate, minVote);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
             Connect discover = new Connect(request);
             JSONObject test = discover.Send();
             request.UpdateData(test);
-            movies = request.GetData();
-            request.GetData();
-            RequestType finalRequest = request;
-            new Thread(() -> {
-                this.movies = finalRequest.GetData();
-                //updateMovies(finalRequest.GetData());
-                ArrayList<Movie> list = finalRequest.GetData();
-                //refreshButton.setText(list.get(0).getTitle());
-            }).start();
+
+            this.movies = request.GetData();
+
         });
         t.start();
 
-        final int[] index = {0};
+        int[] index = {0};
 
         nextMovieView(likeButton,index);
         nextMovieView(dislikeButton,index);
@@ -104,63 +103,54 @@ public class SwipeFragment extends Fragment {
     }
 
     private void updateView(int index, boolean liked) throws URISyntaxException, IOException {
-        ImageView imageMovie = view.findViewById(R.id.imageView);
         this.currentMovie = movies.get(index);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Bitmap bmp = movies.get(index).getPosterBM();
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int l = 1;
-                        if (!liked) {
-                            l = -1;
-                        }
+        new Thread(() -> {
+            Bitmap bmp = movies.get(index).getPosterBM();
+            getActivity().runOnUiThread(() -> {
+                int l = 1;
+                if (!liked) {
+                    l = -1;
+                }
 
-                        TextView title = view.findViewById(R.id.titleText);
-                        ImageView imageMovie = view.findViewById(R.id.movieView);
-                        ImageView imageMovieNext = view.findViewById(R.id.movieViewNext);
+                TextView title = view.findViewById(R.id.titleText);
+                ImageView imageMovie = view.findViewById(R.id.movieView);
+                ImageView imageMovieNext = view.findViewById(R.id.movieViewNext);
 
-                        imageMovieNext.setImageBitmap(bmp); //Set the next image to the next movie
-                        imageMovie.animate()                //Move away the top image
-                                .setDuration(500)
-                                .xBy(l*2000)
-                                .start();
-                        Handler handler = new Handler();
-                        int finalL = l;
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Palette palette = Palette.from(bmp).generate();
-                                int dominantColor = palette.getDominantColor(0);
+                imageMovieNext.setImageBitmap(bmp); //Set the next image to the next movie
+                imageMovie.animate()                //Move away the top image
+                        .setDuration(500)
+                        .xBy(l*2000)
+                        .start();
+                Handler handler = new Handler();
+                int finalL = l;
+                handler.postDelayed(() -> {
+                    Palette palette = Palette.from(bmp).generate();
+                    int dominantColor = palette.getDominantColor(0);
 
-                                int color = Color.TRANSPARENT;
-                                Drawable background = view.getBackground();
-                                if (background instanceof ColorDrawable)
-                                    color = ((ColorDrawable) background).getColor();
+                    int color = Color.TRANSPARENT;
+                    Drawable background = view.getBackground();
+                    if (background instanceof ColorDrawable)
+                        color = ((ColorDrawable) background).getColor();
 
-                                imageMovie.setImageBitmap(bmp);
-                                ValueAnimator anim = new ValueAnimator();
-                                anim.setIntValues(color, dominantColor);
-                                anim.setEvaluator(new ArgbEvaluator());
-                                anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                    @Override
-                                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                                        view.setBackgroundColor((Integer)valueAnimator.getAnimatedValue());
-                                    }
-                                });
-                                anim.setDuration(300);
-                                anim.start();
+                    imageMovie.setImageBitmap(bmp);
+                    ValueAnimator anim = new ValueAnimator();
+                    anim.setIntValues(color, dominantColor);
+                    anim.setEvaluator(new ArgbEvaluator());
+                    anim.addUpdateListener(valueAnimator -> view
+                            .setBackgroundColor((Integer)valueAnimator
+                                    .getAnimatedValue()));
+                    anim
+                            .setDuration(300)
+                            .start();
 
-                                //view.setBackgroundColor(palette.getDominantColor(0));
-                                imageMovie.animate().xBy(finalL *-2000).setDuration(0).start();
-                                title.setText(movies.get(index).getTitle());
-                            }
-                        },500);
-                    }
-                });
-            }
+                    imageMovie
+                            .animate()
+                            .xBy(finalL *-2000)
+                            .setDuration(0)
+                            .start();
+                    title.setText(movies.get(index).getTitle());
+                },500);
+            });
         }).start();
     }
 }
