@@ -2,6 +2,7 @@ package rd.project.api;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
 import java.io.IOException;

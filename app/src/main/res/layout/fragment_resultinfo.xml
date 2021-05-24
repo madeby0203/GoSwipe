@@ -1,84 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout             xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content">
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/r_titleText"
-              android:text="@string/title"
-              android:textSize="40sp"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/r_scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
 
-              />
+    <RelativeLayout
+            android:layout_width="match_parent"
+                                                       android:layout_height="wrap_content">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/r_titleText"
+                  android:text="@string/title"
+                  android:textSize="40sp"
 
-    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
-               android:layout_below="@+id/r_titleText"
-               android:id="@+id/r_image"
+                  />
 
-               />
+        <ImageView android:layout_width="200dp" android:layout_height="300dp"
+                   android:layout_below="@+id/r_titleText"
+                   android:id="@+id/r_image"
+
+                   />
 
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:layout_below="@+id/r_image"
-              android:text="@string/overview"
-              android:id="@+id/r_overviewText"
-              />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_below="@+id/r_image"
+                  android:text="@string/overview"
+                  android:id="@+id/r_overviewText"
+                  />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:layout_below="@+id/r_overviewText"
-              android:text="@string/production_date"
-              android:textStyle="bold"
-              android:id="@+id/r_pd"
-             />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_below="@+id/r_overviewText"
+                  android:text="@string/production_date"
+                  android:textStyle="bold"
+                  android:id="@+id/r_pd"
+                 />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:id="@+id/r_yearText"
-              android:text="@string/year"
-              android:layout_below="@+id/r_pd"
-              />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/r_yearText"
+                  android:text="@string/year"
+                  android:layout_below="@+id/r_pd"
+                  />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:layout_below="@+id/r_yearText"
-              android:text="@string/rscore"
-              android:textStyle="bold"
-              android:id="@+id/r_sc"
-              />
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:layout_below="@+id/r_sc"
-              android:text="@string/_10"
-              android:id="@+id/r_score"
-              />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_below="@+id/r_yearText"
+                  android:text="@string/rscore"
+                  android:textStyle="bold"
+                  android:id="@+id/r_sc"
+                  />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_below="@+id/r_sc"
+                  android:text="@string/_10"
+                  android:id="@+id/r_score"
+                  />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:layout_toEndOf="@+id/r_score"
-              android:layout_alignTop="@+id/r_score"
-              android:text="/10"
-              android:id="@+id/r_10"
-              />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_toEndOf="@+id/r_score"
+                  android:layout_alignTop="@+id/r_score"
+                  android:text="/10"
+                  android:id="@+id/r_10"
+                  />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="@string/rgenre"
-              android:textStyle="bold"
-              android:layout_below="@+id/r_score"
-              android:id="@+id/r_g"
-              />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="@string/rgenre"
+                  android:textStyle="bold"
+                  android:layout_below="@+id/r_score"
+                  android:id="@+id/r_g"
+                  />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="@string/genre"
-              android:layout_below="@+id/r_g"
-              android:id="@+id/r_genre"
-              />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="@string/genre"
+                  android:layout_below="@+id/r_g"
+                  android:id="@+id/r_genre"
+                  />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="@string/rplatform"
-              android:textStyle="bold"
-              android:layout_below="@+id/r_genre"
-              android:id="@+id/r_p"
-              />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="@string/rplatform"
+                  android:textStyle="bold"
+                  android:layout_below="@+id/r_genre"
+                  android:id="@+id/r_p"
+                  />
 
-    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:text="@string/platform"
-              android:layout_below="@+id/r_p"
-              android:id="@+id/r_platform"
-              />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="@string/platform"
+                  android:layout_below="@+id/r_p"
+                  android:id="@+id/r_platform"
+                  />
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

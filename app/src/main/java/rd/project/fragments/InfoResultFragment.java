@@ -36,24 +36,13 @@ public class InfoResultFragment extends Fragment {
 
 
 
-
-//        URL url = null;
-//        try {
-//            url = new URL("https://www.themoviedb.org/t/p/original/s9zJFEy4usXVFAa52AWT4ZCwR27.jpg");
-//            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//            image.setImageBitmap(bmp);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
         title.setText(movie.getString("title"));
         overview.setText(movie.getString("overview"));
         year.setText(movie.getString("year"));
         score.setText(movie.getString("score"));
         genre.setText(movie.getString("genre"));
         platform.setText(movie.getString("platform"));
-        image.setImageDrawable(getResources().getDrawable(R.drawable.ic_launcher_background));
+        image.setImageBitmap(movie.getParcelable("bitmap"));
 
 
     }

@@ -63,7 +63,7 @@ public class MenuFragment extends Fragment {
         tempButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .setReorderingAllowed(true)
-                .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
+                 // Pressing the back button in the next fragments makes it return to this one
                 .replace(R.id.fragment_container_view, ResultsFragment.class, null)
                 .commit());
     }
