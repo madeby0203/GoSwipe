@@ -211,13 +211,13 @@ public class MultiplayerServer implements Multiplayer {
             //release.setTime();
             String releaseDate = "2020-01-01T00:00:00.000Z";
             int minVote = 8;
-            StringBuilder genres = new StringBuilder();
-            genres.append(Genres.Action.getId());
-        
+//            StringBuilder genres = new StringBuilder();
+//            genres.append(Genres.Action.getId());
+            String genres = "";
         
             RequestType request = null;
             try {
-                request = new DiscoverMovies(api, region, providers, genres.toString(), releaseDate, minVote);
+                request = new DiscoverMovies(api, region, providers, "", releaseDate, minVote);
             } catch (MalformedURLException e) {
                 Log.e(TAG, "Error fetching movies.");
                 e.printStackTrace();

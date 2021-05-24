@@ -1,5 +1,6 @@
 package rd.project.events;
 
+import android.util.Log;
 import rd.project.api.Movie;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 public class MovieEvent {
     
     public static class FetchSuccess {
-        private ArrayList<Movie> movies;
+        private final ArrayList<Movie> movies;
         
         public FetchSuccess(ArrayList<Movie> movies) {
             this.movies = movies;

@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.palette.graphics.Palette;
 import org.json.simple.JSONObject;
+import rd.project.Application;
 import rd.project.R;
 import rd.project.api.*;
 
@@ -32,9 +33,10 @@ import java.net.*;
 import java.util.*;
 
 public class SwipeFragment extends Fragment {
-
-    private ArrayList<Movie> movies;
-    private ArrayList<Movie> liked = new ArrayList<Movie>();
+    private final String TAG = "SwipeFragment";
+    
+    private List<Movie> movies;
+    private List<Movie> liked = new ArrayList<Movie>();
     private Movie currentMovie;
     private View view;
 
@@ -49,34 +51,11 @@ public class SwipeFragment extends Fragment {
         Button likeButton = view.findViewById(R.id.likeButton);
         Button dislikeButton = view.findViewById(R.id.dislikeButton);
 
-        Thread t = new Thread(() -> {
-            String api = "a443e45153a06c5830898cf8889fa27e";
-            String region = "NL";
-            String providers = Providers.Netflix.getId();
-            Date release = new Date();
-            String releaseDate = "2020-01-01T00:00:00.000Z";
-            int minVote = 6;
-            StringBuilder genres = new StringBuilder();
-            genres.append(Genres.Action.getId());
-
-
-            RequestType request = null;
-            try {
-                request = new DiscoverMovies(api, region, providers, genres.toString(), releaseDate, minVote);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            Connect discover = new Connect(request);
-            JSONObject test = discover.Send();
-            request.UpdateData(test);
-
-            this.movies = request.GetData();
-
-        });
-        t.start();
-
+        this.movies = ((Application) getContext().getApplicationContext()).getMultiplayer().getMovies();
+        
         int[] index = {0};
-
+        Log.d(TAG, "Movies size: " + this.movies.size());
+        
         nextMovieView(likeButton,index);
         nextMovieView(dislikeButton,index);
     }
