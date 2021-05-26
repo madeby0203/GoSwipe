@@ -31,7 +31,7 @@
             android:layout_height="0dp"
             android:id="@+id/playerList"
             tools:listitem="@layout/item_player" android:layout_centerInParent="true"
-            android:background="@color/list_background"
+            android:background="@color/inset_background"
             app:layout_constraintBottom_toTopOf="@+id/lobbyCancelButton"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="8dp"

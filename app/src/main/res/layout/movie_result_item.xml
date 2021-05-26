@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                   android:layout_height="match_parent"
+                                   app:cardBackgroundColor="@color/inset_background">
+
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                       android:layout_height="match_parent"
+                                                       android:background="@drawable/movie_result_item_background"
+                                                       android:layout_margin="16dp">
+
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_centerHorizontal="true"
+                  android:layout_above="@+id/imageSlider"
+                  android:text="@string/_1"
+                  android:textStyle="bold"
+                  android:textSize="20sp"
+                  android:id="@+id/numberText"
+                  app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="16dp"/>
+        <TextView android:layout_width="0dp"
+                  android:layout_height="48dp"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                  android:textAlignment="center" android:singleLine="false"
+                  android:autoSizeTextType="uniform" android:autoSizeMinTextSize="16sp"
+                  android:autoSizeMaxTextSize="32sp"
+                  android:maxLines="2" android:minLines="1" android:textColor="@color/black"
+                  android:text="Title"
+                  android:layout_below="@+id/imageSlider"
+                  android:layout_centerHorizontal="true"
+                  android:textSize="40sp"
+                  android:id="@+id/titleText"
+                  app:layout_constraintTop_toBottomOf="@+id/numberText" app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent" android:textStyle="normal"
+                  android:layout_marginStart="16dp" android:layout_marginEnd="16dp"/>
+        <ImageView android:layout_width="0dp"
+                   android:layout_height="0dp"
+                   android:id="@+id/imageSlider"
+                   android:layout_centerHorizontal="true"
+                   app:srcCompat="@drawable/poster_placeholder" app:layout_constraintTop_toBottomOf="@+id/titleText"
+                   app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                   app:layout_constraintBottom_toTopOf="@+id/genreText" android:layout_marginStart="16dp"
+                   android:layout_marginEnd="16dp" android:layout_marginBottom="8dp" android:layout_marginTop="8dp"
+        />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/genre"
+                  android:layout_below="@+id/titleText"
+                  android:layout_centerHorizontal="true"
+                  android:id="@+id/genreText"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1" android:textSize="20sp"
+                  app:layout_constraintBottom_toTopOf="@+id/yearText" android:layout_marginBottom="4dp"
+        />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/year"
+                  android:layout_below="@+id/genreText"
+                  android:layout_centerHorizontal="true"
+                  android:id="@+id/yearText"
+                  app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                  android:textSize="20sp"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  app:layout_constraintBottom_toTopOf="@+id/scoreText" android:layout_marginBottom="4dp"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/score"
+                  android:layout_below="@+id/yearText"
+                  android:layout_centerHorizontal="true"
+                  android:id="@+id/scoreText"
+                  app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+                  android:textSize="20sp"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  app:layout_constraintBottom_toTopOf="@+id/platformText" android:layout_marginBottom="4dp"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/platform"
+                  android:layout_below="@+id/scoreText"
+                  android:layout_centerHorizontal="true"
+                  android:id="@+id/platformText"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent" android:textSize="20sp"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="16dp"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

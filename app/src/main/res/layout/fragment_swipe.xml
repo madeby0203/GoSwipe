@@ -3,50 +3,83 @@
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_width="match_parent"
-                                                   android:layout_height="match_parent">
+                                                   android:layout_height="match_parent"
+                                                   android:background="@color/inset_background">
 
-    <Button
-            android:layout_width="53dp"
-            android:layout_height="58dp" android:id="@+id/dislikeButton"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="60dp" style="@android:style/Widget.DeviceDefault.Button"
-            app:iconPadding="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="108dp" app:icon="@drawable/ic_baseline_thumb_down_24"
-            android:backgroundTint="#FA3636" android:background="@drawable/button_states"/>
-    <Button
-            android:layout_width="53dp"
-            android:layout_height="58dp" android:id="@+id/likeButton"
-            android:background="@drawable/button_states"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="60dp"
-            app:iconPadding="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="80dp" app:layout_constraintStart_toEndOf="@+id/dislikeButton"
-            app:layout_constraintHorizontal_bias="0.654"
-            app:icon="@drawable/ic_baseline_thumb_up_24" android:backgroundTint="#CE24B303"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/titleBox" android:background="@color/white">
+
+        <TextView
+                android:text="Loading..."
+                android:layout_width="0dp"
+                android:layout_height="48dp" android:id="@+id/titleText"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textAlignment="center" android:singleLine="false"
+                android:autoSizeTextType="uniform" android:autoSizeMinTextSize="16sp" android:autoSizeMaxTextSize="32sp"
+                android:maxLines="2" android:minLines="1" android:textColor="@color/black"
+                android:fontFamily="sans-serif" app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:layout_marginStart="16dp" android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <ImageView
-            android:layout_width="285dp"
-            android:layout_height="560dp" tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:layout_width="0dp"
+            android:layout_height="0dp" tools:srcCompat="@drawable/poster_placeholder"
             android:id="@+id/movieViewNext"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="60dp" android:layout_marginStart="60dp"
-            app:layout_constraintBottom_toTopOf="@+id/likeButton"/>
+            android:layout_marginEnd="32dp" android:layout_marginStart="32dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintTop_toBottomOf="@+id/titleBox"
+            app:layout_constraintBottom_toTopOf="@+id/voteBox" android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
     <ImageView
-            android:layout_width="285dp"
-            android:layout_height="560dp" tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:layout_width="0dp"
+            android:layout_height="0dp" tools:srcCompat="@drawable/poster_placeholder"
             android:id="@+id/movieView"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="60dp" android:layout_marginStart="60dp"
-            app:layout_constraintBottom_toTopOf="@+id/likeButton"/>
-    <TextView
-            android:text="Name (Year)"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content" android:id="@+id/titleText"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintBottom_toBottomOf="@+id/movieViewNext"
-            app:layout_constraintStart_toStartOf="@+id/movieView" app:layout_constraintEnd_toEndOf="@+id/movieView"
-            app:layout_constraintHorizontal_bias="1.0"/>
+            android:layout_marginEnd="32dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintTop_toBottomOf="@+id/titleBox" android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp" app:layout_constraintBottom_toTopOf="@+id/voteBox"
+            android:layout_marginBottom="16dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/white" android:id="@+id/voteBox">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/voteBoxCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+            <Button
+                    android:layout_width="56dp"
+                    android:layout_height="64dp" android:id="@+id/dislikeButton"
+                    style="@android:style/Widget.DeviceDefault.Button"
+                    app:iconPadding="0dp"
+                    app:icon="@drawable/ic_baseline_thumb_down_24"
+                    android:backgroundTint="#FA3636" android:background="@drawable/button_states"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"/>
+            <Button
+                    android:layout_width="56dp"
+                    android:layout_height="64dp" android:id="@+id/likeButton"
+                    android:background="@drawable/button_states"
+                    app:iconPadding="0dp"
+                    app:icon="@drawable/ic_baseline_thumb_up_24" android:backgroundTint="#CE24B303"
+                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

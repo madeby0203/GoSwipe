@@ -25,8 +25,9 @@ public class MenuFragment extends Fragment {
     
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-
-        ImageView background1 = view.findViewById(R.id.poster_1); //source: https://stackoverflow.com/questions/36894384/android-move-background-continuously-with-animation
+    
+        ImageView background13_extra = view.findViewById(R.id.poster_13_extra); //source: https://stackoverflow.com/questions/36894384/android-move-background-continuously-with-animation
+        ImageView background1 = view.findViewById(R.id.poster_1);
         ImageView background2 = view.findViewById(R.id.poster_2);
         ImageView background3 = view.findViewById(R.id.poster_3);
         ImageView background4 = view.findViewById(R.id.poster_4);
@@ -39,18 +40,21 @@ public class MenuFragment extends Fragment {
         ImageView background11 = view.findViewById(R.id.poster_11);
         ImageView background12 = view.findViewById(R.id.poster_12);
         ImageView background13 = view.findViewById(R.id.poster_13);
+        ImageView background1_extra = view.findViewById(R.id.poster_1_extra);
+        ImageView background2_extra = view.findViewById(R.id.poster_2_extra);
 
 
         ValueAnimator background = ValueAnimator.ofFloat(0.0f,1.0f);
         background.setRepeatCount(ValueAnimator.INFINITE);
         background.setInterpolator(new LinearInterpolator());
-        background.setDuration(100000L);
+        background.setDuration(75000L);
         background.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator background) {
-                float progress = (float) background.getAnimatedValue()*12;
-                float width = background1.getWidth();
+                float progress = (float) background.getAnimatedValue()*13;
+                float width = background1.getWidth() + 32;
                 float translationX = width * progress;
+                background13_extra.setTranslationX(translationX+width); // same as 13
                 background1.setTranslationX(translationX);
                 background2.setTranslationX(translationX-width);
                 background3.setTranslationX(translationX-width*2);
@@ -64,6 +68,8 @@ public class MenuFragment extends Fragment {
                 background11.setTranslationX(translationX-width*10);
                 background12.setTranslationX(translationX-width*11);
                 background13.setTranslationX(translationX-width*12);
+                background1_extra.setTranslationX(translationX-width*13); // same as 1
+                background2_extra.setTranslationX(translationX-width*14); // same as 2
             }
         });
         background.start();
@@ -107,14 +113,6 @@ public class MenuFragment extends Fragment {
                 .setReorderingAllowed(true)
                 .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
                 .replace(R.id.fragment_container_view, JoinFragment.class, null)
-                .commit());
-
-        Button tempButton = view.findViewById(R.id.toResults);
-        tempButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .setReorderingAllowed(true)
-                 // Pressing the back button in the next fragments makes it return to this one
-                .replace(R.id.fragment_container_view, ResultsFragment.class, null)
                 .commit());
     }
 }

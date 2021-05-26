@@ -6,13 +6,9 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import rd.project.Application;
 import rd.project.R;
-import rd.project.adapters.MessagesAdapter;
 import rd.project.api.Providers;
-import rd.project.network.Multiplayer;
 
 import java.util.Arrays;
 import java.util.List;

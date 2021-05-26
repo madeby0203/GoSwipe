@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import de.hdodenhof.circleimageview.CircleImageView;
-import org.w3c.dom.Text;
 import rd.project.R;
 import rd.project.api.Movie;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHolder> { //source: https://github.com/Rohitohlyan66/InstagramSuggestion
 
@@ -33,7 +29,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
     @NonNull
     @Override
     public resultHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new resultHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_item, parent,false));
+        return new resultHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_result_item, parent,false));
     }
 
     @SuppressLint("SetTextI18n")
