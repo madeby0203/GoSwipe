@@ -1,9 +1,12 @@
 package rd.project.fragments;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import rd.project.Application;
@@ -19,6 +22,16 @@ public class MenuFragment extends Fragment {
     
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        ConstraintLayout menuFragment;
+        AnimationDrawable background;
+
+        menuFragment = (ConstraintLayout) view.findViewById(R.id.fragment_menu);
+        background = (AnimationDrawable) menuFragment.getBackground();
+        background.setEnterFadeDuration(3000);
+        background.setExitFadeDuration(3000);
+        background.start();
+
+
         Application application = (Application) getContext().getApplicationContext();
         
         // Close multiplayer stuff for both client and host (if it exists)
