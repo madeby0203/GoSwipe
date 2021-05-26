@@ -19,9 +19,7 @@ import rd.project.adapters.ResultAdapter;
 import rd.project.api.Movie;
 import rd.project.network.Multiplayer;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class ResultsFragment extends Fragment { //source: https://github.com/Rohitohlyan66/InstagramSuggestion
     private Object Movie;
@@ -40,13 +38,6 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
         // Set pager to the pager in the fragment_result.xml
         pager = view.findViewById(R.id.sliderMenu);
 
-
-        //add elements to the list in order for the pager to show it
-//        Movie temp = new Movie("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu eleifend odio, eget cursus neque. Proin ut massa ac tellus egestas placerat. Etiam condimentum pellentesque ligula ut tristique. Aliquam pretium convallis augue non interdum. Vestibulum tempus tellus ante, nec luctus ligula convallis quis. Ut placerat, turpis id varius iaculis, nisi sapien pulvinar metus, sed faucibus dui odio ac nisl. Nam a ultrices neque. Vestibulum scelerisque, turpis et bibendum dictum, quam mauris vehicula felis, in aliquam leo turpis suscipit nunc.","Lorem Ipsum","/j4tRuhwfAOBKCoZeY6PDMJHzdW9.jpg",10,5,"1000 BC","greek roman","stoneTablet");
-//        Movie temp2 = new Movie("test2","test2","/j4tRuhwfAOBKCoZeY6PDMJHzdW9.jpg",2,52,"52","test2","test2");
-//        list.add(temp);
-//        list.add(temp2);
-        //TODO remove in final product.
         
         Application application = (Application) getContext().getApplicationContext();
         
@@ -60,6 +51,7 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
         }
         
         Map<Movie, Integer> results = application.getMultiplayer().getResults();
+        results = sortByValue(results);
         list.addAll(results.keySet());
 
 
@@ -114,6 +106,18 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
 
 
         });
+    }
+
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) { //https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values?page=1&tab=votes#tab-top
+        List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Map.Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 
 }
