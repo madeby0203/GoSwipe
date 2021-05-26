@@ -53,6 +53,8 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
         Map<Movie, Integer> results = application.getMultiplayer().getResults();
         results = sortByValue(results);
         list.addAll(results.keySet());
+        Collections.reverse(list);
+
 
 
         // set the result adapter
