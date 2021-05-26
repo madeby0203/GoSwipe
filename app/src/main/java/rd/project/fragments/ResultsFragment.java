@@ -48,7 +48,7 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
 
 
         // set the result adapter
-        resultAdapter = new ResultAdapter(list);
+        resultAdapter = new ResultAdapter(list, getContext());
         pager.setAdapter(resultAdapter);
 
         //set the amount of offscreen pages
