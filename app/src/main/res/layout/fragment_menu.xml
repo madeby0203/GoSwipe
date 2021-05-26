@@ -5,9 +5,101 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/animated_background"
         android:id="@+id/fragment_menu"
+        android:background="@color/black"
         tools:context=".MainActivity">
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_1"
+               android:src="@drawable/poster_1"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_2"
+               android:src="@drawable/poster_2"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_3"
+               android:src="@drawable/poster_3"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_4"
+               android:src="@drawable/poster_4"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_5"
+               android:src="@drawable/poster_5"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_6"
+               android:src="@drawable/poster_6"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_7"
+               android:src="@drawable/poster_7"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_8"
+               android:src="@drawable/poster_8"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_9"
+               android:src="@drawable/poster_9"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_10"
+               android:src="@drawable/poster_10"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_11"
+               android:src="@drawable/poster_11"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_12"
+               android:src="@drawable/poster_12"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
+
+    <ImageView android:layout_width="200dp" android:layout_height="300dp"
+               android:id="@+id/poster_13"
+               android:src="@drawable/poster_13"
+               app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+    />
     <Button
             android:text="Host"
             android:layout_width="261dp"
@@ -23,9 +115,9 @@
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintTop_toBottomOf="@+id/textView2"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:textColor="@android:color/black" android:textAllCaps="false"
+            android:textColor="@android:color/white" android:textAllCaps="false"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" app:iconGravity="end"
-            app:icon="@drawable/ic_baseline_edit_24" app:iconTint="@color/black" android:layout_marginStart="16dp"
+            app:icon="@drawable/ic_baseline_edit_24" app:iconTint="@color/white" android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"/>
     <Button
             android:text="Join"
@@ -40,7 +132,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:textSize="40sp" android:textAlignment="center"
-            android:textColor="@android:color/primary_text_light" app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/white" app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/textView2" app:layout_constraintBottom_toTopOf="@+id/hostButton"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"/>
     <Button
