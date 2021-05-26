@@ -3,13 +3,16 @@ package rd.project;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import rd.project.events.MultiplayerEvent;
 import rd.project.events.WSClientEvent;
 import rd.project.events.WSServerEvent;
 import rd.project.fragments.MenuFragment;
 import rd.project.fragments.NameFragment;
+import rd.project.fragments.ResultsFragment;
 
 public class MainActivity extends AppCompatActivity {
     
@@ -119,5 +122,14 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.ic_baseline_error_outline_24,
                 "Client error",
                 event.getException().getLocalizedMessage());
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMultiplayerResults(MultiplayerEvent.Results event) {
+        getSupportFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container_view, ResultsFragment.class, null)
+                .commit();
     }
 }

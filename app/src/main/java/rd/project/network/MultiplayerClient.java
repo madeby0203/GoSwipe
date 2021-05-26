@@ -3,6 +3,7 @@ package rd.project.network;
 import android.content.Context;
 import android.util.Log;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -11,14 +12,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import rd.project.Application;
+import rd.project.MainActivity;
 import rd.project.R;
 import rd.project.api.Movie;
 import rd.project.events.MultiplayerEvent;
 import rd.project.events.WSClientEvent;
+import rd.project.fragments.ResultsFragment;
+import rd.project.fragments.ResultsWaitingFragment;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MultiplayerClient implements Multiplayer {
     private final String TAG = "MultiplayerClient";
@@ -29,6 +32,7 @@ public class MultiplayerClient implements Multiplayer {
     private final List<String> playerList = new ArrayList<>();
     private List<Movie> movies;
     private int resultsCompletedAmount = 0;
+    private Map<Movie, Integer> results; // Integer contains amount of likes
     
     private boolean closed;
     
@@ -128,6 +132,23 @@ public class MultiplayerClient implements Multiplayer {
                         EventBus.getDefault().post(new MultiplayerEvent.ResultsCompletedCountUpdate(amount));
                         
                         break;
+                    case RESULTS:
+                        JSONObject resultsList = jsonObject.getJSONObject(MessageParameter.RESULTS_LIST.name());
+                        
+                        Map<Integer, Integer> likedIDs = new HashMap<Integer, Integer>();
+                        Iterator<String> keysIterator = resultsList.keys();
+                        while(keysIterator.hasNext()) {
+                            String key = keysIterator.next();
+                            int id = Integer.parseInt(key);
+                            likedIDs.put(id, resultsList.getInt(key));
+                            Log.d(TAG, key + ", " + id + ", " + resultsList.getInt(key));
+                        };
+                        
+                        this.results = this.convertLikedIDsToLikedMovies(movies, likedIDs);
+    
+                        EventBus.getDefault().post(new MultiplayerEvent.Results());
+    
+                        break;
                     default:
                         Log.w(TAG, "Unknown message type received.");
                         
@@ -174,7 +195,7 @@ public class MultiplayerClient implements Multiplayer {
     
     @Override
     public List<Movie> getMovies() {
-        return movies; //TODO movie sending
+        return movies;
     }
     
     @Override
@@ -203,5 +224,10 @@ public class MultiplayerClient implements Multiplayer {
     @Override
     public int getResultsCompletedAmount() {
         return resultsCompletedAmount;
+    }
+    
+    @Override
+    public Map<Movie, Integer> getResults() {
+        return this.results;
     }
 }

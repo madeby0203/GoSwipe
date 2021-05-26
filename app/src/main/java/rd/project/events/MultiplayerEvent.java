@@ -77,4 +77,11 @@ public class MultiplayerEvent {
             return completed;
         }
     }
+    
+    /**
+     * Fired when the results are complete.
+     */
+    public static class Results {
+    
+    }
 }

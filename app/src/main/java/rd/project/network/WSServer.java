@@ -102,9 +102,6 @@ public class WSServer extends WebSocketServer {
     @Override
     public void onMessage(WebSocket conn, String incomingMessage) {
         Log.d(TAG, "Received message from " + connected.get(conn) + ": " + incomingMessage);
-        
-        // Send the incoming message to all clients
-        this.broadcast(connected.get(conn) + ": " + incomingMessage);
     
         // Send event so other parts of the app know a client has sent a message
         EventBus.getDefault().post(new WSServerEvent.Message(conn, incomingMessage));

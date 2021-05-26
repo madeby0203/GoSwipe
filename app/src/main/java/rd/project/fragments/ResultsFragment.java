@@ -13,11 +13,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
+import rd.project.Application;
 import rd.project.R;
 import rd.project.adapters.ResultAdapter;
 import rd.project.api.Movie;
+import rd.project.network.Multiplayer;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 public class ResultsFragment extends Fragment { //source: https://github.com/Rohitohlyan66/InstagramSuggestion
@@ -39,12 +42,25 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
 
 
         //add elements to the list in order for the pager to show it
-        Movie temp = new Movie("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu eleifend odio, eget cursus neque. Proin ut massa ac tellus egestas placerat. Etiam condimentum pellentesque ligula ut tristique. Aliquam pretium convallis augue non interdum. Vestibulum tempus tellus ante, nec luctus ligula convallis quis. Ut placerat, turpis id varius iaculis, nisi sapien pulvinar metus, sed faucibus dui odio ac nisl. Nam a ultrices neque. Vestibulum scelerisque, turpis et bibendum dictum, quam mauris vehicula felis, in aliquam leo turpis suscipit nunc.","Lorem Ipsum","/j4tRuhwfAOBKCoZeY6PDMJHzdW9.jpg",10,5,"1000 BC","greek roman","stoneTablet");
-        Movie temp2 = new Movie("test2","test2","/j4tRuhwfAOBKCoZeY6PDMJHzdW9.jpg",2,52,"52","test2","test2");
-        list.add(temp);
-        list.add(temp2);
+//        Movie temp = new Movie("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eu eleifend odio, eget cursus neque. Proin ut massa ac tellus egestas placerat. Etiam condimentum pellentesque ligula ut tristique. Aliquam pretium convallis augue non interdum. Vestibulum tempus tellus ante, nec luctus ligula convallis quis. Ut placerat, turpis id varius iaculis, nisi sapien pulvinar metus, sed faucibus dui odio ac nisl. Nam a ultrices neque. Vestibulum scelerisque, turpis et bibendum dictum, quam mauris vehicula felis, in aliquam leo turpis suscipit nunc.","Lorem Ipsum","/j4tRuhwfAOBKCoZeY6PDMJHzdW9.jpg",10,5,"1000 BC","greek roman","stoneTablet");
+//        Movie temp2 = new Movie("test2","test2","/j4tRuhwfAOBKCoZeY6PDMJHzdW9.jpg",2,52,"52","test2","test2");
+//        list.add(temp);
+//        list.add(temp2);
         //TODO remove in final product.
-
+        
+        Application application = (Application) getContext().getApplicationContext();
+        
+        if(application.getMultiplayerType() == Multiplayer.Type.NONE) {
+            application.showErrorScreen(getParentFragmentManager(),
+                    R.drawable.ic_baseline_error_outline_24,
+                    "Error",
+                    "Couldn't load results");
+            
+            return;
+        }
+        
+        Map<Movie, Integer> results = application.getMultiplayer().getResults();
+        list.addAll(results.keySet());
 
 
         // set the result adapter

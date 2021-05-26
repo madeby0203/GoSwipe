@@ -113,6 +113,9 @@ public class SwipeFragment extends Fragment {
         this.currentMovie = movies.get(index);
         new Thread(() -> {
             Bitmap bmp = movies.get(index).getPosterBM();
+            if (getActivity() == null) {
+                return;
+            }
             getActivity().runOnUiThread(() -> {
                 int l = 1;
                 if (!liked) {

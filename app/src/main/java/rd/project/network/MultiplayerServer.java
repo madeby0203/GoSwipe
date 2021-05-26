@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
 import android.util.Log;
+import androidx.fragment.app.FragmentTransaction;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -11,10 +12,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import rd.project.Application;
+import rd.project.MainActivity;
+import rd.project.R;
 import rd.project.api.*;
 import rd.project.events.MovieEvent;
 import rd.project.events.MultiplayerEvent;
 import rd.project.events.WSServerEvent;
+import rd.project.fragments.ResultsFragment;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -29,6 +33,7 @@ public class MultiplayerServer implements Multiplayer {
     
     private List<Movie> movies;
     private final Map<String, List<Integer>> likes = new HashMap<>();
+    private Map<Movie, Integer> results; // Integer contains amount of likes
     
     private boolean closed = false;
     
@@ -125,8 +130,6 @@ public class MultiplayerServer implements Multiplayer {
                         }
                     
                         saveLikes(username, liked);
-                    
-                        EventBus.getDefault().post(new MultiplayerEvent.ResultsCompletedCountUpdate(getResultsCompletedAmount()));
                         
                         // Broadcast updated amount to clients
                         JSONObject json = new JSONObject();
@@ -347,10 +350,56 @@ public class MultiplayerServer implements Multiplayer {
     @Override
     public void saveLikes(String username, List<Integer> movieIDs) {
         likes.put(username, movieIDs);
+    
+        // Send an event so other parts of the app can update the player completed counter
+        EventBus.getDefault().post(new MultiplayerEvent.ResultsCompletedCountUpdate(getResultsCompletedAmount()));
+    
+        // Check if every player has finished swiping
+        // If so, compute the results and send them to the results screen
+        if(likes.size() == getConnectedUsernames().size()) {
+            computeResults();
+        }
     }
     
     @Override
     public int getResultsCompletedAmount() {
         return likes.size();
+    }
+    
+    /**
+     * Compute results and send them to all connected clients.
+     */
+    public void computeResults() {
+        Map<Integer, Integer> likedIDs = new HashMap<>(); // Movie ID, amount of likes
+        
+        for (List<Integer> userLiked : likes.values()) {
+            for (int id : userLiked) {
+                likedIDs.put(id, likedIDs.getOrDefault(id, 0) + 1);
+            }
+        }
+        
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(MessageParameter.TYPE.toString(), MessageType.RESULTS.toString());
+            
+            JSONObject results = new JSONObject();
+            for(int id : likedIDs.keySet()) {
+                results.put(String.valueOf(id), likedIDs.get(id));
+            }
+            jsonObject.put(MessageParameter.RESULTS_LIST.toString(), results);
+            
+            server.broadcast(jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        
+        this.results = this.convertLikedIDsToLikedMovies(movies, likedIDs);
+    
+        EventBus.getDefault().post(new MultiplayerEvent.Results());
+    }
+    
+    @Override
+    public Map<Movie, Integer> getResults() {
+        return this.results;
     }
 }
