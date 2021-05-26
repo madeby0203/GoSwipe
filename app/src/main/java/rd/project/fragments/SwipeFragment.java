@@ -132,7 +132,9 @@ public class SwipeFragment extends Fragment {
                 int finalL = l;
                 handler.postDelayed(() -> {
                     Palette palette = Palette.from(bmp).generate();
-                    int dominantColor = palette.getDominantColor(0);
+                    int dominantColor = palette.getLightMutedColor(0);
+                    int test = palette.getDarkMutedColor(20);
+                    title.setTextColor(test);
 
                     int color = Color.TRANSPARENT;
                     Drawable background = view.getBackground();

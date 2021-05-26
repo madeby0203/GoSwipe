@@ -6,23 +6,25 @@
                                                    android:layout_height="match_parent">
 
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/dislikeButton"
+            android:layout_width="53dp"
+            android:layout_height="58dp" android:id="@+id/dislikeButton"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="60dp" style="@android:style/Widget.DeviceDefault.Button"
             app:iconPadding="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="80dp" android:text="Dislike"/>
+            android:layout_marginStart="108dp" app:icon="@drawable/ic_baseline_thumb_down_24"
+            android:backgroundTint="#FA3636" android:background="@drawable/button_states"/>
     <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/likeButton"
-            android:background="@drawable/round_button"
+            android:layout_width="53dp"
+            android:layout_height="58dp" android:id="@+id/likeButton"
+            android:background="@drawable/button_states"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="60dp"
             app:iconPadding="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="80dp" app:layout_constraintStart_toEndOf="@+id/dislikeButton"
-            app:layout_constraintHorizontal_bias="1.0" android:text="Like"/>
+            app:layout_constraintHorizontal_bias="0.654"
+            app:icon="@drawable/ic_baseline_thumb_up_24" android:backgroundTint="#CE24B303"/>
     <ImageView
             android:layout_width="285dp"
             android:layout_height="560dp" tools:srcCompat="@tools:sample/backgrounds/scenic"
@@ -41,10 +43,10 @@
             app:layout_constraintBottom_toTopOf="@+id/likeButton"/>
     <TextView
             android:text="Name (Year)"
-            android:layout_width="312dp"
-            android:layout_height="128dp" android:id="@+id/titleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" android:id="@+id/titleText"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintBottom_toBottomOf="@+id/movieViewNext"
             app:layout_constraintStart_toStartOf="@+id/movieView" app:layout_constraintEnd_toEndOf="@+id/movieView"
-            app:layout_constraintHorizontal_bias="1.0" android:layout_marginBottom="8dp"/>
+            app:layout_constraintHorizontal_bias="1.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
