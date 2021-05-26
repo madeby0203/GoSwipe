@@ -92,14 +92,14 @@ public class SwipeFragment extends Fragment {
                         liked.add(movies.get(index[0]-1).getId());
                         Log.v(TAG, "Movie liked: " + movies.get(index[0]-1));
                     }
-                    
-                    ((Application) getContext().getApplicationContext()).getMultiplayer().saveLikes(liked);
     
                     getParentFragmentManager().beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .setReorderingAllowed(true)
                             .replace(R.id.fragment_container_view, ResultsWaitingFragment.class, null)
                             .commit();
+                    
+                    ((Application) getContext().getApplicationContext()).getMultiplayer().saveLikes(liked);
                 }
             } catch (URISyntaxException e) {
                 e.printStackTrace();
