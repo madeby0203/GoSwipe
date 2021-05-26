@@ -65,7 +65,54 @@ public class Application extends android.app.Application {
         editor.putString(getString(R.string.username_preference), name)
                 .apply();
     }
-    
+
+    final String Genre = "genreKey";
+    final String Providers = "providersKey";
+    final String Year = "yearKey";
+    final String Rating = "ratingKey";
+
+    public void setLobbyPref(String genre, String providerId, String year, String rating) {
+        SharedPreferences prefs = getApplicationContext()
+                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
+
+
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(Genre, genre);
+        editor.putString(Providers, providerId)
+                .putString(Year, year)
+                .putString(Rating, rating)
+                .apply();
+    }
+
+    public String getGenre() {
+        SharedPreferences prefs = getApplicationContext()
+                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
+
+        return prefs.getString(Genre, null);
+    }
+
+    public String getProviders() {
+        SharedPreferences prefs = getApplicationContext()
+                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
+
+        return prefs.getString(Providers, null);
+    }
+
+    public String getRating() {
+        SharedPreferences prefs = getApplicationContext()
+                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
+
+        return prefs.getString(Rating, null);
+    }
+
+    public String getYear() {
+        SharedPreferences prefs = getApplicationContext()
+                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
+
+        return prefs.getString(Year, null);
+    }
+
     /**
      * Switch screen to error screen
      * @param fragmentManager fragment manager
