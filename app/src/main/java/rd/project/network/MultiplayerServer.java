@@ -33,7 +33,9 @@ public class MultiplayerServer implements Multiplayer {
     
     private List<Movie> movies;
     private final Map<String, List<Integer>> likes = new HashMap<>();
-    private Map<Movie, Integer> results; // Integer contains amount of likes
+    
+    // Used on the results screen, if everyone is disconnected we want to stop the server
+    private boolean stopIfEveryoneDisconnected = false;
     
     private boolean closed = false;
     
@@ -108,6 +110,11 @@ public class MultiplayerServer implements Multiplayer {
         }
         
         EventBus.getDefault().post(new MultiplayerEvent.ResultsCompletedCountUpdate(getResultsCompletedAmount()));
+        
+        // If we are on the results screen and everyone has disconnected, stop the server
+        if (stopIfEveryoneDisconnected && server.getConnections().size() == 0) {
+            close();
+        }
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -175,11 +182,11 @@ public class MultiplayerServer implements Multiplayer {
             return;
         }
         
+        Log.d(TAG, "Closing...");
+        
         // Unregister events
         EventBus.getDefault().unregister(this);
         
-        // Stop WebSocket server
-        System.out.println("Stopping WebSocket server...");
         try {
             server.stop();
         } catch (IOException | InterruptedException e) {
@@ -393,13 +400,11 @@ public class MultiplayerServer implements Multiplayer {
             e.printStackTrace();
         }
         
-        this.results = this.convertLikedIDsToLikedMovies(movies, likedIDs);
-    
+        ((Application) context).results.clear();
+        ((Application) context).results.putAll(this.convertLikedIDsToLikedMovies(movies, likedIDs));
+        
         EventBus.getDefault().post(new MultiplayerEvent.Results());
-    }
     
-    @Override
-    public Map<Movie, Integer> getResults() {
-        return this.results;
+        stopIfEveryoneDisconnected = true;
     }
 }

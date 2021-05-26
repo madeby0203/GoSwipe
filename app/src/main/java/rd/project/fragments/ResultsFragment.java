@@ -37,11 +37,10 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
 
         // Set pager to the pager in the fragment_result.xml
         pager = view.findViewById(R.id.sliderMenu);
-
         
         Application application = (Application) getContext().getApplicationContext();
         
-        if(application.getMultiplayerType() == Multiplayer.Type.NONE) {
+        if (application.results.isEmpty()) {
             application.showErrorScreen(getParentFragmentManager(),
                     R.drawable.ic_baseline_error_outline_24,
                     "Error",
@@ -50,12 +49,10 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
             return;
         }
         
-        Map<Movie, Integer> results = application.getMultiplayer().getResults();
+        Map<Movie, Integer> results = application.results;
         results = sortByValue(results);
         list.addAll(results.keySet());
         Collections.reverse(list);
-
-
 
         // set the result adapter
         resultAdapter = new ResultAdapter(list, getContext());

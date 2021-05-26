@@ -32,7 +32,6 @@ public class MultiplayerClient implements Multiplayer {
     private final List<String> playerList = new ArrayList<>();
     private List<Movie> movies;
     private int resultsCompletedAmount = 0;
-    private Map<Movie, Integer> results; // Integer contains amount of likes
     
     private boolean closed;
     
@@ -135,6 +134,8 @@ public class MultiplayerClient implements Multiplayer {
                     case RESULTS:
                         JSONObject resultsList = jsonObject.getJSONObject(MessageParameter.RESULTS_LIST.name());
                         
+                        close();
+                        
                         Map<Integer, Integer> likedIDs = new HashMap<Integer, Integer>();
                         Iterator<String> keysIterator = resultsList.keys();
                         while(keysIterator.hasNext()) {
@@ -143,8 +144,9 @@ public class MultiplayerClient implements Multiplayer {
                             likedIDs.put(id, resultsList.getInt(key));
                             Log.d(TAG, key + ", " + id + ", " + resultsList.getInt(key));
                         };
-                        
-                        this.results = this.convertLikedIDsToLikedMovies(movies, likedIDs);
+    
+                        ((Application) context).results.clear();
+                        ((Application) context).results.putAll(this.convertLikedIDsToLikedMovies(movies, likedIDs));
     
                         EventBus.getDefault().post(new MultiplayerEvent.Results());
     
@@ -183,6 +185,8 @@ public class MultiplayerClient implements Multiplayer {
         if (closed) {
             return;
         }
+        
+        Log.d(TAG, "Closing...");
         
         // Unregister events
         EventBus.getDefault().unregister(this);
@@ -224,10 +228,5 @@ public class MultiplayerClient implements Multiplayer {
     @Override
     public int getResultsCompletedAmount() {
         return resultsCompletedAmount;
-    }
-    
-    @Override
-    public Map<Movie, Integer> getResults() {
-        return this.results;
     }
 }

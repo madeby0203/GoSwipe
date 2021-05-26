@@ -32,8 +32,6 @@ public interface Multiplayer {
     
     int getResultsCompletedAmount();
     
-    Map<Movie, Integer> getResults();
-    
     default Map<Movie, Integer> convertLikedIDsToLikedMovies(List<Movie> movies, Map<Integer, Integer> likedIDs) {
         Map<Movie, Integer> likedMovies = new HashMap<>();
         

@@ -6,16 +6,21 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import rd.project.api.Movie;
 import rd.project.fragments.ErrorFragment;
 import rd.project.network.Multiplayer;
 import rd.project.network.MultiplayerClient;
 import rd.project.network.MultiplayerServer;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Application extends android.app.Application {
     
     private Multiplayer multiplayer;
+    
+    public Map<Movie, Integer> results = new HashMap<>(); // Integer contains amount of likes
     
     public Multiplayer getMultiplayer() {
         return multiplayer;
@@ -25,6 +30,7 @@ public class Application extends android.app.Application {
         if (multiplayer != null) {
             multiplayer.close();
         }
+        results.clear();
         multiplayer = new MultiplayerServer(getApplicationContext());
     }
     
@@ -32,6 +38,7 @@ public class Application extends android.app.Application {
         if (multiplayer != null) {
             multiplayer.close();
         }
+        results.clear();
         multiplayer = new MultiplayerClient(getApplicationContext(), uri);
     }
     
