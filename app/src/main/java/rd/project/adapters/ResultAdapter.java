@@ -1,5 +1,6 @@
 package rd.project.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -35,6 +36,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
         return new resultHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_item, parent,false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull resultHolder holder, int position) {
             holder.genreText.setText(a.get(position).getGenre());
@@ -42,6 +44,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
             holder.yearText.setText(a.get(position).getYear());
             holder.scoreText.setText(a.get(position).getVote().toString());
             holder.platformText.setText(a.get(position).getPlatform());
+            holder.numberText.setText(Integer.toString(position+1)+":");
 
         new Thread(() -> {
             Bitmap bmp = a.get(position).getPosterBM();
@@ -58,6 +61,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
     }
 
     public class resultHolder extends RecyclerView.ViewHolder{
+        TextView numberText;
         ImageView resultView;
         TextView genreText;
         TextView titleText;
@@ -72,6 +76,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
             yearText = itemView.findViewById(R.id.yearText);
             scoreText = itemView.findViewById(R.id.scoreText);
             platformText = itemView.findViewById(R.id.platformText);
+            numberText = itemView.findViewById(R.id.numberText);
         }
     }
 }

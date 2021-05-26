@@ -125,7 +125,7 @@ public class SwipeFragment extends Fragment {
 
                 imageMovieNext.setImageBitmap(bmp); //Set the next image to the next movie
                 imageMovie.animate()                //Move away the top image
-                        .setDuration(500)
+                        .setDuration(100)
                         .xBy(l*2000)
                         .start();
                 Handler handler = new Handler();
