@@ -5,10 +5,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import org.w3c.dom.Text;
 import rd.project.R;
 import rd.project.api.Movie;
@@ -44,8 +47,31 @@ public class InfoResultFragment extends Fragment {
         platform.setText(movie.getString("platform"));
         image.setImageBitmap(movie.getParcelable("bitmap"));
 
+        OnBackPressedCallback back = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                getParentFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
+                        .replace(R.id.fragment_container_view, ResultsFragment.class, null)
+                        .commit();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
 
     }
 
+
+
+
+//    Button joinButton = view.findViewById(R.id.joinButton);
+//        joinButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
+//                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                .setReorderingAllowed(true)
+//                .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
+//                .replace(R.id.fragment_container_view, JoinFragment.class, null)
+//                .commit());
+//}
 
 }
