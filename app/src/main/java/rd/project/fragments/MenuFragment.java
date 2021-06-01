@@ -8,6 +8,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -114,5 +115,16 @@ public class MenuFragment extends Fragment {
                 .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
                 .replace(R.id.fragment_container_view, JoinFragment.class, null)
                 .commit());
+
+
+        OnBackPressedCallback back = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                //null so the button doesnt do anything
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
     }
+
+
 }

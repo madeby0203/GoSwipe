@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -105,6 +106,20 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
 
 
         });
+
+
+        OnBackPressedCallback back = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                getParentFragmentManager().beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
+                        .replace(R.id.fragment_container_view, MenuFragment.class, null)
+                        .commit();
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) { //https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values?page=1&tab=votes#tab-top

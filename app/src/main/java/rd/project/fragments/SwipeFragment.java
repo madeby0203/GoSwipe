@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -71,6 +72,15 @@ public class SwipeFragment extends Fragment {
 
         nextMovieView(likeButton,index);
         nextMovieView(dislikeButton,index);
+
+
+        OnBackPressedCallback back = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                        //null so it doesnt do anything
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
     }
 
     private void nextMovieView(Button button, int[] index) {
