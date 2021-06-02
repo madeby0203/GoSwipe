@@ -84,7 +84,7 @@ public class SwipeFragment extends Fragment {
                         .commit();
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
     }
 
     private void nextMovieView(Button button, int[] index) {

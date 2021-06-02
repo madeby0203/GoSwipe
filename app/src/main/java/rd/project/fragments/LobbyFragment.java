@@ -104,7 +104,7 @@ public class LobbyFragment extends Fragment {
                         .commit();
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
     }
     
     @Override

@@ -115,10 +115,10 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
                         .commit();
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
     }
 
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) { //https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values?page=1&tab=votes#tab-top
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) { // https://stackoverflow.com/questions/109383/sort-a-mapkey-value-by-values?page=1&tab=votes#tab-top
         List<Map.Entry<K, V>> list = new ArrayList<>(map.entrySet());
         list.sort(Map.Entry.comparingByValue());
 

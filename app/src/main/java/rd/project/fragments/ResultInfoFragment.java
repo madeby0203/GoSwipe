@@ -58,7 +58,7 @@ public class ResultInfoFragment extends Fragment {
                         .commit();
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
 
     }
 

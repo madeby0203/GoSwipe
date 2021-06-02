@@ -102,7 +102,7 @@ public class SetupFragment extends Fragment { //fragment for settings: genre, di
                         .commit();
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
 
     }
 }

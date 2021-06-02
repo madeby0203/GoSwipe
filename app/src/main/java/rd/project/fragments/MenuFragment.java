@@ -120,7 +120,7 @@ public class MenuFragment extends Fragment {
                 //null so the button doesnt do anything
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
     }
 
 
