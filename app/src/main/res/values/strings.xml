@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">R&amp;D Project</string>
+    <string name="app_name">GoSwipe</string>
 
     <!-- Preferences -->
     <string name="preferences_name">rd.project.preferences</string>
