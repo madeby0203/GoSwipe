@@ -31,6 +31,8 @@ public class LobbyFragment extends Fragment {
     private final List<String> names = new ArrayList<>();
     // Keeps track and updates the list of players in the user interface
     PlayerListAdapter adapter;
+    // Keeps track of if the lobby is currently starting
+    private boolean starting;
 
     public LobbyFragment() {
         super(R.layout.fragment_lobby);
@@ -96,12 +98,14 @@ public class LobbyFragment extends Fragment {
         OnBackPressedCallback back = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                getParentFragmentManager().beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .setReorderingAllowed(true)
-                        .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
-                        .replace(R.id.fragment_container_view, MenuFragment.class, null)
-                        .commit();
+                if (!starting) {
+                    getParentFragmentManager().beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
+                            .replace(R.id.fragment_container_view, MenuFragment.class, null)
+                            .commit();
+                }
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
@@ -136,6 +140,8 @@ public class LobbyFragment extends Fragment {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPrepareStart(MultiplayerEvent.StartPrepare event) {
+        starting = true;
+        
         // Disable buttons
         getView().findViewById(R.id.lobbyCancelButton).setVisibility(View.INVISIBLE);
         getView().findViewById(R.id.startButton).setVisibility(View.INVISIBLE);
@@ -151,6 +157,8 @@ public class LobbyFragment extends Fragment {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCancelStart(MultiplayerEvent.StartPrepare event) {
+        starting = false;
+        
         // Enable buttons
         getView().findViewById(R.id.lobbyCancelButton).setVisibility(View.VISIBLE);
         
