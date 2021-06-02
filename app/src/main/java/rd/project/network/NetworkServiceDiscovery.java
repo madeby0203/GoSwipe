@@ -7,7 +7,8 @@ import org.greenrobot.eventbus.EventBus;
 import rd.project.events.NetworkServiceDiscoveryEvent;
 
 public class NetworkServiceDiscovery {
-    // TODO add service name here
+    // Based on https://developer.android.com/training/connect-devices-wirelessly/nsd
+    
     private final String SERVICE_NAME = "RDProject";
     private final String SERVICE_TYPE = "_ws._tcp.";
     
