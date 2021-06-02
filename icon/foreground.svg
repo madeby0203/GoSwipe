@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="90.322mm" height="90.321mm" version="1.1" viewBox="0 0 90.322 90.321" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient3193" x1="84.965" x2="114.03" y1="158.57" y2="187.63" gradientUnits="userSpaceOnUse">
+   <stop stop-opacity=".26667" offset="0"/>
+   <stop stop-color="#252525" stop-opacity="0" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g transform="translate(-48.647 -123.35)">
+  <rect x="105.19" y="160.78" width="15.474" height="15.474" ry="2.2106" fill="#24b303"/>
+  <path d="m138.97 194.88-36.319-36.319h-2.2106v2.2106l-2.2106-2.2106h-8.8424v2.2106l-2.2106-2.2106h-2.2106v19.895l35.213 35.213h18.79z" fill="url(#linearGradient3193)"/>
+  <g transform="matrix(1.1053 0 0 1.1053 80.544 155.25)" fill="#fff">
+   <path d="m0 0h24v24h-24z" fill="none"/>
+   <path d="m18 3v2h-2v-2h-8v2h-2v-2h-2v18h2v-2h2v2h8v-2h2v2h2v-18zm-10 14h-2v-2h2zm0-4h-2v-2h2zm0-4h-2v-2h2zm10 8h-2v-2h2zm0-4h-2v-2h2zm0-4h-2v-2h2z"/>
+  </g>
+  <rect x="66.956" y="160.78" width="15.474" height="15.474" ry="2.2106" fill="#fa3636"/>
+  <path d="m113.78 207.28 12.849-24.731-23.982-23.982h-2.2106v2.2106l-2.2106-2.2106h-8.8424v2.2106l-2.2106-2.2106h-2.2106v19.895z" fill="none"/>
+  <path d="m141.9 197.81-39.249-39.249h-2.2106v2.2106l-2.2106-2.2106h-8.8424v2.2106l-2.2106-2.2106h-2.2106v19.895l38.143 38.143z" fill="none"/>
+ </g>
+</svg>
