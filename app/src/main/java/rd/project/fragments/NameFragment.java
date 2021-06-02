@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
@@ -43,6 +44,15 @@ public class NameFragment extends Fragment {
                         .replace(R.id.fragment_container_view, MenuFragment.class, null)
                         .commit();
             }
+        });
+    
+        // Make the enter key on the keyboard press the join button
+        editTextName.setOnEditorActionListener((textView, keyCode, keyEvent) -> {
+            if (keyCode == EditorInfo.IME_ACTION_DONE) {
+                nameSaveButton.callOnClick();
+                return true;
+            }
+            return false;
         });
     }
 }

@@ -83,7 +83,7 @@ public class JoinFragment extends Fragment {
             }
         });
         
-        // Make the checkmark key on the keyboard press the join button
+        // Make the enter key on the keyboard press the join button
         ipField.setOnEditorActionListener((textView, keyCode, keyEvent) -> {
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
                 manualJoinButton.callOnClick();
