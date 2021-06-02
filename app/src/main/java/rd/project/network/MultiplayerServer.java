@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import rd.project.Application;
 import rd.project.MainActivity;
 import rd.project.R;
+import rd.project.Settings;
 import rd.project.api.*;
 import rd.project.events.MovieEvent;
 import rd.project.events.MultiplayerEvent;
@@ -277,13 +278,20 @@ public class MultiplayerServer implements Multiplayer {
             String region = "NL";
             String providers = Providers.Netflix.getId();
             Date release = new Date();
-            //release.setTime();
             String releaseDate = "2020-01-01T00:00:00.000Z";
             int minVote = 6;
-//            StringBuilder genres = new StringBuilder();
-//            genres.append(Genres.Action.getId());
-            String genres = Integer.toString(Genres.Action.getId());
-        
+            String genres = Genres.Action.getId();
+
+            Application application = (Application) context.getApplicationContext();
+
+            Settings settings = application.getSettings();
+            providers = settings.getProvider();
+            minVote = Integer.parseInt(settings.getRating());
+            genres = settings.getGenre();
+            Log.d(TAG, "Minvote: " + minVote);
+            Log.d(TAG, "providers: " + providers);
+            Log.d(TAG, "genres: " + genres);
+
             RequestType request = null;
             try {
                 request = new DiscoverMovies(api, region, providers, genres, releaseDate, minVote);
@@ -295,6 +303,7 @@ public class MultiplayerServer implements Multiplayer {
                 }
                 return;
             }
+            Log.d(TAG, "URL: " + request.GetUrl().toString());
             Connect discover = new Connect(request);
             org.json.simple.JSONObject test = discover.Send();
             

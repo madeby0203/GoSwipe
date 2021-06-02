@@ -69,7 +69,7 @@ public class DiscoverMovies implements RequestType{
                     (String) jsonMovie.get("poster_path"),
                     (Number) jsonMovie.get("vote_average"),
                     Math.toIntExact((Long) jsonMovie.get("id")),
-                    this.releaseDate, //TODO: release date aanpassen naar int
+                    this.releaseDate,
                     this.genre,
                     this.providers
 

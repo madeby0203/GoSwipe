@@ -73,52 +73,13 @@ public class Application extends android.app.Application {
                 .apply();
     }
 
-    final String Genre = "genreKey";
-    final String Providers = "providersKey";
-    final String Year = "yearKey";
-    final String Rating = "ratingKey";
+    private Settings settings;
 
-    public void setLobbyPref(String genre, String providerId, String year, String rating) {
-        SharedPreferences prefs = getApplicationContext()
-                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
-
-
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(Genre, genre);
-        editor.putString(Providers, providerId)
-                .putString(Year, year)
-                .putString(Rating, rating)
-                .apply();
+    public void setLobbyPref(Settings newSettings) {
+        settings = newSettings;
     }
 
-    public String getGenre() {
-        SharedPreferences prefs = getApplicationContext()
-                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
-
-        return prefs.getString(Genre, null);
-    }
-
-    public String getProviders() {
-        SharedPreferences prefs = getApplicationContext()
-                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
-
-        return prefs.getString(Providers, null);
-    }
-
-    public String getRating() {
-        SharedPreferences prefs = getApplicationContext()
-                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
-
-        return prefs.getString(Rating, null);
-    }
-
-    public String getYear() {
-        SharedPreferences prefs = getApplicationContext()
-                .getSharedPreferences(getString(R.string.preferences_name), Context.MODE_PRIVATE);
-
-        return prefs.getString(Year, null);
-    }
+    public Settings getSettings() { return settings; }
 
     /**
      * Switch screen to error screen
