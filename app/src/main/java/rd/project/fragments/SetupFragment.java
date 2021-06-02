@@ -59,32 +59,30 @@ public class SetupFragment extends Fragment { //fragment for settings: genre, di
 //        bundle.putString("year", yearSetting);
 //        bundle.putString("score", scoreSetting);
 
-        Providers selectedProvider = Providers.Netflix; //default
-        for(Providers providerSelection : Providers.values()) {
-            if(providerSelection.getName() == platformDropdown.getSelectedItem().toString()) {
-                selectedProvider = providerSelection;
-            }
-        }
-        Log.d(TAG,"Size of genres: " + Genres.values().length);
-        Genres selectedGenre = Genres.Action; //default
-        for(Genres genreSelection : Genres.values()) {
-            Log.d(TAG, "Genre " + genreSelection.getName() + " VS " + genreDropdown.getSelectedItem().toString());
-            if(genreSelection.getName() == genreDropdown.getSelectedItem().toString()) {
-                selectedGenre = genreSelection;
-            }
-        }
-
-        Providers finalSelectedProvider = selectedProvider;
-        Genres finalSelectedGenre = selectedGenre;
         joinButton.setOnClickListener(v -> {
+                Providers selectedProvider = Providers.Netflix; //default
+                for(Providers providerSelection : Providers.values()) {
+                    if(providerSelection.getName() == platformDropdown.getSelectedItem().toString()) {
+                        selectedProvider = providerSelection;
+                    }
+                }
+                Log.d(TAG,"Size of genres: " + Genres.values().length);
+                Genres selectedGenre = Genres.Action; //default
+                for(Genres genreSelection : Genres.values()) {
+                    Log.d(TAG, "Genre " + genreSelection.getName() + " VS " + genreDropdown.getSelectedItem().toString());
+                    if(genreSelection.getName() == genreDropdown.getSelectedItem().toString()) {
+                        selectedGenre = genreSelection;
+                    }
+                }
+
                 EditText yearvalue = view.findViewById(R.id.s_yearSetting);
                 Log.d(TAG,"Set year: " + yearvalue.getText().toString());
                 EditText scorevalue = view.findViewById(R.id.s_scoreSetting);
                 Settings settings = new Settings(
-                        finalSelectedGenre.getId(),
+                        selectedGenre.getId(),
                         scorevalue.getText().toString(),
                         yearvalue.getText().toString(),
-                        finalSelectedProvider.getId()
+                        selectedProvider.getId()
                 );
                 application.setLobbyPref(settings);
                 getParentFragmentManager().beginTransaction()
