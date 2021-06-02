@@ -58,9 +58,10 @@ public class JoinFragment extends Fragment {
         nsd.discoverServices();
         
         // Initialize onClickListener
+        EditText ipField = view.findViewById(R.id.editTextIP);
+        
         Button manualJoinButton = view.findViewById(R.id.manualJoinButton);
         manualJoinButton.setOnClickListener(v -> {
-            EditText ipField = view.findViewById(R.id.editTextIP);
             try {
                 // Parse URI
                 URI uri = new URI(ipField.getText().toString());
@@ -79,9 +80,14 @@ public class JoinFragment extends Fragment {
             }
         });
         
-        // Register events
-        EventBus.getDefault().register(this);
-
+        // Make the checkmark key on the keyboard press the join button
+        ipField.setOnEditorActionListener((textView, keyCode, keyEvent) -> {
+            if (keyCode == EditorInfo.IME_ACTION_DONE) {
+                manualJoinButton.callOnClick();
+                return true;
+            }
+            return false;
+        });
 
         OnBackPressedCallback back = new OnBackPressedCallback(true) {
             @Override
@@ -94,7 +100,10 @@ public class JoinFragment extends Fragment {
                         .commit();
             }
         };
-        requireActivity().getOnBackPressedDispatcher().addCallback(this, back);
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
+    
+        // Register events
+        EventBus.getDefault().register(this);
     }
     
     @Override
