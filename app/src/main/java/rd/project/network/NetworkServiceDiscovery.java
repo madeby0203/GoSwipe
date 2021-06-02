@@ -3,11 +3,14 @@ package rd.project.network;
 import android.content.Context;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
+import android.util.Log;
 import org.greenrobot.eventbus.EventBus;
 import rd.project.events.NetworkServiceDiscoveryEvent;
 
 public class NetworkServiceDiscovery {
     // Based on https://developer.android.com/training/connect-devices-wirelessly/nsd
+    
+    private final String TAG = "NetworkServiceDiscovery";
     
     private final String SERVICE_NAME = "RDProject";
     private final String SERVICE_TYPE = "_ws._tcp.";
@@ -33,22 +36,22 @@ public class NetworkServiceDiscovery {
         registrationListener = new NsdManager.RegistrationListener() {
             @Override
             public void onRegistrationFailed(NsdServiceInfo serviceInfo, int errorCode) {
-                System.out.println("Service registration failed, error code " + errorCode);
+                Log.e(TAG, "Service registration failed, error code " + errorCode);
             }
             
             @Override
             public void onUnregistrationFailed(NsdServiceInfo serviceInfo, int errorCode) {
-                System.out.println("Service unregistration failed, error code " + errorCode);
+                Log.e(TAG, "Service unregistration failed, error code " + errorCode);
             }
             
             @Override
             public void onServiceRegistered(NsdServiceInfo serviceInfo) {
-                System.out.println("Service registered");
+                Log.i(TAG, "Service registered");
             }
             
             @Override
             public void onServiceUnregistered(NsdServiceInfo serviceInfo) {
-                System.out.println("Service unregistered");
+                Log.i(TAG, "Service unregistered");
             }
         };
     }
@@ -79,29 +82,29 @@ public class NetworkServiceDiscovery {
             
             @Override
             public void onDiscoveryStarted(String serviceType) {
-                System.out.println("Started discovery: " + serviceType);
+                Log.i(TAG, "Started discovery: " + serviceType);
             }
             
             @Override
             public void onDiscoveryStopped(String serviceType) {
-                System.out.println("Stopped discovery: " + serviceType);
+                Log.i(TAG, "Stopped discovery: " + serviceType);
             }
             
             @Override
             public void onStartDiscoveryFailed(String serviceType, int errorCode) {
-                System.out.println("Starting discovery failed: " + serviceType + ", error code: " + errorCode);
+                Log.e(TAG, "Starting discovery failed: " + serviceType + ", error code: " + errorCode);
                 nsdManager.stopServiceDiscovery(this);
             }
             
             @Override
             public void onStopDiscoveryFailed(String serviceType, int errorCode) {
-                System.out.println("Stopping discovery failed: " + serviceType + ", error code: " + errorCode);
+                Log.e(TAG, "Stopping discovery failed: " + serviceType + ", error code: " + errorCode);
                 nsdManager.stopServiceDiscovery(this);
             }
             
             @Override
             public void onServiceFound(NsdServiceInfo serviceInfo) {
-                System.out.println("Service found, resolving...");
+                Log.d(TAG, "Service found, resolving...");
                 if (serviceInfo.getServiceName().equals(SERVICE_NAME)) {
                     lastServiceOnline = true;
                     nsdManager.resolveService(serviceInfo, resolveListener);
@@ -110,7 +113,7 @@ public class NetworkServiceDiscovery {
             
             @Override
             public void onServiceLost(NsdServiceInfo serviceInfo) {
-                System.out.println("Service lost, resolving...");
+                Log.d(TAG, "Service lost, resolving...");
                 lastServiceOnline = false;
                 nsdManager.resolveService(serviceInfo, resolveListener);
             }
@@ -126,7 +129,7 @@ public class NetworkServiceDiscovery {
             
             @Override
             public void onResolveFailed(NsdServiceInfo serviceInfo, int errorCode) {
-                System.out.println("Couldn't resolve service:  " + serviceInfo + ", Error code: " + errorCode);
+                Log.w(TAG, "Couldn't resolve service:  " + serviceInfo + ", Error code: " + errorCode);
             }
         };
     }

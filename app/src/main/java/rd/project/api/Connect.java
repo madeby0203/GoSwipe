@@ -1,5 +1,6 @@
 package rd.project.api;
 
+import android.util.Log;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Connect {
+    private final String TAG = "Connect";
 
     private String apiKey;
     private HttpURLConnection conn;
@@ -45,7 +47,7 @@ public class Connect {
             conn.setRequestProperty("Accept", "application/json");
             String APIresponse = conn.getResponseMessage();
             InputStream inputStream = conn.getInputStream();
-            System.out.println(inputStream.toString());
+            Log.v(TAG, "inputStream: " + inputStream.toString());
 
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(conn.getInputStream()));
@@ -90,11 +92,11 @@ public class Connect {
 
  */
         } catch (MalformedURLException e) {
-            System.out.println("Something wrong with the url: " + e.getMessage());
+            Log.e(TAG, "Something wrong with the url: " + e.getMessage());
             response[0] = "0";
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
+            Log.e(TAG, "Error: " + e.getMessage());
             response[0] = "0";
             e.printStackTrace();
         } catch (ParseException e) {

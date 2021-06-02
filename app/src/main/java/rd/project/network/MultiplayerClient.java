@@ -164,13 +164,13 @@ public class MultiplayerClient implements Multiplayer {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onClientClose(WSClientEvent.Close event) {
-        System.out.println("Client connection closed: " + event.getReason());
+        Log.d(TAG, "Client connection closed: " + event.getReason());
         this.close();
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onClientError(WSClientEvent.Error event) {
-        System.out.println("Error occurred in client");
+        Log.e(TAG, "Error occurred in client");
         event.getException().printStackTrace();
         this.close();
     }

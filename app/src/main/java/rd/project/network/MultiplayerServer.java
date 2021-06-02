@@ -40,7 +40,7 @@ public class MultiplayerServer implements Multiplayer {
     private boolean closed = false;
     
     public MultiplayerServer(Context context) {
-        System.out.println("Starting multiplayer server...");
+        Log.i(TAG, "Starting multiplayer server...");
         
         this.context = context;
     
@@ -61,7 +61,7 @@ public class MultiplayerServer implements Multiplayer {
             throw new ClosedException();
         }
         server.broadcast(message);
-        System.out.println("Broadcast message: " + message);
+        Log.d(TAG, "Broadcast message: " + message);
     }
     
     public void startDiscoveryBroadcast(int port) throws ClosedException {
@@ -89,7 +89,7 @@ public class MultiplayerServer implements Multiplayer {
             jsonObject.put(MessageParameter.USER_LIST.toString(), jsonArray);
         
             event.getWebSocket().send(jsonObject.toString());
-            System.out.println("Sending message to new user: " + jsonObject);
+            Log.d(TAG, "Sending message to new user: " + jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -163,7 +163,7 @@ public class MultiplayerServer implements Multiplayer {
     
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onServerStart(WSServerEvent.Start event) {
-        System.out.println("Server started on port " + event.getPort() + ".");
+        Log.i(TAG, "Server started on port " + event.getPort() + ".");
         try {
             startDiscoveryBroadcast(event.getPort());
         } catch (ClosedException e) {
@@ -182,7 +182,7 @@ public class MultiplayerServer implements Multiplayer {
             return;
         }
         
-        Log.d(TAG, "Closing...");
+        Log.i(TAG, "Closing...");
         
         // Unregister events
         EventBus.getDefault().unregister(this);
