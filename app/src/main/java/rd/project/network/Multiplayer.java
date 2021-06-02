@@ -77,6 +77,7 @@ public interface Multiplayer {
         PLAYER_JOIN,                // Contains name of player that joined
         PLAYER_LEAVE,               // Contains name of player that leaved
         START_PREPARE,              // Tells clients to prepare for start, hides buttons in lobby
+        CANCEL_PREPARE,             // Tells clients to cancel start preparations, enables lobby buttons again
         START_COUNTDOWN,            // Starts countdown in lobby
         MOVIE_LIST,                 // List of movies, sent to all clients by the host
         LIKES_SAVE,                 // List of liked movie IDs by user, sent to host by client

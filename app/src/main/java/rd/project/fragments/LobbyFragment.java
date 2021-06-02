@@ -51,10 +51,10 @@ public class LobbyFragment extends Fragment {
             view.findViewById(R.id.startButton).setVisibility(View.INVISIBLE);
             view.findViewById(R.id.settingsButton).setVisibility(View.INVISIBLE);
             
-            ((TextView) view.findViewById(R.id.lobbyJoinWith)).setText("");
-            ((TextView) view.findViewById(R.id.lobbyJoinAddress)).setText("");
+            view.findViewById(R.id.lobbyJoinWith).setVisibility(View.INVISIBLE);
+            view.findViewById(R.id.lobbyJoinAddress).setVisibility(View.INVISIBLE);
             
-            ((Button) view.findViewById(R.id.lobbyCancelButton)).setText("Leave");
+            ((Button) view.findViewById(R.id.lobbyCancelButton)).setText(getString(R.string.lobby_leave));
         }
         
         //Cancel and Leave button
@@ -147,6 +147,24 @@ public class LobbyFragment extends Fragment {
         
         // Show loading spinner
         getView().findViewById(R.id.lobbyLoading).setVisibility(View.VISIBLE);
+    }
+    
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCancelStart(MultiplayerEvent.StartPrepare event) {
+        // Enable buttons
+        getView().findViewById(R.id.lobbyCancelButton).setVisibility(View.VISIBLE);
+        
+        if (((Application) getContext().getApplicationContext()).getMultiplayerType() == Multiplayer.Type.HOST) {
+            getView().findViewById(R.id.startButton).setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
+    
+            // Show text on top
+            getView().findViewById(R.id.lobbyJoinWith).setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.lobbyJoinAddress).setVisibility(View.VISIBLE);
+        }
+        
+        // Hide loading spinner
+        getView().findViewById(R.id.lobbyLoading).setVisibility(View.INVISIBLE);
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)

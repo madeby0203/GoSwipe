@@ -248,6 +248,26 @@ public class MultiplayerServer implements Multiplayer {
     }
     
     /**
+     * Send message to all clients to disable buttons in lobby screen, and disables new players from joining.
+     */
+    public void cancelPrepare() {
+        // Allow new players to join
+        server.allowJoining = true;
+        
+        // Send START_PREPARE to all clients
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(MessageParameter.TYPE.toString(), MessageType.CANCEL_PREPARE.toString());
+            server.broadcast(jsonObject.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        
+        // Send message to own lobby
+        EventBus.getDefault().post(new MultiplayerEvent.CancelPrepare());
+    }
+    
+    /**
      * Send message to all clients to start the lobby countdown.
      */
     public void startCountdown() {

@@ -57,6 +57,14 @@ public class MultiplayerEvent {
     }
     
     /**
+     * Fired when a session's starting preparations are cancelled.
+     * This happens for example when there aren't enough movies available with the specified filters.
+     */
+    public static class CancelPrepare {
+    
+    }
+    
+    /**
      * Fired when the lobby countdown is started.
      */
     public static class StartCountdown {

@@ -98,6 +98,10 @@ public class MultiplayerClient implements Multiplayer {
                         EventBus.getDefault().post(new MultiplayerEvent.StartPrepare());
                         
                         break;
+                    case CANCEL_PREPARE:
+                        EventBus.getDefault().post(new MultiplayerEvent.CancelPrepare());
+        
+                        break;
                     case START_COUNTDOWN:
                         EventBus.getDefault().post(new MultiplayerEvent.StartCountdown());
         

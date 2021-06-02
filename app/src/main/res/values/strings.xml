@@ -25,6 +25,7 @@
     <string name="lobby_join_with">Join with:</string>
     <string name="lobby_player_item_placeholder">Username</string>
     <string name="lobby_cancel">Cancel</string>
+    <string name="lobby_leave">Cancel</string>
     <string name="lobby_start">Start</string>
 
     <!-- MenuFragment -->
