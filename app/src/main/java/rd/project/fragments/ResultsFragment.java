@@ -1,15 +1,12 @@
 package rd.project.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.CompositePageTransformer;
@@ -18,7 +15,6 @@ import rd.project.Application;
 import rd.project.R;
 import rd.project.adapters.ResultAdapter;
 import rd.project.api.Movie;
-import rd.project.network.Multiplayer;
 
 import java.util.*;
 
@@ -43,9 +39,9 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
         
         if (application.results.isEmpty()) {
             application.showErrorScreen(getParentFragmentManager(),
-                    R.drawable.ic_baseline_error_outline_24,
-                    "Error",
-                    "Couldn't load results");
+                    R.drawable.ic_baseline_thumbs_up_down_24,
+                    getString(R.string.results_error_empty_title),
+                    getString(R.string.results_error_empty_description));
             
             return;
         }
@@ -98,7 +94,7 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .setReorderingAllowed(true)
                         .addToBackStack(null)
-                        .replace(R.id.fragment_container_view, InfoResultFragment.class, tempBundle)
+                        .replace(R.id.fragment_container_view, ResultInfoFragment.class, tempBundle)
                         .commit();
 
             }).start();

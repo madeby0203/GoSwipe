@@ -1,16 +1,13 @@
 package rd.project.fragments;
 
 import android.animation.ValueAnimator;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import rd.project.Application;
@@ -86,7 +83,7 @@ public class MenuFragment extends Fragment {
         // Load username
         String username = application.getUsername();
         Button usernameButton = view.findViewById(R.id.usernameButton);
-        usernameButton.setText(String.format(getString(R.string.welcome_message), username));
+        usernameButton.setText(String.format(getString(R.string.menu_welcome_message), username));
         
         // Initialize onClickListeners; each button should switch to the corresponding fragment
         usernameButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
@@ -97,7 +94,7 @@ public class MenuFragment extends Fragment {
         
         Button hostButton = view.findViewById(R.id.hostButton);
         hostButton.setOnClickListener(v -> {
-            ((MainActivity) getActivity()).showProgressDialog("Starting server...");
+            ((MainActivity) getActivity()).showProgressDialog(getString(R.string.menu_starting_server));
             application.becomeHost();
             
             getParentFragmentManager().beginTransaction()

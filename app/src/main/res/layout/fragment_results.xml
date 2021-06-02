@@ -6,7 +6,7 @@
                 android:background="@color/white"
 >
     <TextView
-            android:text="Results"
+            android:text="@string/results_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/resultsTitle"
@@ -32,7 +32,7 @@
             android:layout_below="@+id/sliderMenu"
             android:layout_centerHorizontal="true"
             android:id="@+id/infoButton"
-            android:text="More info"
+            android:text="@string/results_more_info"
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="16dp"
             android:layout_marginEnd="16dp"/>

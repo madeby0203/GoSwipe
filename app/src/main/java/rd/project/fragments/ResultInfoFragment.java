@@ -21,9 +21,9 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class InfoResultFragment extends Fragment {
+public class ResultInfoFragment extends Fragment {
 
-    public InfoResultFragment (){
+    public ResultInfoFragment(){
         super(R.layout.fragment_resultinfo);
     }
 
@@ -42,7 +42,7 @@ public class InfoResultFragment extends Fragment {
         title.setText(movie.getString("title"));
         overview.setText(movie.getString("overview"));
         year.setText(movie.getString("year"));
-        score.setText(movie.getString("score"));
+        score.setText(String.format(getString(R.string.movie_details_score_format), movie.getString("score")));
         genre.setText(movie.getString("genre"));
         platform.setText(movie.getString("platform"));
         image.setImageBitmap(movie.getParcelable("bitmap"));

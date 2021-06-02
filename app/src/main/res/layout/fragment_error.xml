@@ -12,7 +12,7 @@
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/errorTitle" android:layout_marginBottom="32dp"/>
     <TextView
-            android:text="Error"
+            android:text="@string/error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/errorTitle"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
@@ -25,9 +25,9 @@
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0" app:layout_constraintTop_toBottomOf="@+id/errorTitle"
             android:layout_marginTop="8dp" android:layout_marginStart="32dp" android:layout_marginEnd="32dp"
-            android:textAlignment="center" android:text="An error occurred."/>
+            android:textAlignment="center" android:text="@string/error_default_description"/>
     <Button
-            android:text="Back to main menu"
+            android:text="@string/error_back_to_main_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/mainMenuButton"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"

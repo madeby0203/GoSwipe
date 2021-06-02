@@ -14,13 +14,13 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="24dp"
     />
     <TextView
-            android:text="Join with:"
+            android:text="@string/lobby_join_with"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/lobbyJoinWith"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="20dp"/>
     <TextView
-            android:text="ws://hostname:port"
+            android:text="@string/address_placeholder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/lobbyJoinAddress"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintTop_toBottomOf="@+id/lobbyJoinAddress" android:layout_marginTop="16dp"/>
     <Button
-            android:text="Cancel"
+            android:text="@string/lobby_cancel"
             android:layout_width="wrap_content"
             android:layout_height="64dp"
             android:id="@+id/lobbyCancelButton"
@@ -47,7 +47,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp"/>
     <Button
-            android:text="Start"
+            android:text="@string/lobby_start"
             android:layout_width="0dp"
             android:layout_height="64dp" android:id="@+id/startButton"
             app:layout_constraintBottom_toBottomOf="parent"

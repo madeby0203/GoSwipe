@@ -11,7 +11,7 @@
             android:layout_height="wrap_content" android:layout_marginHorizontal="16dp">
 
         <TextView
-                android:text="Movie info"
+                android:text="@string/results_info_fragment_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/r_headerText"
@@ -28,8 +28,7 @@
                   android:autoSizeTextType="uniform" android:autoSizeMinTextSize="16sp"
                   android:autoSizeMaxTextSize="32sp"
                   android:maxLines="2" android:minLines="1" android:textColor="@color/black"
-                  android:text="Title"
-                  android:layout_below="@+id/imageSlider"
+                  android:text="@string/movie_details_title"
                   android:layout_centerHorizontal="true"
                   android:textSize="40sp"
                   android:id="@+id/r_titleText"
@@ -45,7 +44,7 @@
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_below="@+id/r_image"
-                  android:text="@string/overview"
+                  android:text="@string/movie_details_overview"
                   android:id="@+id/r_overviewText"
                   android:textSize="18sp"
                   app:layout_constraintTop_toBottomOf="@+id/r_image" android:layout_marginTop="16dp"
@@ -53,7 +52,7 @@
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_below="@+id/r_overviewText"
-                  android:text="@string/production_date"
+                  android:text="@string/movie_details_production_date"
                   android:textStyle="bold"
                   android:id="@+id/r_pd"
                   android:textSize="18sp"
@@ -62,7 +61,7 @@
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/r_yearText"
-                  android:text="@string/year"
+                  android:text="@string/movie_details_year"
                   android:layout_below="@+id/r_pd"
                   android:textSize="18sp"
 
@@ -70,7 +69,7 @@
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_below="@+id/r_yearText"
-                  android:text="@string/rscore"
+                  android:text="@string/movie_details_score"
                   android:textStyle="bold"
                   android:id="@+id/r_sc"
                   android:textSize="18sp"
@@ -79,33 +78,24 @@
                   app:layout_constraintStart_toStartOf="parent"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_below="@+id/r_sc"
-                  android:text="@string/_10"
+                  android:text="@string/movie_details_score_format"
                   android:id="@+id/r_score"
                   android:textSize="18sp"
 
                   app:layout_constraintTop_toBottomOf="@+id/r_sc" app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:layout_toEndOf="@+id/r_score"
-                  android:layout_alignTop="@+id/r_score"
-                  android:text="/10"
-                  android:id="@+id/r_10"
-                  android:textSize="18sp"
-
-                  app:layout_constraintStart_toEndOf="@+id/r_score" app:layout_constraintTop_toBottomOf="@+id/r_sc"/>
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="@string/rgenre"
+                  android:text="@string/movie_details_genre"
                   android:textStyle="bold"
                   android:layout_below="@+id/r_score"
                   android:id="@+id/r_g"
                   android:textSize="18sp"
 
-                  app:layout_constraintTop_toBottomOf="@+id/r_10" android:layout_marginTop="8dp"
-                  app:layout_constraintStart_toStartOf="parent"/>
+                  app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/r_score"
+                  android:layout_marginTop="8dp"/>
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="@string/genre"
+                  android:text="@string/movie_details_genre"
                   android:layout_below="@+id/r_g"
                   android:id="@+id/r_genre"
                   android:textSize="18sp"
@@ -113,7 +103,7 @@
                   app:layout_constraintTop_toBottomOf="@+id/r_g" app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="@string/rplatform"
+                  android:text="@string/movie_details_platform"
                   android:textStyle="bold"
                   android:layout_below="@+id/r_genre"
                   android:id="@+id/r_p"
@@ -123,7 +113,7 @@
                   app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="@string/platform"
+                  android:text="@string/movie_details_platform"
                   android:layout_below="@+id/r_p"
                   android:id="@+id/r_platform"
                   android:textSize="18sp"

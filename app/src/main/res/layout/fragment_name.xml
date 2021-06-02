@@ -6,6 +6,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
+    <TextView
+            android:text="@string/name_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/nameQuestion"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout" android:layout_marginBottom="32dp"/>
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -19,20 +26,13 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/editTextName"
-                android:hint="Name"
+                android:hint="@string/name_placeholder"
                 android:layout_weight="1" android:singleLine="true" android:layout_marginRight="16dp"
                 android:maxLength="32"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/nameSaveButton"
-                android:text="@android:string/ok"
+                android:text="@string/name_confirm"
                 android:layout_weight="0"/>
     </LinearLayout>
-    <TextView
-            android:text="What's your name?"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/textView3"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout" android:layout_marginBottom="32dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

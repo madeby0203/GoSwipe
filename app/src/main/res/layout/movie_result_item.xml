@@ -47,7 +47,7 @@
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@string/genre"
+                  android:text="@string/movie_details_genre"
                   android:layout_below="@+id/titleText"
                   android:layout_centerHorizontal="true"
                   android:id="@+id/genreText"
@@ -59,7 +59,7 @@
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@string/year"
+                  android:text="@string/movie_details_year"
                   android:layout_below="@+id/genreText"
                   android:layout_centerHorizontal="true"
                   android:id="@+id/yearText"
@@ -70,7 +70,7 @@
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@string/score"
+                  android:text="@string/movie_details_score"
                   android:layout_below="@+id/yearText"
                   android:layout_centerHorizontal="true"
                   android:id="@+id/scoreText"
@@ -81,7 +81,7 @@
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="@string/platform"
+                  android:text="@string/movie_details_platform"
                   android:layout_below="@+id/scoreText"
                   android:layout_centerHorizontal="true"
                   android:id="@+id/platformText"

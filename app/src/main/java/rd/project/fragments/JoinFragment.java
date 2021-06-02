@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +47,7 @@ public class JoinFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         // Initialize join list adapter
-        adapter = new JoinAdapter(servers);
+        adapter = new JoinAdapter(servers, getContext());
         
         RecyclerView recyclerView = view.findViewById(R.id.serverList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -71,12 +73,13 @@ public class JoinFragment extends Fragment {
                         .hideSoftInputFromWindow(view.getWindowToken(), 0);
                 
                 // Lock user input
-                ((MainActivity) getActivity()).showProgressDialog("Connecting to " + ipField.getText().toString());
+                ((MainActivity) getActivity()).showProgressDialog(String.format(getString(R.string.join_connecting),
+                        ipField.getText().toString()));
                 
                 // Connect to host
                 ((Application) getContext().getApplicationContext()).becomeClient(uri);
             } catch (URISyntaxException e) {
-                ipField.setError("Please enter a valid address.");
+                ipField.setError(getString(R.string.join_manual_ip_error));
             }
         });
         
@@ -121,7 +124,8 @@ public class JoinFragment extends Fragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onJoinListClick(JoinListClickEvent event) {
         // Lock user input
-        ((MainActivity) getActivity()).showProgressDialog("Connecting to " + event.getURI().toString());
+        ((MainActivity) getActivity()).showProgressDialog(String.format(getString(R.string.join_connecting),
+                event.getURI().toString()));
     
         // Connect to host
         ((Application) getContext().getApplicationContext()).becomeClient(event.getURI());

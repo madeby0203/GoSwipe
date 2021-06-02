@@ -1,5 +1,6 @@
 package rd.project.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,11 @@ import java.util.List;
 public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
     
     private final List<ServerItem> dataSet;
+    private final Context context;
     
-    public JoinAdapter(List<ServerItem> dataSet) {
+    public JoinAdapter(List<ServerItem> dataSet, Context context) {
         this.dataSet = dataSet;
+        this.context = context;
     }
     
     @NonNull
@@ -31,7 +34,9 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         viewHolder.setURI(dataSet.get(position).getHost());
-        viewHolder.getTextView().setText(dataSet.get(position).getName() + ", " + dataSet.get(position).getHost().toString());
+        viewHolder.getTextView().setText(String.format(context.getString(R.string.join_server_item),
+                dataSet.get(position).getName(),
+                dataSet.get(position).getHost().toString()));
     }
     
     @Override

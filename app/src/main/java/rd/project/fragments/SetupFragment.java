@@ -13,9 +13,6 @@ import rd.project.Settings;
 import rd.project.api.Genres;
 import rd.project.api.Providers;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class SetupFragment extends Fragment { //fragment for settings: genre, director, year, review score, running time, country
     private final String TAG = "SetupFragment";
 
@@ -52,7 +49,7 @@ public class SetupFragment extends Fragment { //fragment for settings: genre, di
         scoreSetting = scoreBox.getText().toString();
 
         //collects all the settings and saves it to bundle in order to give it to the new fragment
-        Button joinButton = view.findViewById(R.id.createButton);
+        Button joinButton = view.findViewById(R.id.applyButton);
         Bundle bundle = new Bundle();
 //        bundle.putString("platform", platformSetting);
 //        bundle.putString("genre", genreSetting);

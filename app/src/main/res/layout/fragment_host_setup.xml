@@ -6,7 +6,7 @@
 
 
     <TextView
-            android:text="Host settings"
+            android:text="@string/setup_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/s_setting"
@@ -20,12 +20,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:id="@+id/settingsBox"
             app:layout_constraintTop_toBottomOf="@+id/s_setting"
-            app:layout_constraintBottom_toTopOf="@+id/createButton" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/applyButton" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginEnd="64dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="64dp"
             android:layout_marginTop="8dp" android:layout_marginBottom="8dp">
 
         <TextView
-                android:text="Genre"
+                android:text="@string/movie_details_genre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/genreLabel"
                 app:layout_constraintTop_toTopOf="parent"
@@ -42,7 +42,7 @@
                 style="@android:style/Widget.Material.Light.Spinner.Underlined"
         />
         <TextView
-                android:text="Platform"
+                android:text="@string/movie_details_platform"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/platformLabel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:textAlignment="textStart"
@@ -59,7 +59,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 style="@android:style/Widget.Material.Light.Spinner.Underlined"/>
         <TextView
-                android:text="Score"
+                android:text="@string/movie_details_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/scoreLabel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:textAlignment="textStart"
@@ -72,9 +72,10 @@
                 android:layout_below="@+id/s_platformSetting"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintTop_toBottomOf="@+id/scoreLabel" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" android:hint="8.5" android:inputType="number"/>
+                app:layout_constraintStart_toStartOf="parent" android:hint="@string/setup_placeholder_score"
+                android:inputType="number"/>
         <TextView
-                android:text="Year"
+                android:text="@string/movie_details_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/yearLabel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:textAlignment="textStart"
@@ -87,14 +88,15 @@
                 android:layout_below="@+id/s_scoreSetting"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintTop_toBottomOf="@+id/yearLabel" app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" android:hint="2020" android:inputType="date"/>
+                app:layout_constraintStart_toStartOf="parent" android:hint="@string/setup_placeholder_year"
+                android:inputType="date"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-            android:text="Apply"
+            android:text="@string/setup_apply"
             android:layout_width="128dp"
             android:layout_height="64dp"
-            android:id="@+id/createButton"
+            android:id="@+id/applyButton"
             android:layout_alignParentBottom="true" app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.498" android:layout_marginBottom="8dp"/>

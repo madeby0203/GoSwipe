@@ -10,7 +10,7 @@
             android:layout_height="match_parent" android:background="@drawable/server_item_background"
             tools:layout_editor_absoluteY="8dp" tools:layout_editor_absoluteX="8dp">
         <TextView
-                android:text="TextView"
+                android:text="@string/join_server_item"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" android:id="@+id/serverItemAddress"
                 android:fontFamily="sans-serif" android:textAppearance="@style/TextAppearance.AppCompat.Body1"
