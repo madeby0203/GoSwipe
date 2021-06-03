@@ -83,7 +83,7 @@ public class Movie {
     }
     public String getYear() {
         StringBuilder year = new StringBuilder(this.year);
-        year.delete(4,24);
+        //year.delete(4,24);
         return year.toString();
     }
 

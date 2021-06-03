@@ -311,9 +311,6 @@ public class MultiplayerServer implements Multiplayer {
             Settings settings = application.getSettings();
             providers = settings.getProvider();
             minVote = 5;
-            if(settings.getRating() != "") {
-                minVote = Integer.parseInt(settings.getRating());
-            }
             genres = settings.getGenre();
             releaseDate = settings.getYear() + "-01-01T00:00:00.000Z";
             Log.d(TAG, "Minvote: " + minVote);

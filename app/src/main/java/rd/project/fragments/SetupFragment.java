@@ -75,10 +75,18 @@ public class SetupFragment extends Fragment { //fragment for settings: genre, di
                 EditText yearvalue = view.findViewById(R.id.s_yearSetting);
                 Log.d(TAG,"Set year: " + yearvalue.getText().toString());
                 EditText scorevalue = view.findViewById(R.id.s_scoreSetting);
+                String score = scorevalue.getText().toString();
+                String year = yearvalue.getText().toString();
+                if(score.isEmpty()) {
+                    score = "0";
+                }
+                if(year.isEmpty()) {
+                    year = "1950";
+                }
                 Settings settings = new Settings(
                         selectedGenre.getId(),
-                        scorevalue.getText().toString(),
-                        yearvalue.getText().toString(),
+                        score,
+                        year,
                         selectedProvider.getId()
                 );
                 application.setLobbyPref(settings);
