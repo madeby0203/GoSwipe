@@ -84,7 +84,9 @@ public class Movie implements Comparable<Movie> {
         }
     }
     public String getYear() {
-        return year;
+        StringBuilder year = new StringBuilder(this.year);
+        year.delete(4,24);
+        return year.toString();
     }
 
     public String getGenre() {
