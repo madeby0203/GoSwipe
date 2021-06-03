@@ -15,6 +15,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import rd.project.Application;
+import rd.project.MainActivity;
 import rd.project.R;
 import rd.project.adapters.PlayerListAdapter;
 import rd.project.events.MultiplayerEvent;
@@ -58,7 +59,7 @@ public class LobbyFragment extends Fragment {
             
             ((Button) view.findViewById(R.id.lobbyCancelButton)).setText(getString(R.string.lobby_leave));
         }
-        
+
         //Cancel and Leave button
         Button cancelButton = view.findViewById(R.id.lobbyCancelButton);
         cancelButton.setOnClickListener(v -> {
@@ -77,7 +78,12 @@ public class LobbyFragment extends Fragment {
         
         Button settingsButton = view.findViewById(R.id.settingsButton);
         settingsButton.setOnClickListener(v -> {
-
+            getParentFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .setReorderingAllowed(true)
+                    .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
+                    .replace(R.id.fragment_container_view, SetupFragment.class, null)
+                    .commit();
         });
         
         // Update join details
