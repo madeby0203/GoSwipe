@@ -78,8 +78,37 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
             tempBundle.putString("title", tempMovie.getTitle());
             tempBundle.putString("year", tempMovie.getYear());
             tempBundle.putString("score", tempMovie.getVote().toString());
-            tempBundle.putString("genre", tempMovie.getGenre());
-            tempBundle.putString("platform",tempMovie.getPlatform());
+            String genre = "Unknown";
+            switch (Integer.parseInt(tempMovie.getGenre())){
+                case 28: genre = "Action"; break;
+                case 12: genre = "Adventure"; break;
+                case 15: genre = "Animation"; break;
+                case 35: genre = "Comedy";break;
+                case 80: genre = "Crime";break;
+                case 99: genre = "Documentary";break;
+                case 10751: genre = "Family";break;
+                case 18: genre = "Drama";break;
+                case 14: genre = "Fantasy";break;
+                case 36: genre = "History";break;
+                case 27: genre = "Horror";break;
+                case 10402: genre = "Music";break;
+                case 9648: genre = "Mystery";break;
+                case 10749: genre = "Romance";break;
+                case 878: genre = "ScienceFiction";break;
+                case 10770: genre = "TV_Movie";break;
+                case 53: genre = "Thriller";break;
+                case 10752: genre = "War";break;
+                case 37: genre = "Western";break;
+            }
+            tempBundle.putString("genre", genre);
+            String provider = "Unknown";
+            switch (Integer.parseInt(tempMovie.getPlatform())){
+                case 8: provider = "Netflix"; break;
+                case 9: provider = "Amazon video"; break;
+                case 337: provider = "Disney plus"; break;
+                case 72: provider = "Videoland"; break;
+            }
+            tempBundle.putString("platform",provider);
 
 
             Intent intent = new Intent();
