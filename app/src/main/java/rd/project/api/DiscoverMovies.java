@@ -38,7 +38,7 @@ public class DiscoverMovies implements RequestType{
                 "&sort_by=popularity.desc&include_adult=false&include_video=true&page=1&vote_average.gte=" + minVote +
                 "&with_genres=" + genres +
                 "&with_watch_providers=" + providers +
-                "&release_date.lte=" + releaseDate);
+                "&release_date.gte=" + releaseDate);
     }
 
     @Override

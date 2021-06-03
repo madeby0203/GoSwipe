@@ -35,7 +35,6 @@ public class SetupFragment extends Fragment { //fragment for settings: genre, di
         platformDropdown.setAdapter(platformAdapter);
         platformSetting = platformDropdown.getSelectedItem().toString();
 
-
         Spinner genreDropdown = view.findViewById(R.id.s_genreSetting);
         String[] genreItems = new String[]{"Action","Comedy","Drama","Fantasy", "Horror", "Mystery","Romance","Thriller","Western"};
         ArrayAdapter<String> genreAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genreItems);
