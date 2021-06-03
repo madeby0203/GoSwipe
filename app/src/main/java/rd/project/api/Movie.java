@@ -10,8 +10,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class Movie {
-
+public class Movie implements Comparable<Movie> {
+    private final String TAG = "Movie";
+    
     private final String overview;
     private final String title;
     private final String poster;
@@ -73,11 +74,12 @@ public class Movie {
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            return bitmap;
         } catch (IOException e) {
             // Log exception
-            Log.d("OOPS", "error");
+            Log.e(TAG, "Error: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -92,5 +94,10 @@ public class Movie {
     public String getPlatform() {
         return platform;
     }
-
+    
+    @Override
+    public int compareTo(Movie movie) {
+        // Compare movie titles
+        return this.getTitle().compareToIgnoreCase(movie.getTitle());
+    }
 }

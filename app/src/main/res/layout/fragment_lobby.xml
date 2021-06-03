@@ -5,7 +5,7 @@
 
 
     <TextView
-            android:text="0"
+            android:text="@string/zero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:id="@+id/playerCount"
             app:layout_constraintBottom_toTopOf="@+id/playerList" app:layout_constraintTop_toTopOf="parent"

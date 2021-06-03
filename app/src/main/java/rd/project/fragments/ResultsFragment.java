@@ -46,13 +46,11 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
             return;
         }
         
-        Map<Movie, Integer> results = application.results;
-        results = sortByValue(results);
-        list.addAll(results.keySet());
-        Collections.reverse(list);
+        // Get results from Application and sort them
+        Map<Movie, Integer> results = sortResults(application.results);
 
         // set the result adapter
-        resultAdapter = new ResultAdapter(list, getContext());
+        resultAdapter = new ResultAdapter(results, getContext());
         pager.setAdapter(resultAdapter);
 
         //set the amount of offscreen pages
@@ -157,6 +155,41 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
         }
 
         return result;
+    }
+    
+    private static Map<Movie, Integer> sortResults(Map<Movie, Integer> results) {
+        Map<Movie, Integer> sortedResults = new LinkedHashMap<>();
+        
+        List<Integer> scores = new ArrayList<>(new HashSet<>(results.values())); // Remove duplicate scores
+        scores.sort(Collections.reverseOrder()); // Sort scores form high to low
+        
+        // Get the movies for each score
+        for (int score : scores) {
+            // Get all movies for this specific score
+            List<Movie> movies = getKeysFromValue(results, score);
+            
+            // Sort movies alphabetically
+            Collections.sort(movies);
+            
+            // Add movies to sortedResults
+            for (Movie movie : movies) {
+                sortedResults.put(movie, score);
+            }
+        }
+        
+        return sortedResults;
+    }
+    
+    private static LinkedList<Movie> getKeysFromValue(Map<Movie, Integer> map, int value) {
+        LinkedList<Movie> keys = new LinkedList<>();
+        
+        for(Movie movie : map.keySet()) {
+            if (map.get(movie) == value) {
+                keys.add(movie);
+            }
+        }
+        
+        return keys;
     }
 
 }
