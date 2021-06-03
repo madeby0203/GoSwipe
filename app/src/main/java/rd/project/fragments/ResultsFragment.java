@@ -26,7 +26,7 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
     }
     ResultAdapter resultAdapter;
     ViewPager2 pager;
-    ArrayList<Movie> list = new ArrayList<>(); //TODO link swipe game in order to get those into here
+    
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -66,53 +66,24 @@ public class ResultsFragment extends Fragment { //source: https://github.com/Roh
 
         pager.setPageTransformer(transformer);
 
-
         Button infoButton = view.findViewById(R.id.infoButton);
 
         infoButton.setOnClickListener(v -> {
-            Movie tempMovie = list.get(pager.getCurrentItem());
+            // Get movie at specified position
+            Movie movie = new ArrayList<>(results.keySet()).get(pager.getCurrentItem());
             Bundle tempBundle = new Bundle();
-            tempBundle.putString("overview", tempMovie.getOverview());
-            tempBundle.putString("title", tempMovie.getTitle());
-            tempBundle.putString("year", tempMovie.getYear());
-            tempBundle.putString("score", tempMovie.getVote().toString());
-            String genre = "Unknown";
-            switch (Integer.parseInt(tempMovie.getGenre())){
-                case 28: genre = "Action"; break;
-                case 12: genre = "Adventure"; break;
-                case 15: genre = "Animation"; break;
-                case 35: genre = "Comedy";break;
-                case 80: genre = "Crime";break;
-                case 99: genre = "Documentary";break;
-                case 10751: genre = "Family";break;
-                case 18: genre = "Drama";break;
-                case 14: genre = "Fantasy";break;
-                case 36: genre = "History";break;
-                case 27: genre = "Horror";break;
-                case 10402: genre = "Music";break;
-                case 9648: genre = "Mystery";break;
-                case 10749: genre = "Romance";break;
-                case 878: genre = "ScienceFiction";break;
-                case 10770: genre = "TV_Movie";break;
-                case 53: genre = "Thriller";break;
-                case 10752: genre = "War";break;
-                case 37: genre = "Western";break;
-            }
-            tempBundle.putString("genre", genre);
-            String provider = "Unknown";
-            switch (Integer.parseInt(tempMovie.getPlatform())){
-                case 8: provider = "Netflix"; break;
-                case 9: provider = "Amazon video"; break;
-                case 337: provider = "Disney plus"; break;
-                case 72: provider = "Videoland"; break;
-            }
-            tempBundle.putString("platform",provider);
+            tempBundle.putString("overview", movie.getOverview());
+            tempBundle.putString("title", movie.getTitle());
+            tempBundle.putString("year", movie.getYear());
+            tempBundle.putString("score", movie.getVote().toString());
+            tempBundle.putString("genre", movie.getGenreString());
+            tempBundle.putString("platform", movie.getPlatformString());
 
 
             Intent intent = new Intent();
 
             new Thread(() -> {
-                Bitmap bmp = tempMovie.getPosterBM();
+                Bitmap bmp = movie.getPosterBM();
                 tempBundle.putParcelable("bitmap", bmp);
                 intent.putExtra("bitmap", bmp);
 
