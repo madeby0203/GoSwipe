@@ -1,9 +1,12 @@
 package rd.project.network;
 
+import android.app.Activity;
+import android.app.Notification;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.widget.Toast;
 import androidx.fragment.app.FragmentTransaction;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -18,6 +21,7 @@ import rd.project.Settings;
 import rd.project.api.*;
 import rd.project.events.MovieEvent;
 import rd.project.events.MultiplayerEvent;
+import rd.project.events.ToastEvent;
 import rd.project.events.WSServerEvent;
 import rd.project.fragments.ResultsFragment;
 
@@ -333,12 +337,20 @@ public class MultiplayerServer implements Multiplayer {
             
             request.UpdateData(test);
             ArrayList<Movie> movies = request.GetData();
-            
-            Log.d(TAG, "Fetched movies, size: " + movies.size());
-            Log.d(TAG, "Fetching took " + (System.currentTimeMillis() - startTime));
-            
-            if (!closed) {
-                EventBus.getDefault().post(new MovieEvent.FetchSuccess(movies));
+
+            if(movies.size() < 20) {
+                cancelPrepare();
+                Log.d(TAG, "Not enough movies");
+                EventBus.getDefault().post(new ToastEvent("There were not enough movies which fit your criteria. Please adjust them."));
+            }
+            else {
+
+                Log.d(TAG, "Fetched movies, size: " + movies.size());
+                Log.d(TAG, "Fetching took " + (System.currentTimeMillis() - startTime));
+
+                if (!closed) {
+                    EventBus.getDefault().post(new MovieEvent.FetchSuccess(movies));
+                }
             }
         });
         t.start();

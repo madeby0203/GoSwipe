@@ -2,12 +2,14 @@ package rd.project;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import rd.project.events.MultiplayerEvent;
+import rd.project.events.ToastEvent;
 import rd.project.events.WSClientEvent;
 import rd.project.events.WSServerEvent;
 import rd.project.fragments.MenuFragment;
@@ -131,5 +133,11 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container_view, ResultsFragment.class, null)
                 .commit();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onToastCreate(ToastEvent event) {
+        Toast toast = Toast.makeText(this,event.getText(),Toast.LENGTH_LONG);
+        toast.show();
     }
 }

@@ -156,7 +156,7 @@ public class LobbyFragment extends Fragment {
     }
     
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onCancelStart(MultiplayerEvent.StartPrepare event) {
+    public void onCancelStart(MultiplayerEvent.CancelPrepare event) {
         starting = false;
         
         // Enable buttons

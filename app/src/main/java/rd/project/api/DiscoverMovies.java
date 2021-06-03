@@ -61,7 +61,7 @@ public class DiscoverMovies implements RequestType{
     public boolean UpdateData(JSONObject data) {
         JSONArray jsonresults = (JSONArray) data.get("results");
         ArrayList movieList = new ArrayList();
-        for(int i=0; i<20; i++) {
+        for(int i=0; i<jsonresults.size(); i++) {
             JSONObject jsonMovie = (JSONObject) jsonresults.get(i);
             Movie movie = new Movie(
                     (String) jsonMovie.get("overview"),
