@@ -128,7 +128,7 @@ public class SwipeFragment extends Fragment {
                 return;
             }
             getActivity().runOnUiThread(() -> {
-                int animationDuration = 400;
+                int animationDuration = 300;
                 
                 int l = 1;
                 if (!liked) {
