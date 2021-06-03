@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -26,6 +27,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.palette.graphics.Palette;
 import org.json.simple.JSONObject;
 import rd.project.Application;
+import rd.project.MainActivity;
 import rd.project.R;
 import rd.project.api.*;
 
@@ -86,14 +88,14 @@ public class SwipeFragment extends Fragment {
         button.setOnClickListener(s -> {
             try {
                 if(index[0] < movies.size()) {
-                    Log.v(TAG,"Index" + index[0]);
                     if(button.getId() == R.id.likeButton) {
                         updateView(index[0],true);
                         liked.add(movies.get(index[0]-1).getId());
-                        Log.v(TAG, "Movie liked: " + movies.get(index[0]-1));
+                        Log.v(TAG, "Movie liked: " + movies.get(index[0]-1).getTitle());
                     }
                     else {
                         updateView(index[0],false);
+                        Log.v(TAG, "Movie disliked: " + movies.get(index[0]-1).getTitle());
                     }
                     index[0]++;
                 } else { // No movies left, send results to host
@@ -126,6 +128,8 @@ public class SwipeFragment extends Fragment {
                 return;
             }
             getActivity().runOnUiThread(() -> {
+                int animationDuration = 400;
+                
                 int l = 1;
                 if (!liked) {
                     l = -1;
@@ -134,11 +138,21 @@ public class SwipeFragment extends Fragment {
                 TextView title = view.findViewById(R.id.titleText);
                 ImageView imageMovie = view.findViewById(R.id.movieView);
                 ImageView imageMovieNext = view.findViewById(R.id.movieViewNext);
+                
+                // Get display width
+                Point size = new Point();
+                ((MainActivity) getContext()).getWindowManager().getDefaultDisplay().getSize(size);
+                int displayWidth = size.x;
 
-                imageMovieNext.setImageBitmap(bmp); //Set the next image to the next movie
-                imageMovie.animate()                //Move away the top image
-                        .setDuration(100)
-                        .xBy(l*2000)
+                imageMovieNext.setImageBitmap(bmp); // Set the next image to the next movie
+                imageMovie.clearAnimation();        // Remove animations from queue
+                imageMovie.animate()                // Reset position
+                        .setDuration(0)
+                        .translationX(0)
+                        .start();
+                imageMovie.animate()                // Move away the top image
+                        .setDuration(animationDuration)
+                        .translationX(l * displayWidth)
                         .start();
                 Handler handler = new Handler();
                 int finalL = l;
@@ -164,13 +178,13 @@ public class SwipeFragment extends Fragment {
                             .setDuration(300)
                             .start();
 
-                    imageMovie
-                            .animate()
-                            .xBy(finalL *-2000)
-                            .setDuration(0)
-                            .start();
+//                    imageMovie
+//                            .animate()
+//                            .x(0)
+//                            .setDuration(0)
+//                            .start();
                     title.setText(movies.get(index).getTitle());
-                },500);
+                },animationDuration);
             });
         }).start();
     }
