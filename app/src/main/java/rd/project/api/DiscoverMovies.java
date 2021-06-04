@@ -20,13 +20,13 @@ public class DiscoverMovies implements RequestType{
     private String region;
     private String providers;
     private String releaseDate;
-    private int minVote;
+    private Double minVote;
     private URL url;
     private String apiKey;
     private ArrayList movies;
     private String genre; //TODO: API nog toevoegen
 
-    public DiscoverMovies (String apiKey, String region, String providers, String genres, String releaseDate, int minVote) throws MalformedURLException {
+    public DiscoverMovies (String apiKey, String region, String providers, String genres, String releaseDate, Double minVote) throws MalformedURLException {
         this.region = region;
         this.genre = genres;
         this.providers = providers;

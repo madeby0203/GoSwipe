@@ -14,6 +14,8 @@ import rd.project.Settings;
 import rd.project.api.Genres;
 import rd.project.api.Providers;
 
+import java.util.Arrays;
+
 public class SetupFragment extends Fragment { //fragment for settings: genre, director, year, review score, running time, country
     private final String TAG = "SetupFragment";
 
@@ -30,14 +32,15 @@ public class SetupFragment extends Fragment { //fragment for settings: genre, di
 
         //links edit text and puts it in a string var.
         Spinner platformDropdown = view.findViewById(R.id.s_platformSetting);
-        String[] platformItems = new String[]{"Netflix","Amazon video","DisneyPlus","Videoland"};
-        ArrayAdapter<String> platformAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, platformItems);
+        String[] platformFromEnum = Arrays.stream(Providers.values()).map(e -> e.getName()).toArray(String[]::new);
+        ArrayAdapter<String> platformAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, platformFromEnum);
         platformDropdown.setAdapter(platformAdapter);
         platformSetting = platformDropdown.getSelectedItem().toString();
 
         Spinner genreDropdown = view.findViewById(R.id.s_genreSetting);
-        String[] genreItems = new String[]{"Action","Comedy","Drama","Fantasy", "Horror", "Mystery","Romance","Thriller","Western"};
-        ArrayAdapter<String> genreAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genreItems);
+        //String[] genreItems = new String[]{"Action","Comedy","Drama","Fantasy", "Horror", "Mystery","Romance","Thriller","Western"};
+        String[] genreFromEnum = Arrays.stream(Genres.values()).map(e -> e.getName()).toArray(String[]::new);
+        ArrayAdapter<String> genreAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, genreFromEnum);
         genreDropdown.setAdapter(genreAdapter);
         genreSetting = genreDropdown.getSelectedItem().toString();
         String genreValue = genreDropdown.getSelectedItem().toString();
@@ -78,9 +81,11 @@ public class SetupFragment extends Fragment { //fragment for settings: genre, di
                 String score = scorevalue.getText().toString();
                 String year = yearvalue.getText().toString();
                 if(score.isEmpty()) {
+                    Log.d(TAG, "Score is empty");
                     score = "0";
                 }
                 if(year.isEmpty()) {
+                    Log.d(TAG, "Year is empty");
                     year = "1950";
                 }
                 Settings settings = new Settings(

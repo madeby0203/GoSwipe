@@ -303,14 +303,14 @@ public class MultiplayerServer implements Multiplayer {
             String providers = Providers.Netflix.getId();
             Date release = new Date();
             String releaseDate = "2020-01-01T00:00:00.000Z";
-            int minVote = 6;
+            String minVote = "6";
             String genres = Genres.Action.getId();
 
             Application application = (Application) context.getApplicationContext();
 
             Settings settings = application.getSettings();
             providers = settings.getProvider();
-            minVote = 5;
+            minVote = settings.getRating();
             genres = settings.getGenre();
             releaseDate = settings.getYear() + "-01-01T00:00:00.000Z";
             Log.d(TAG, "Minvote: " + minVote);
@@ -319,7 +319,7 @@ public class MultiplayerServer implements Multiplayer {
 
             RequestType request = null;
             try {
-                request = new DiscoverMovies(api, region, providers, genres, releaseDate, minVote);
+                request = new DiscoverMovies(api, region, providers, genres, releaseDate, Double.parseDouble(minVote));
             } catch (MalformedURLException e) {
                 Log.e(TAG, "Error fetching movies.");
                 e.printStackTrace();
