@@ -16,18 +16,15 @@ public class NetworkServiceDiscovery {
     private final String SERVICE_TYPE = "_ws._tcp.";
     
     private final NsdManager nsdManager;
-    private final Context context;
     
     private NsdManager.RegistrationListener registrationListener;
     private NsdManager.DiscoveryListener discoveryListener;
     private NsdManager.ResolveListener resolveListener;
     
     // true if the last service was found, false if the last service was lost
-    // TODO Find a better way to do this
     private boolean lastServiceOnline = true;
     
     public NetworkServiceDiscovery(Context context) {
-        this.context = context;
         nsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
         initializeResolveListener();
     }

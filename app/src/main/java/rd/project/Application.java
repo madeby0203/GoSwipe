@@ -3,10 +3,10 @@ package rd.project;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import rd.project.api.Movie;
+import rd.project.api.Settings;
 import rd.project.fragments.ErrorFragment;
 import rd.project.network.Multiplayer;
 import rd.project.network.MultiplayerClient;
@@ -18,9 +18,9 @@ import java.util.Map;
 
 public class Application extends android.app.Application {
     
+    public final Map<Movie, Integer> results = new HashMap<>(); // Integer contains amount of likes
     private Multiplayer multiplayer;
-    
-    public Map<Movie, Integer> results = new HashMap<>(); // Integer contains amount of likes
+    private Settings settings;
     
     public Multiplayer getMultiplayer() {
         return multiplayer;
@@ -51,6 +51,7 @@ public class Application extends android.app.Application {
     
     /**
      * Retrieves username from SharedPreferences
+     *
      * @return username
      */
     public String getUsername() {
@@ -62,6 +63,7 @@ public class Application extends android.app.Application {
     
     /**
      * Sets username in SharedPreferences
+     *
      * @param name username
      */
     public void setUsername(String name) {
@@ -72,21 +74,22 @@ public class Application extends android.app.Application {
         editor.putString(getString(R.string.username_preference), name)
                 .apply();
     }
-
-    private Settings settings;
-
+    
     public void setLobbyPref(Settings newSettings) {
         settings = newSettings;
     }
-
-    public Settings getSettings() { return settings; }
-
+    
+    public Settings getSettings() {
+        return settings;
+    }
+    
     /**
      * Switch screen to error screen
+     *
      * @param fragmentManager fragment manager
-     * @param icon icon drawable
-     * @param title title of error
-     * @param description description of error
+     * @param icon            icon drawable
+     * @param title           title of error
+     * @param description     description of error
      */
     public void showErrorScreen(FragmentManager fragmentManager, int icon, String title, String description) {
         // Put data in bundle
@@ -94,10 +97,10 @@ public class Application extends android.app.Application {
         bundle.putInt("icon", icon);
         bundle.putString("title", title);
         bundle.putString("description", description);
-    
+        
         // Clear back button history
         fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-    
+        
         // Open error screen
         fragmentManager.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

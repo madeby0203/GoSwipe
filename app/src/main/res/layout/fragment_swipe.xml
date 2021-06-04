@@ -35,7 +35,8 @@
             android:adjustViewBounds="true"
             app:layout_constraintTop_toBottomOf="@+id/titleBox"
             app:layout_constraintBottom_toTopOf="@+id/voteBox" android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/accessibility_movie_poster_description"/>
     <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp" tools:srcCompat="@drawable/poster_placeholder"
@@ -45,7 +46,8 @@
             android:adjustViewBounds="true"
             app:layout_constraintTop_toBottomOf="@+id/titleBox" android:layout_marginStart="32dp"
             android:layout_marginTop="16dp" app:layout_constraintBottom_toTopOf="@+id/voteBox"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/accessibility_movie_poster_description"/>
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" app:layout_constraintEnd_toEndOf="parent"

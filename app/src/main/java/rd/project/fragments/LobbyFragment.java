@@ -15,7 +15,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import rd.project.Application;
-import rd.project.MainActivity;
 import rd.project.R;
 import rd.project.adapters.PlayerListAdapter;
 import rd.project.events.MultiplayerEvent;
@@ -28,22 +27,22 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LobbyFragment extends Fragment {
-
+    
     private final List<String> names = new ArrayList<>();
     // Keeps track and updates the list of players in the user interface
     PlayerListAdapter adapter;
     // Keeps track of if the lobby is currently starting
     private boolean starting;
-
+    
     public LobbyFragment() {
         super(R.layout.fragment_lobby);
     }
-
+    
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         Application application = (Application) getContext().getApplicationContext();
         
         adapter = new PlayerListAdapter(names, getContext());
-
+        
         RecyclerView recyclerView = view.findViewById(R.id.playerList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setHasFixedSize(true);
@@ -59,17 +58,15 @@ public class LobbyFragment extends Fragment {
             
             ((Button) view.findViewById(R.id.lobbyCancelButton)).setText(getString(R.string.lobby_leave));
         }
-
+        
         //Cancel and Leave button
         Button cancelButton = view.findViewById(R.id.lobbyCancelButton);
-        cancelButton.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container_view, MenuFragment.class, null)
-                    .commit();
-        });
-
+        cancelButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container_view, MenuFragment.class, null)
+                .commit());
+        
         Button startButton = view.findViewById(R.id.startButton);
         startButton.setOnClickListener(v -> {
             ((MultiplayerServer) application.getMultiplayer()).startPrepare();
@@ -77,14 +74,11 @@ public class LobbyFragment extends Fragment {
         });
         
         Button settingsButton = view.findViewById(R.id.settingsButton);
-        settingsButton.setOnClickListener(v -> {
-            getParentFragmentManager().beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .setReorderingAllowed(true)
-                    .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
-                    .replace(R.id.fragment_container_view, SetupFragment.class, null)
-                    .commit();
-        });
+        settingsButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container_view, SetupFragment.class, null)
+                .commit());
         
         // Update join details
         TextView joinAddress = view.findViewById(R.id.lobbyJoinAddress);
@@ -96,11 +90,11 @@ public class LobbyFragment extends Fragment {
         names.clear();
         names.addAll(application.getMultiplayer().getConnectedUsernames());
         updatePlayerList();
-    
+        
         // Register events
         EventBus.getDefault().register(this);
-
-
+    
+        // Define back button behaviour
         OnBackPressedCallback back = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -108,7 +102,6 @@ public class LobbyFragment extends Fragment {
                     getParentFragmentManager().beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .setReorderingAllowed(true)
-                            .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
                             .replace(R.id.fragment_container_view, MenuFragment.class, null)
                             .commit();
                 }
@@ -171,7 +164,7 @@ public class LobbyFragment extends Fragment {
         if (((Application) getContext().getApplicationContext()).getMultiplayerType() == Multiplayer.Type.HOST) {
             getView().findViewById(R.id.startButton).setVisibility(View.VISIBLE);
             getView().findViewById(R.id.settingsButton).setVisibility(View.VISIBLE);
-    
+            
             // Show text on top
             getView().findViewById(R.id.lobbyJoinWith).setVisibility(View.VISIBLE);
             getView().findViewById(R.id.lobbyJoinAddress).setVisibility(View.VISIBLE);
@@ -196,7 +189,7 @@ public class LobbyFragment extends Fragment {
         Thread thread = new Thread(() -> {
             try {
                 while (counter.intValue() >= 0) {
-                    if(getActivity() != null) {
+                    if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
                             if (counter.intValue() > 0) { // Counter is higher than 0, update counter text
                                 countdownText.setText(String.valueOf(counter.get()));
@@ -212,7 +205,7 @@ public class LobbyFragment extends Fragment {
                     
                     // Wait 1 second
                     TimeUnit.SECONDS.sleep(1);
-    
+                    
                     // Decrement counter by 1
                     counter.getAndDecrement();
                 }
@@ -231,11 +224,11 @@ public class LobbyFragment extends Fragment {
             ((Activity) getContext()).runOnUiThread(() -> {
                 // Update RecyclerView
                 adapter.notifyDataSetChanged();
-    
+                
                 if (getView() != null) {
                     RecyclerView recyclerView = getView().findViewById(R.id.playerList);
                     recyclerView.scrollToPosition(names.size() - 1);
-
+                    
                     // Update player count
                     TextView playerCount = getView().findViewById(R.id.playerCount);
                     playerCount.setText(String.valueOf(names.size()));
@@ -243,6 +236,6 @@ public class LobbyFragment extends Fragment {
             });
         }
     }
-
-
+    
+    
 }

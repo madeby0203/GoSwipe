@@ -10,12 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import rd.project.Application;
 import rd.project.R;
 
 public class ErrorFragment extends Fragment {
-
-
+    
     public ErrorFragment() {
         super(R.layout.fragment_error);
     }
@@ -41,26 +39,26 @@ public class ErrorFragment extends Fragment {
         }
         
         // Initialize onClickListeners; each button should switch to the corresponding fragment
-        Button mainMenuButton = (Button) view.findViewById(R.id.mainMenuButton);
+        Button mainMenuButton = view.findViewById(R.id.mainMenuButton);
         mainMenuButton.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container_view, MenuFragment.class, null)
                 .commit());
-
+    
+        // Define back button behaviour
         OnBackPressedCallback back = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 getParentFragmentManager().beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .setReorderingAllowed(true)
-                        .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
                         .replace(R.id.fragment_container_view, MenuFragment.class, null)
                         .commit();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
     }
-
-
+    
+    
 }

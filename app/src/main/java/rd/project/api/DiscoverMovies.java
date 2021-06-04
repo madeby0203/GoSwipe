@@ -15,73 +15,61 @@ import java.util.ArrayList;
  * - Minimum vote (IMDB rating)
  */
 
-public class DiscoverMovies implements RequestType{
-
-    private String region;
-    private String providers;
-    private String releaseDate;
-    private Double minVote;
-    private URL url;
-    private String apiKey;
-    private ArrayList movies;
-    private String genre; //TODO: API nog toevoegen
-
-    public DiscoverMovies (String apiKey, String region, String providers, String genres, String releaseDate, Double minVote) throws MalformedURLException {
-        this.region = region;
+public class DiscoverMovies implements RequestType {
+    
+    private final String providers;
+    private final URL url;
+    private final String genre;
+    private ArrayList<Movie> movies;
+    
+    public DiscoverMovies(String apiKey, String region, String providers, String genres, String releaseDate, Double minVote) throws MalformedURLException {
         this.genre = genres;
         this.providers = providers;
-        this.releaseDate = releaseDate;
-        this.minVote = minVote;
-        this.apiKey = apiKey;
-        this.url = new URL(" https://api.themoviedb.org/3/discover/movie?api_key="+ apiKey +
-                "&language=en-US&watch_region="+ region +
+        this.url = new URL(" https://api.themoviedb.org/3/discover/movie?api_key=" + apiKey +
+                "&language=en-US&watch_region=" + region +
                 "&sort_by=popularity.desc&include_adult=false&include_video=true&page=1&vote_average.gte=" + minVote +
                 "&with_genres=" + genres +
                 "&with_watch_providers=" + providers +
                 "&release_date.gte=" + releaseDate);
     }
-
+    
     @Override
-    public URL GetUrl() {
+    public URL getUrl() {
         return url;
     }
-
+    
     @Override
-    public ArrayList GetData() {
+    public ArrayList<Movie> getData() {
         return movies;
     }
-
+    
     /**
      * Process the data which was returned by the API
-     * @param data
-     * @return
+     *
+     * @param data data returned by the API
      */
-
+    
     @Override
-    public boolean UpdateData(JSONObject data) {
+    public void updateData(JSONObject data) {
         JSONArray jsonresults = (JSONArray) data.get("results");
-        ArrayList movieList = new ArrayList();
-        for(int i=0; i<jsonresults.size(); i++) {
-            JSONObject jsonMovie = (JSONObject) jsonresults.get(i);
-            Movie movie = new Movie(
-                    (String) jsonMovie.get("overview"),
-                    (String) jsonMovie.get("title"),
-                    (String) jsonMovie.get("poster_path"),
-                    (Number) jsonMovie.get("vote_average"),
-                    Math.toIntExact((Long) jsonMovie.get("id")),
-                    (String) jsonMovie.get("release_date"),
-                    this.genre,
-                    this.providers
-
-            );
-            movieList.add(movie);
+        ArrayList<Movie> movieList = new ArrayList<>();
+        if (jsonresults != null) {
+            for (Object jsonresult : jsonresults) {
+                JSONObject jsonMovie = (JSONObject) jsonresult;
+                Movie movie = new Movie(
+                        (String) jsonMovie.get("overview"),
+                        (String) jsonMovie.get("title"),
+                        (String) jsonMovie.get("poster_path"),
+                        (Number) jsonMovie.get("vote_average"),
+                        Math.toIntExact((Long) jsonMovie.get("id")),
+                        (String) jsonMovie.get("release_date"),
+                        this.genre,
+                        this.providers
+                
+                );
+                movieList.add(movie);
+            }
         }
         movies = movieList;
-        return true;
-    }
-
-    @Override
-    public String getAPI() {
-        return this.apiKey;
     }
 }

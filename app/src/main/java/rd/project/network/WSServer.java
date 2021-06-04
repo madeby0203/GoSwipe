@@ -10,19 +10,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import rd.project.events.MultiplayerEvent;
 import rd.project.events.WSServerEvent;
-import rd.project.network.Multiplayer.MessageType;
 import rd.project.network.Multiplayer.MessageParameter;
+import rd.project.network.Multiplayer.MessageType;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class WSServer extends WebSocketServer {
     private final String TAG = "WSServer";
-    
-    public boolean allowJoining = true;
-    
     private final Map<WebSocket, String> connected = new LinkedHashMap<>();
+    public boolean allowJoining = true;
     
     public WSServer() {
         // Create a WebSocket server, port 0 means a port will be automatically assigned
@@ -60,7 +59,7 @@ public class WSServer extends WebSocketServer {
             jsonObject.put(MessageParameter.TYPE.toString(), MessageType.PLAYER_JOIN.toString());
             jsonObject.put(MessageParameter.USERNAME.toString(), username);
             
-            for(WebSocket c : getConnections()) {
+            for (WebSocket c : getConnections()) {
                 if (c != conn) {
                     c.send(jsonObject.toString());
                 }
@@ -82,7 +81,7 @@ public class WSServer extends WebSocketServer {
         
         // Remove client from list of connected clients
         connected.remove(conn);
-    
+        
         // Send this message to all clients
         try {
             JSONObject jsonObject = new JSONObject();
@@ -93,7 +92,7 @@ public class WSServer extends WebSocketServer {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    
+        
         // Send event so other parts of the app know a client has left
         EventBus.getDefault().post(new MultiplayerEvent.PlayerLeave(username));
         EventBus.getDefault().post(new WSServerEvent.Close(conn, reason));
@@ -102,7 +101,7 @@ public class WSServer extends WebSocketServer {
     @Override
     public void onMessage(WebSocket conn, String incomingMessage) {
         Log.d(TAG, "Received message from " + connected.get(conn) + ": " + incomingMessage);
-    
+        
         // Send event so other parts of the app know a client has sent a message
         EventBus.getDefault().post(new WSServerEvent.Message(conn, incomingMessage));
     }

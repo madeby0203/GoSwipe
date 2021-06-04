@@ -2,6 +2,7 @@ package rd.project.events;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class MultiplayerEvent {
     
     /**
@@ -75,7 +76,7 @@ public class MultiplayerEvent {
      * Fired when the swipe section completion amount is updated.
      */
     public static class ResultsCompletedCountUpdate {
-        int completed = 0;
+        int completed;
         
         public ResultsCompletedCountUpdate(int completed) {
             this.completed = completed;

@@ -3,6 +3,7 @@ package rd.project.events;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 
+@SuppressWarnings("unused")
 public class WSServerEvent {
     
     /**

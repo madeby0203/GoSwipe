@@ -69,8 +69,8 @@ public class JoinAdapter extends RecyclerView.Adapter<JoinAdapter.ViewHolder> {
     }
     
     public static class ServerItem {
-        private URI host;
-        private String name;
+        private final URI host;
+        private final String name;
         
         public ServerItem(URI host, String name) {
             this.host = host;

@@ -48,8 +48,7 @@ public class ResultsWaitingFragment extends Fragment {
     
     private void updateProgressText() {
         Application application = (Application) getContext().getApplicationContext();
-    
-    
+        
         TextView progressText = getView().findViewById(R.id.resultsWaitingProgressText);
         progressText.setText(String.format(getString(R.string.results_waiting_progress),
                 application.getMultiplayer().getResultsCompletedAmount(),

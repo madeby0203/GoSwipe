@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                   android:layout_width="match_parent"
                                    android:layout_height="match_parent"
                                    app:cardBackgroundColor="@color/inset_background">
 
@@ -13,7 +13,7 @@
 
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_centerHorizontal="true"
-                  android:layout_above="@+id/imageSlider"
+                  android:layout_above="@+id/poster"
                   android:text="@string/movie_details_position"
                   android:textStyle="bold"
                   android:textSize="20sp"
@@ -23,7 +23,7 @@
                   android:layout_marginStart="16dp" android:gravity="center_vertical"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_centerHorizontal="true"
-                  android:layout_above="@+id/imageSlider"
+                  android:layout_above="@+id/poster"
                   android:text="@string/zero"
                   android:textStyle="bold"
                   android:textSize="20sp"
@@ -40,8 +40,8 @@
                   android:autoSizeTextType="uniform" android:autoSizeMinTextSize="16sp"
                   android:autoSizeMaxTextSize="32sp"
                   android:maxLines="2" android:minLines="1" android:textColor="@color/black"
-                  android:text="Title"
-                  android:layout_below="@+id/imageSlider"
+                  android:text="@string/movie_details_title"
+                  android:layout_below="@+id/poster"
                   android:layout_centerHorizontal="true"
                   android:textSize="40sp"
                   android:id="@+id/titleText"
@@ -50,13 +50,13 @@
                   android:layout_marginStart="16dp" android:layout_marginEnd="16dp"/>
         <ImageView android:layout_width="0dp"
                    android:layout_height="0dp"
-                   android:id="@+id/imageSlider"
+                   android:id="@+id/poster"
                    android:layout_centerHorizontal="true"
                    app:srcCompat="@drawable/poster_placeholder" app:layout_constraintTop_toBottomOf="@+id/titleText"
                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent"
                    app:layout_constraintBottom_toTopOf="@+id/genreText" android:layout_marginStart="16dp"
                    android:layout_marginEnd="16dp" android:layout_marginBottom="8dp" android:layout_marginTop="8dp"
-        />
+                   android:contentDescription="@string/accessibility_movie_poster_description"/>
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"

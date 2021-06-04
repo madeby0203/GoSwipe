@@ -1,13 +1,9 @@
 package rd.project.network;
 
-import android.app.Activity;
-import android.app.Notification;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.text.format.Formatter;
 import android.util.Log;
-import android.widget.Toast;
-import androidx.fragment.app.FragmentTransaction;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -15,30 +11,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import rd.project.Application;
-import rd.project.MainActivity;
 import rd.project.R;
-import rd.project.Settings;
 import rd.project.api.*;
 import rd.project.events.MovieEvent;
 import rd.project.events.MultiplayerEvent;
 import rd.project.events.ToastEvent;
 import rd.project.events.WSServerEvent;
-import rd.project.fragments.ResultsFragment;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MultiplayerServer implements Multiplayer {
     private final String TAG = "MultiplayerServer";
     
-    private Context context;
+    private final Context context;
+    private final Map<String, List<Integer>> likes = new HashMap<>();
     private WSServer server;
     private NetworkServiceDiscovery nsd;
-    
     private List<Movie> movies;
-    private final Map<String, List<Integer>> likes = new HashMap<>();
-    
     // Used on the results screen, if everyone is disconnected we want to stop the server
     private boolean stopIfEveryoneDisconnected = false;
     
@@ -48,14 +42,14 @@ public class MultiplayerServer implements Multiplayer {
         Log.i(TAG, "Starting multiplayer server...");
         
         this.context = context;
-    
+        
         // Register events
         EventBus.getDefault().register(this);
         
         // Start WebSocket server
         server = new WSServer();
         server.start();
-
+        
         // Initialize Network Service Discovery
         nsd = new NetworkServiceDiscovery(context);
     }
@@ -92,7 +86,7 @@ public class MultiplayerServer implements Multiplayer {
             
             JSONArray jsonArray = new JSONArray(getConnectedUsernames());
             jsonObject.put(MessageParameter.USER_LIST.toString(), jsonArray);
-        
+            
             event.getWebSocket().send(jsonObject.toString());
             Log.d(TAG, "Sending message to new user: " + jsonObject);
         } catch (JSONException e) {
@@ -104,7 +98,7 @@ public class MultiplayerServer implements Multiplayer {
     public void onPlayerLeave(MultiplayerEvent.PlayerLeave event) {
         // Remove player from results
         likes.remove(event.getUsername());
-    
+        
         try {
             JSONObject json = new JSONObject();
             json.put(MessageParameter.TYPE.toString(), MessageType.RESULTS_COMPLETED_AMOUNT.toString());
@@ -128,19 +122,20 @@ public class MultiplayerServer implements Multiplayer {
             JSONObject jsonObject = new JSONObject(event.getMessage());
             if (jsonObject.has(MessageParameter.TYPE.toString())) {
                 String typeString = jsonObject.getString(MessageParameter.TYPE.toString());
-            
+                
                 MessageType type = MessageType.valueOf(typeString);
                 String username = server.getConnected().get(event.getWebSocket());
-            
+                
+                //noinspection SwitchStatementWithTooFewBranches
                 switch (type) {
                     case LIKES_SAVE:
                         JSONArray jsonArray = jsonObject.getJSONArray(MessageParameter.LIKES_LIST.toString());
-                    
+                        
                         List<Integer> liked = new ArrayList<>();
-                        for(int i = 0; i < jsonArray.length(); i++) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             liked.add(jsonArray.getInt(i));
                         }
-                    
+                        
                         saveLikes(username, liked);
                         
                         // Broadcast updated amount to clients
@@ -148,11 +143,11 @@ public class MultiplayerServer implements Multiplayer {
                         json.put(MessageParameter.TYPE.toString(), MessageType.RESULTS_COMPLETED_AMOUNT.toString());
                         json.put(MessageParameter.AMOUNT.toString(), getResultsCompletedAmount());
                         server.broadcast(json.toString());
-                    
+                        
                         break;
                     default:
                         Log.w(TAG, "Unknown message type received.");
-                    
+                        
                         break;
                 }
             }
@@ -206,7 +201,7 @@ public class MultiplayerServer implements Multiplayer {
             e.printStackTrace();
         }
         nsd = null;
-    
+        
         closed = true;
     }
     
@@ -222,6 +217,7 @@ public class MultiplayerServer implements Multiplayer {
         sb.append("ws://");
         
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        //noinspection deprecation
         sb.append(Formatter.formatIpAddress(wifiManager.getConnectionInfo().getIpAddress()));
         
         sb.append(":");
@@ -298,26 +294,22 @@ public class MultiplayerServer implements Multiplayer {
         movies = null;
         
         Thread t = new Thread(() -> {
+            Application application = (Application) context.getApplicationContext();
+            Settings settings = application.getSettings();
+            
             String api = "a443e45153a06c5830898cf8889fa27e";
             String region = "NL";
-            String providers = Providers.Netflix.getId();
-            Date release = new Date();
-            String releaseDate = "2020-01-01T00:00:00.000Z";
-            String minVote = "6";
-            String genres = Genres.Action.getId();
-
-            Application application = (Application) context.getApplicationContext();
-
-            Settings settings = application.getSettings();
-            providers = settings.getProvider();
-            minVote = settings.getRating();
-            genres = settings.getGenre();
-            releaseDate = settings.getYear() + "-01-01T00:00:00.000Z";
-            Log.d(TAG, "Minvote: " + minVote);
-            Log.d(TAG, "providers: " + providers);
-            Log.d(TAG, "genres: " + genres);
-
-            RequestType request = null;
+            String providers = settings.getProvider();
+            String releaseDate = settings.getYear() + "-01-01T00:00:00.000Z";
+            String minVote = settings.getRating();
+            String genres = settings.getGenre();
+            
+            Log.v(TAG, "providers: " + providers);
+            Log.v(TAG, "releaseDate: " + releaseDate);
+            Log.v(TAG, "minVote: " + minVote);
+            Log.v(TAG, "genres: " + genres);
+            
+            RequestType request;
             try {
                 request = new DiscoverMovies(api, region, providers, genres, releaseDate, Double.parseDouble(minVote));
             } catch (MalformedURLException e) {
@@ -328,23 +320,26 @@ public class MultiplayerServer implements Multiplayer {
                 }
                 return;
             }
-            Log.d(TAG, "URL: " + request.GetUrl().toString());
+            Log.d(TAG, "URL: " + request.getUrl().toString());
             Connect discover = new Connect(request);
             org.json.simple.JSONObject test = discover.Send();
             
-            request.UpdateData(test);
-            ArrayList<Movie> movies = request.GetData();
-
-            if(movies.size() < 20) {
+            request.updateData(test);
+            ArrayList<Movie> movies = request.getData();
+            
+            if (movies.size() < 20) {
                 cancelPrepare();
                 Log.d(TAG, "Not enough movies");
-                EventBus.getDefault().post(new ToastEvent("There were not enough movies which fit your criteria. Please adjust them."));
-            }
-            else {
-
+                EventBus.getDefault().post(new ToastEvent(
+                        String.format(context.getString(R.string.multiplayer_server_movie_error),
+                                movies.size(),
+                                20)
+                ));
+            } else {
+                
                 Log.d(TAG, "Fetched movies, size: " + movies.size());
                 Log.d(TAG, "Fetching took " + (System.currentTimeMillis() - startTime));
-
+                
                 if (!closed) {
                     EventBus.getDefault().post(new MovieEvent.FetchSuccess(movies));
                 }
@@ -361,21 +356,21 @@ public class MultiplayerServer implements Multiplayer {
         // Send movie list to clients
         try {
             JSONArray moviesJSONArray = new JSONArray();
-            for(Movie movie : movies) {
+            for (Movie movie : movies) {
                 JSONObject movieJSON = new JSONObject();
                 movieJSON.put("overview", movie.getOverview());
                 movieJSON.put("title", movie.getTitle());
                 movieJSON.put("poster", movie.getPoster());
-                movieJSON.put("vote", movie.getVote());
+                movieJSON.put("vote", movie.getScore());
                 movieJSON.put("id", movie.getId());
-                movieJSON.put("year", movie.getYear());
+                movieJSON.put("year", movie.getReleaseDate());
                 movieJSON.put("genre", movie.getGenre());
                 movieJSON.put("platform", movie.getPlatform());
                 moviesJSONArray.put(movieJSON);
             }
-        
+            
             JSONObject jsonObject = new JSONObject();
-
+            
             jsonObject.put(MessageParameter.TYPE.toString(), MessageType.MOVIE_LIST.toString());
             jsonObject.put(MessageParameter.MOVIE_LIST.toString(), moviesJSONArray);
             
@@ -399,13 +394,13 @@ public class MultiplayerServer implements Multiplayer {
     @Override
     public void saveLikes(String username, List<Integer> movieIDs) {
         likes.put(username, movieIDs);
-    
+        
         // Send an event so other parts of the app can update the player completed counter
         EventBus.getDefault().post(new MultiplayerEvent.ResultsCompletedCountUpdate(getResultsCompletedAmount()));
-    
+        
         // Check if every player has finished swiping
         // If so, compute the results and send them to the results screen
-        if(likes.size() == getConnectedUsernames().size()) {
+        if (likes.size() == getConnectedUsernames().size()) {
             computeResults();
         }
     }
@@ -432,7 +427,7 @@ public class MultiplayerServer implements Multiplayer {
             jsonObject.put(MessageParameter.TYPE.toString(), MessageType.RESULTS.toString());
             
             JSONObject results = new JSONObject();
-            for(int id : likedIDs.keySet()) {
+            for (int id : likedIDs.keySet()) {
                 results.put(String.valueOf(id), likedIDs.get(id));
             }
             jsonObject.put(MessageParameter.RESULTS_LIST.toString(), results);
@@ -446,7 +441,7 @@ public class MultiplayerServer implements Multiplayer {
         ((Application) context).results.putAll(this.convertLikedIDsToLikedMovies(movies, likedIDs));
         
         EventBus.getDefault().post(new MultiplayerEvent.Results());
-    
+        
         stopIfEveryoneDisconnected = true;
     }
 }

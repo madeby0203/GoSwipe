@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                                   android:layout_width="match_parent"
                                                    android:layout_height="match_parent" android:id="@+id/setup">
 
 
@@ -9,7 +9,7 @@
             android:text="@string/setup_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/s_setting"
+            android:id="@+id/hostSetupTitle"
             android:layout_centerHorizontal="true"
             android:textSize="40sp"
 
@@ -19,7 +19,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content" android:id="@+id/settingsBox"
-            app:layout_constraintTop_toBottomOf="@+id/s_setting"
+            app:layout_constraintTop_toBottomOf="@+id/hostSetupTitle"
             app:layout_constraintBottom_toTopOf="@+id/applyButton" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginEnd="64dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="64dp"
             android:layout_marginTop="8dp" android:layout_marginBottom="8dp">
@@ -30,9 +30,9 @@
                 android:layout_height="wrap_content" android:id="@+id/genreLabel"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:textAlignment="textStart"
-                app:layout_constraintStart_toStartOf="@+id/s_genreSetting"/>
+                app:layout_constraintStart_toStartOf="@+id/genreSetting"/>
         <Spinner
-                android:id="@+id/s_genreSetting"
+                android:id="@+id/genreSetting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
@@ -46,14 +46,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/platformLabel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:textAlignment="textStart"
-                app:layout_constraintStart_toStartOf="@+id/s_platformSetting"
-                app:layout_constraintTop_toBottomOf="@+id/s_genreSetting" android:layout_marginTop="16dp"/>
+                app:layout_constraintStart_toStartOf="@+id/platformSetting"
+                app:layout_constraintTop_toBottomOf="@+id/genreSetting" android:layout_marginTop="16dp"/>
         <Spinner
-                android:id="@+id/s_platformSetting"
+                android:id="@+id/platformSetting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dropdown"
-                android:layout_below="@+id/s_genreSetting"
+                android:layout_below="@+id/genreSetting"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintTop_toBottomOf="@+id/platformLabel" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,33 +63,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/scoreLabel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:textAlignment="textStart"
-                app:layout_constraintStart_toStartOf="@+id/s_platformSetting"
-                app:layout_constraintTop_toBottomOf="@+id/s_platformSetting" android:layout_marginTop="16dp"/>
+                app:layout_constraintStart_toStartOf="@+id/platformSetting"
+                app:layout_constraintTop_toBottomOf="@+id/platformSetting" android:layout_marginTop="16dp"/>
         <EditText
-                android:id="@+id/s_scoreSetting"
+                android:id="@+id/scoreSetting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/s_platformSetting"
+                android:layout_below="@+id/platformSetting"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintTop_toBottomOf="@+id/scoreLabel" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" android:hint="@string/setup_placeholder_score"
-                android:inputType="number|numberDecimal"/>
+                android:inputType="number|numberDecimal" android:importantForAutofill="no"/>
         <TextView
                 android:text="@string/movie_details_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/yearLabel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" android:textAlignment="textStart"
-                app:layout_constraintStart_toStartOf="@+id/s_yearSetting"
-                app:layout_constraintTop_toBottomOf="@+id/s_scoreSetting" android:layout_marginTop="16dp"/>
+                app:layout_constraintStart_toStartOf="@+id/yearSetting"
+                app:layout_constraintTop_toBottomOf="@+id/scoreSetting" android:layout_marginTop="16dp"/>
         <EditText
-                android:id="@+id/s_yearSetting"
+                android:id="@+id/yearSetting"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/s_scoreSetting"
+                android:layout_below="@+id/scoreSetting"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintTop_toBottomOf="@+id/yearLabel" app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" android:hint="@string/setup_placeholder_year"
-                android:inputType="date"/>
+                android:inputType="date" android:importantForAutofill="no"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button

@@ -5,9 +5,6 @@
     <string name="preferences_name">rd.project.preferences</string>
     <string name="username_preference">username</string>
 
-    <!-- Used in code -->
-    <string name="multiplayerClient_close">Connection closed by client</string>
-
     <!-- ErrorFragment -->
     <string name="error">Error</string>
     <string name="error_default_description">An error occurred.</string>
@@ -62,10 +59,17 @@
     <string name="setup_placeholder_year">2020</string>
     <string name="setup_apply">Apply</string>
 
+    <!-- MultiplayerClient -->
+    <string name="multiplayer_client_close">Connection closed by client.</string>
+
+    <!-- MultiplayerServer -->
+    <string name="multiplayer_server_movie_error">
+        There were not enough movies which fit your criteria (%d/%d). Please adjust them.
+    </string>
+
     <!-- Movie details -->
     <string name="what_genre">What genre?</string>
     <string name="movie_details_title">Title</string>
-    <string name="show_more">Show more</string>
     <string name="movie_details_position">#%d</string>
     <string name="movie_details_platform">Platform</string>
     <string name="movie_details_score">Score</string>
@@ -74,8 +78,10 @@
     <string name="movie_details_genre">Genre</string>
     <string name="movie_details_overview">Overview</string>
     <string name="movie_details_production_date">Production date</string>
-    <string name="create">create</string>
-    <string name="settings">Settings</string>
+    <string name="show_more">Show more</string>
+
+    <!-- Accessibility -->
+    <string name="accessibility_movie_poster_description">Movie poster</string>
 
     <!-- Miscellaneous -->
     <string name="zero">0</string>

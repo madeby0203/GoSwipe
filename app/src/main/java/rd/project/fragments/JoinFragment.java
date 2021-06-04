@@ -1,10 +1,8 @@
 package rd.project.fragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -91,20 +89,20 @@ public class JoinFragment extends Fragment {
             }
             return false;
         });
-
+    
+        // Define back button behaviour
         OnBackPressedCallback back = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 getParentFragmentManager().beginTransaction()
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .setReorderingAllowed(true)
-                        .addToBackStack(null) // Pressing the back button in the next fragments makes it return to this one
                         .replace(R.id.fragment_container_view, MenuFragment.class, null)
                         .commit();
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
-    
+        
         // Register events
         EventBus.getDefault().register(this);
     }
@@ -126,7 +124,7 @@ public class JoinFragment extends Fragment {
         // Lock user input
         ((MainActivity) getActivity()).showProgressDialog(String.format(getString(R.string.join_connecting),
                 event.getURI().toString()));
-    
+        
         // Connect to host
         ((Application) getContext().getApplicationContext()).becomeClient(event.getURI());
     }
@@ -138,7 +136,7 @@ public class JoinFragment extends Fragment {
             URI uri = new URI(host);
             String name = new String(event.getServiceInfo().getAttributes().get("name"));
             JoinAdapter.ServerItem serverItem = new JoinAdapter.ServerItem(uri, name);
-    
+            
             // Was the service found or lost?
             if (event.isOnline()) { // found; add to the list
                 servers.add(serverItem);
@@ -151,7 +149,7 @@ public class JoinFragment extends Fragment {
                 }
                 servers.removeAll(remove);
             }
-    
+            
             updateServerList();
         } catch (Exception e) {
             e.printStackTrace();

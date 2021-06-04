@@ -2,8 +2,6 @@ package rd.project.network;
 
 import android.content.Context;
 import android.util.Log;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentTransaction;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -12,24 +10,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import rd.project.Application;
-import rd.project.MainActivity;
 import rd.project.R;
 import rd.project.api.Movie;
 import rd.project.events.MultiplayerEvent;
 import rd.project.events.WSClientEvent;
-import rd.project.fragments.ResultsFragment;
-import rd.project.fragments.ResultsWaitingFragment;
 
 import java.net.URI;
 import java.util.*;
 
 public class MultiplayerClient implements Multiplayer {
     private final String TAG = "MultiplayerClient";
-    
-    private Context context;
-    private WSClient client;
-    
     private final List<String> playerList = new ArrayList<>();
+    private final Context context;
+    private final WSClient client;
     private List<Movie> movies;
     private int resultsCompletedAmount = 0;
     
@@ -74,7 +67,7 @@ public class MultiplayerClient implements Multiplayer {
                         JSONArray jsonArray = jsonObject.getJSONArray(MessageParameter.USER_LIST.toString());
                         
                         List<String> playerList = new ArrayList<>();
-                        for(int i = 0; i < jsonArray.length(); i++) {
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             playerList.add(jsonArray.getString(i));
                         }
                         
@@ -100,18 +93,18 @@ public class MultiplayerClient implements Multiplayer {
                         break;
                     case CANCEL_PREPARE:
                         EventBus.getDefault().post(new MultiplayerEvent.CancelPrepare());
-        
+                        
                         break;
                     case START_COUNTDOWN:
                         EventBus.getDefault().post(new MultiplayerEvent.StartCountdown());
-        
+                        
                         break;
                     case MOVIE_LIST:
                         Log.v(TAG, "Received movie list.");
                         
                         JSONArray moviesJSONArray = jsonObject.getJSONArray(MessageParameter.MOVIE_LIST.toString());
                         this.movies = new ArrayList<>();
-                        for(int i = 0; i < moviesJSONArray.length(); i++) {
+                        for (int i = 0; i < moviesJSONArray.length(); i++) {
                             JSONObject movieJSON = moviesJSONArray.getJSONObject(i);
                             String overview = movieJSON.getString("overview");
                             String title = movieJSON.getString("title");
@@ -140,20 +133,20 @@ public class MultiplayerClient implements Multiplayer {
                         
                         close();
                         
-                        Map<Integer, Integer> likedIDs = new HashMap<Integer, Integer>();
+                        Map<Integer, Integer> likedIDs = new HashMap<>();
                         Iterator<String> keysIterator = resultsList.keys();
-                        while(keysIterator.hasNext()) {
+                        while (keysIterator.hasNext()) {
                             String key = keysIterator.next();
                             int id = Integer.parseInt(key);
                             likedIDs.put(id, resultsList.getInt(key));
                             Log.d(TAG, key + ", " + id + ", " + resultsList.getInt(key));
-                        };
-    
+                        }
+                        
                         ((Application) context).results.clear();
                         ((Application) context).results.putAll(this.convertLikedIDsToLikedMovies(movies, likedIDs));
-    
+                        
                         EventBus.getDefault().post(new MultiplayerEvent.Results());
-    
+                        
                         break;
                     default:
                         Log.w(TAG, "Unknown message type received.");
@@ -196,8 +189,8 @@ public class MultiplayerClient implements Multiplayer {
         EventBus.getDefault().unregister(this);
         
         // Close client connection
-        client.close(CloseFrame.NORMAL, context.getString(R.string.multiplayerClient_close));
-    
+        client.close(CloseFrame.NORMAL, context.getString(R.string.multiplayer_client_close));
+        
         closed = true;
     }
     
@@ -215,7 +208,7 @@ public class MultiplayerClient implements Multiplayer {
     public void saveLikes(String username, List<Integer> movieIDs) {
         try {
             JSONArray jsonArray = new JSONArray();
-            for(int id : movieIDs) {
+            for (int id : movieIDs) {
                 jsonArray.put(id);
             }
             
@@ -223,7 +216,11 @@ public class MultiplayerClient implements Multiplayer {
             jsonObject.put(MessageParameter.TYPE.toString(), MessageType.LIKES_SAVE.toString());
             jsonObject.put(MessageParameter.LIKES_LIST.toString(), jsonArray);
             
-            client.send(jsonObject.toString());
+            try {
+                this.sendMessage(jsonObject.toString());
+            } catch (ClosedException e) {
+                e.printStackTrace();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

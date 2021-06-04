@@ -26,13 +26,13 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
         this.results = results;
         this.context = context;
     }
-
+    
     @NonNull
     @Override
     public resultHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new resultHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_result, parent,false));
+        return new resultHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_movie_result, parent, false));
     }
-
+    
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull resultHolder holder, int position) {
@@ -43,39 +43,38 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.resultHold
         holder.likesText.setText(likes + "");
         holder.titleText.setText(movie.getTitle());
         holder.genreText.setText(movie.getGenreString());
-        holder.yearText.setText(movie.getYear());
-        holder.scoreText.setText(movie.getVote().toString());
+        holder.yearText.setText(movie.getReleaseDate());
+        holder.scoreText.setText(movie.getScore().toString());
         holder.platformText.setText(movie.getPlatformString());
-
+        
         new Thread(() -> {
             Bitmap bmp = movie.getPosterBM();
-            ((Activity) context).runOnUiThread(() -> {
-                holder.moviePoster.setImageBitmap(bmp);
-            });
-
+            ((Activity) context).runOnUiThread(() -> holder.moviePoster.setImageBitmap(bmp));
+            
         }).start();
     }
-
+    
     @Override
     public int getItemCount() {
         return results.size();
     }
     
-    public class resultHolder extends RecyclerView.ViewHolder{
-        TextView positionText;
-        TextView likesText;
-        TextView titleText;
-        ImageView moviePoster;
-        TextView genreText;
-        TextView yearText;
-        TextView scoreText;
-        TextView platformText;
-        public resultHolder (@NonNull View itemView){
+    public static class resultHolder extends RecyclerView.ViewHolder {
+        final TextView positionText;
+        final TextView likesText;
+        final TextView titleText;
+        final ImageView moviePoster;
+        final TextView genreText;
+        final TextView yearText;
+        final TextView scoreText;
+        final TextView platformText;
+        
+        public resultHolder(@NonNull View itemView) {
             super(itemView);
             positionText = itemView.findViewById(R.id.positionText);
             likesText = itemView.findViewById(R.id.likesText);
             titleText = itemView.findViewById(R.id.titleText);
-            moviePoster = itemView.findViewById(R.id.imageSlider);
+            moviePoster = itemView.findViewById(R.id.poster);
             genreText = itemView.findViewById(R.id.genreText);
             yearText = itemView.findViewById(R.id.yearText);
             scoreText = itemView.findViewById(R.id.scoreText);

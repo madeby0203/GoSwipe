@@ -1,12 +1,11 @@
 package rd.project.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -33,7 +32,7 @@ public class NameFragment extends Fragment {
         nameSaveButton.setOnClickListener(v -> {
             String newName = editTextName.getText().toString();
             
-            if(newName.equals("")) {
+            if (newName.equals("")) {
                 editTextName.setError(getString(R.string.name_empty_error));
             } else {
                 application.setUsername(newName);
@@ -45,7 +44,7 @@ public class NameFragment extends Fragment {
                         .commit();
             }
         });
-    
+        
         // Make the enter key on the keyboard press the join button
         editTextName.setOnEditorActionListener((textView, keyCode, keyEvent) -> {
             if (keyCode == EditorInfo.IME_ACTION_DONE) {
@@ -54,5 +53,20 @@ public class NameFragment extends Fragment {
             }
             return false;
         });
+        
+        // Make back button return to the main menu if a name has already been set
+        OnBackPressedCallback back = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (application.getUsername() != null) {
+                    getParentFragmentManager().beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .setReorderingAllowed(true)
+                            .replace(R.id.fragment_container_view, MenuFragment.class, null)
+                            .commit();
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), back);
     }
 }

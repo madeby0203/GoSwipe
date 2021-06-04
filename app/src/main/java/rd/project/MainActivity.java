@@ -18,25 +18,26 @@ import rd.project.fragments.ResultsFragment;
 
 public class MainActivity extends AppCompatActivity {
     
+    // Prevents user from interacting with app while connecting to a host
+    @SuppressWarnings("deprecation")
+    private ProgressDialog progressDialog;
+    
     public MainActivity() {
         super(R.layout.activity_main);
     }
     
-    // Prevents user from interacting with app while connecting to a host
-    private ProgressDialog progressDialog;
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        new Swipe();
-    
+        
+        //noinspection deprecation
         progressDialog = new ProgressDialog(getApplicationContext());
         progressDialog.setTitle("Connecting...");
         
         // Switch to the initial fragment: the menu fragment
         if (savedInstanceState == null) {
             String username = ((Application) getApplicationContext()).getUsername();    // Retrieve username
-            if(username == null) {  // Username not set, ask user for one
+            if (username == null) {  // Username not set, ask user for one
                 getSupportFragmentManager().beginTransaction()
                         .setReorderingAllowed(true)
                         .add(R.id.fragment_container_view, NameFragment.class, null)
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void showProgressDialog(String message) {
         dismissProgressDialog();
+        //noinspection deprecation
         progressDialog = ProgressDialog.show(this, "Please wait...", message, true);
     }
     
@@ -108,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
     public void onClientClose(WSClientEvent.Close event) {
         // Dismisses progress dialog if shown
         dismissProgressDialog();
-    
+        
         // If close wasn't done by the client itself
-        if(!event.getReason().equals(getString(R.string.multiplayerClient_close))) {
+        if (!event.getReason().equals(getString(R.string.multiplayer_client_close))) {
             ((Application) getApplicationContext()).showErrorScreen(getSupportFragmentManager(),
                     R.drawable.ic_baseline_error_outline_24,
                     "Client connection closed",
@@ -134,10 +136,10 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container_view, ResultsFragment.class, null)
                 .commit();
     }
-
+    
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onToastCreate(ToastEvent event) {
-        Toast toast = Toast.makeText(this,event.getText(),Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(this, event.getText(), Toast.LENGTH_LONG);
         toast.show();
     }
 }

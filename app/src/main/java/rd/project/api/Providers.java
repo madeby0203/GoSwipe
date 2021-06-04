@@ -11,20 +11,20 @@ public enum Providers {
     DisneyPlus(337, "Disney+"),
     Videoland(72, "Videoland"),
     AppleTVPlus(350, "Apple TV+"),
-    NPOstart(360, "NPO start");
-
-    private int id;
-    private String name;
-
+    NPOstart(360, "NPO Start");
+    
+    private final int id;
+    private final String name;
+    
     Providers(int id, String name) {
         this.name = name;
         this.id = id;
     }
-
+    
     public String getId() {
         return Integer.toString(id);
     }
-
+    
     public String getName() {
         return name;
     }

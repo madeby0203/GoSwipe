@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface Multiplayer {
-    final String TAG = "Multiplayer";
+    String TAG = "Multiplayer";
     
     default Type getType() {
         if (!isClosed()) {
@@ -22,12 +22,17 @@ public interface Multiplayer {
     }
     
     void close();
+    
     boolean isClosed();
+    
     void sendMessage(String message) throws ClosedException;
+    
     List<String> getConnectedUsernames();
+    
     List<Movie> getMovies();
     
     void saveLikes(List<Integer> movieIDs);
+    
     void saveLikes(String username, List<Integer> movieIDs);
     
     int getResultsCompletedAmount();
@@ -35,7 +40,7 @@ public interface Multiplayer {
     default Map<Movie, Integer> convertLikedIDsToLikedMovies(List<Movie> movies, Map<Integer, Integer> likedIDs) {
         Map<Movie, Integer> likedMovies = new HashMap<>();
         
-        for(int id : likedIDs.keySet()) {
+        for (int id : likedIDs.keySet()) {
             Movie movie = findMovieById(movies, id);
             
             if (movie == null) {
@@ -49,7 +54,7 @@ public interface Multiplayer {
     }
     
     default Movie findMovieById(List<Movie> movies, int id) {
-        for(Movie movie : movies) {
+        for (Movie movie : movies) {
             if (movie.getId() == id) {
                 return movie;
             }
@@ -85,7 +90,7 @@ public interface Multiplayer {
         RESULTS                     // List of results containing a list of movie IDs and amount of likes
     }
     
-    public class ClosedException extends Exception {
+    class ClosedException extends Exception {
     
     }
     

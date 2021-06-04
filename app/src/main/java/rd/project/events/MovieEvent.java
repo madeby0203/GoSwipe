@@ -1,6 +1,5 @@
 package rd.project.events;
 
-import android.util.Log;
 import rd.project.api.Movie;
 
 import java.util.ArrayList;
