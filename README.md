@@ -9,6 +9,7 @@ The application's main components are the The Movie Database API,  websockets an
 
 
 ## User interface
+Please note we do not own any rights to any trademarks or images shown in the below screenshots.
 
 | Homescreen  | Setup | Swiping | 
 | ------------- | ------------- | -------------| 
