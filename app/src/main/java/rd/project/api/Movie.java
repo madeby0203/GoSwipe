@@ -106,68 +106,14 @@ public class Movie implements Comparable<Movie> {
      *
      * @return movie genre formatted as a string
      */
+
     public String getGenreString() {
-        String genre = "Unknown";
-        switch (Integer.parseInt(this.getGenre())) {
-            case 28:
-                genre = "Action";
-                break;
-            case 12:
-                genre = "Adventure";
-                break;
-            case 15:
-                genre = "Animation";
-                break;
-            case 35:
-                genre = "Comedy";
-                break;
-            case 80:
-                genre = "Crime";
-                break;
-            case 99:
-                genre = "Documentary";
-                break;
-            case 10751:
-                genre = "Family";
-                break;
-            case 18:
-                genre = "Drama";
-                break;
-            case 14:
-                genre = "Fantasy";
-                break;
-            case 36:
-                genre = "History";
-                break;
-            case 27:
-                genre = "Horror";
-                break;
-            case 10402:
-                genre = "Music";
-                break;
-            case 9648:
-                genre = "Mystery";
-                break;
-            case 10749:
-                genre = "Romance";
-                break;
-            case 878:
-                genre = "ScienceFiction";
-                break;
-            case 10770:
-                genre = "TV_Movie";
-                break;
-            case 53:
-                genre = "Thriller";
-                break;
-            case 10752:
-                genre = "War";
-                break;
-            case 37:
-                genre = "Western";
-                break;
+        for(Genres genre:Genres.values()) {
+            if(genre.getId()==this.genre) {
+                return genre.getName();
+            }
         }
-        return genre;
+        return "";
     }
     
     /**
@@ -185,23 +131,16 @@ public class Movie implements Comparable<Movie> {
      * @return movie platform formatted as a string
      */
     public String getPlatformString() {
-        String platform = "Unknown";
-        switch (Integer.parseInt(this.getPlatform())) {
-            case 8:
-                platform = "Netflix";
-                break;
-            case 9:
-                platform = "Amazon Prime Video";
-                break;
-            case 337:
-                platform = "Disney Plus";
-                break;
-            case 72:
-                platform = "Videoland";
-                break;
+        Log.d(TAG, "Platform: " + this.platform);
+        for(Providers provider:Providers.values()) {
+            if(provider.getId() == this.platform) {
+                return provider.getName();
+            }
         }
-        return platform;
+        return "Disney+";
     }
+
+
     
     @Override
     public int compareTo(Movie movie) {

@@ -3,7 +3,7 @@ package rd.project.api;
 public enum Genres {
     Action(28, "Action"),
     Adventure(12, "Adventure"),
-    Animation(15, "Animation"),
+    Animation(16, "Animation"),
     Comedy(35, "Comedy"),
     Crime(80, "Crime"),
     Documentary(99, "Documentary"),
